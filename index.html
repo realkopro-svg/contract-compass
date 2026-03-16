@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="계약나침반">
 <meta name="description" content="지방자치단체 계약업무 담당자를 위한 A-Z 프로세스 가이드">
 <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22%EA%B3%84%EC%95%BD%EB%82%98%EC%B9%A8%EB%B0%98%22%2C%22short_name%22%3A%22%EA%B3%84%EC%95%BD%EB%82%98%EC%B9%A8%EB%B0%98%22%2C%22description%22%3A%22%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%8B%A8%EC%B2%B4+%EA%B3%84%EC%95%BD%EC%97%85%EB%AC%B4+A-Z+%EA%B0%80%EC%9D%B4%EB%93%9C%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2307071a%22%2C%22theme_color%22%3A%22%2307071a%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg+xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27+viewBox%3D%270+0+192+192%27%253E%253Crect+width%3D%27192%27+height%3D%27192%27+rx%3D%2742%27+fill%3D%27%230e0e2e%27%2F%253E%253Ccircle+cx%3D%2796%27+cy%3D%2796%27+r%3D%2772%27+fill%3D%27none%27+stroke%3D%27%238b5cf6%27+stroke-width%3D%274%27%2F%253E%253Cg+transform%3D%27rotate%2838+96+96%29%27%253E%253Cpolygon+points%3D%2796%2C28+106%2C96+96%2C84+86%2C96%27+fill%3D%27%23a78bfa%27%2F%253E%253Cpolygon+points%3D%2796%2C164+86%2C96+96%2C108+106%2C96%27+fill%3D%27%23f472b6%27%2F%253E%253C%2Fg%253E%253Ccircle+cx%3D%2796%27+cy%3D%2796%27+r%3D%2710%27+fill%3D%27white%27%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
-<title>계약나침반</title>
+<title>계약나침반 부산시 버전</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Noto+Serif+KR:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -1050,6 +1050,7 @@
   .li-sub   { background: rgba(245,158,11,0.15);   }
   .li-other { background: rgba(16,185,129,0.15);   }
   .li-guide { background: rgba(139,92,246,0.15);   }
+  .li-busan { background: rgba(236,72,153,0.15);   }
 
   .law-item-info { flex: 1; min-width: 0; }
   .law-item-name { font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
@@ -1347,6 +1348,119 @@
   .org-memo-display.show { display:block; }
   .org-memo-display-title { font-size:10px; font-weight:700; color:#a78bfa; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
 
+  /* ══════════════ 검색 SEARCH ══════════════ */
+  .header-search-btn {
+    margin-left: auto;
+    padding: 6px 14px;
+    background: rgba(139,92,246,0.15);
+    border: 1px solid rgba(139,92,246,0.3);
+    border-radius: 20px;
+    color: #a78bfa;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all .18s;
+    white-space: nowrap;
+  }
+  .header-search-btn:hover { background: rgba(139,92,246,0.28); border-color: rgba(139,92,246,0.5); }
+
+  /* 검색 오버레이 */
+  .search-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(7,7,26,0.88);
+    backdrop-filter: blur(8px);
+    padding: 20px 16px;
+    overflow-y: auto;
+  }
+  .search-overlay.open { display: block; }
+  .search-box {
+    max-width: 760px; margin: 0 auto;
+  }
+  .search-input-wrap {
+    display: flex; gap: 10px; align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(139,92,246,0.4);
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+  }
+  .search-input-icon { font-size: 18px; flex-shrink: 0; }
+  .search-input {
+    flex: 1; background: none; border: none; outline: none;
+    color: var(--text-primary);
+    font-size: 17px; font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+  }
+  .search-input::placeholder { color: rgba(248,250,252,0.3); }
+  .search-close-btn {
+    background: none; border: none; color: rgba(248,250,252,0.4);
+    font-size: 22px; cursor: pointer; flex-shrink: 0; line-height: 1;
+    padding: 0 4px;
+  }
+  .search-tags {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;
+  }
+  .search-tag {
+    padding: 4px 12px; border-radius: 14px; font-size: 11px; font-weight: 600;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-muted); cursor: pointer; transition: all .15s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .search-tag:hover { background: rgba(139,92,246,0.2); border-color: rgba(139,92,246,0.4); color: #a78bfa; }
+  .search-result-count {
+    font-size: 12px; color: var(--text-muted); margin-bottom: 12px; padding: 0 2px;
+  }
+  .search-result-count strong { color: #a78bfa; }
+  .search-results { display: flex; flex-direction: column; gap: 8px; }
+  .search-result-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 13px 16px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .search-result-item:hover {
+    background: rgba(139,92,246,0.1);
+    border-color: rgba(139,92,246,0.3);
+  }
+  .search-result-header {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 5px;
+  }
+  .search-result-category {
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 8px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .src-faq      { background: rgba(56,189,248,0.15); color: #38bdf8; }
+  .src-check    { background: rgba(16,185,129,0.15); color: #34d399; }
+  .src-ref      { background: rgba(245,158,11,0.15); color: #fbbf24; }
+  .src-docs     { background: rgba(236,72,153,0.15); color: #f472b6; }
+  .src-guide    { background: rgba(139,92,246,0.15); color: #a78bfa; }
+  .search-result-title {
+    font-size: 14px; font-weight: 700; color: var(--text-primary); flex: 1;
+    font-family: 'Noto Sans KR', sans-serif; line-height: 1.4;
+  }
+  .search-result-title mark {
+    background: rgba(139,92,246,0.35); color: #c4b5fd;
+    border-radius: 2px; padding: 0 2px;
+  }
+  .search-result-body {
+    font-size: 12px; color: var(--text-secondary); line-height: 1.6;
+  }
+  .search-result-body mark {
+    background: rgba(139,92,246,0.25); color: #c4b5fd;
+    border-radius: 2px; padding: 0 2px;
+  }
+  .search-result-action {
+    font-size: 11px; color: rgba(139,92,246,0.7); margin-top: 5px;
+  }
+  .search-empty {
+    text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px;
+  }
+  .search-empty .search-empty-icon { font-size: 36px; margin-bottom: 10px; }
+
   /* ══════════════ 인쇄 / PDF 출력 ══════════════ */
   @media print {
     /* 화면 전용 요소 숨김 */
@@ -1583,11 +1697,12 @@
   <circle cx="17" cy="17" r="1.2" fill="#fff" opacity="0.95"/>
 </svg></div>
       <div class="logo-text">
-        <strong>계약나침반</strong>
-        <span>Contract Compass · v1.5</span>
+        <strong>계약나침반 <span style="font-size:13px;background:rgba(236,72,153,0.2);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:4px;padding:1px 7px;vertical-align:middle;font-weight:700;">부산시</span></strong>
+        <span>Contract Compass · 부산시 v2.0</span>
       </div>
     </a>
-    <span class="header-badge">v1.5</span>
+    <span class="header-badge">부산v2.0</span>
+    <button class="header-search-btn" onclick="openSearch()" title="전체 검색">🔍 검색</button>
   </div>
   <div class="header-nav">
     <nav>
@@ -1614,7 +1729,7 @@
 
       <!-- 인트로 -->
       <div class="home-intro">
-        <div class="home-intro-badge">🧭 계약나침반</div>
+        <div class="home-intro-badge">🧭 계약나침반 &nbsp;<span style="font-size:10px;background:rgba(236,72,153,0.25);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:3px;padding:1px 6px;">부산시 v2.0</span></div>
         <h1>계약 요청을 받으셨나요?<br><em>계약나침반이 방향을 잡아드립니다</em></h1>
         <p>처음 계약을 맡은 담당자도 당황하지 마세요. 목적물 유형과 금액을 입력하면<br>올바른 방향과 전체 프로세스, 단계별 서류까지 한번에 안내합니다.</p>
       </div>
@@ -1664,7 +1779,7 @@
           <button class="home-special-btn" onclick="toggleSpecial(this)">재해·재난 발생</button>
           <button class="home-special-btn" onclick="toggleSpecial(this)">긴급 조달 필요</button>
           <button class="home-special-btn" onclick="toggleSpecial(this)">특허·독점 기술</button>
-          <button class="home-special-btn" onclick="toggleSpecial(this)">재공고 후 유찰</button>
+          <button class="home-special-btn" onclick="toggleSpecial(this)">유찰 후 수의전환</button>
         </div>
 
         <div class="home-field-label" style="margin-bottom:6px;font-size:10px;color:rgba(248,250,252,0.35);">— 금액 무관 수의계약 (중증장애인 생산시설)</div>
@@ -1715,7 +1830,7 @@
     <!-- 인쇄 전용 헤더 (화면에서는 숨김) -->
     <div class="print-header">
       <h1>🧭 계약나침반 — 절차 체크리스트</h1>
-      <p>출력일: <span id="printDate"></span> · Contract Compass v1.5</p>
+      <p>출력일: <span id="printDate"></span> · Contract Compass 부산시 v2.0</p>
     </div>
 
     <div class="cl-layout">
@@ -1925,7 +2040,7 @@
             <button class="toggle-opt" onclick="toggleOpt(this)">긴급 조달 필요</button>
             <button class="toggle-opt" onclick="toggleOpt(this)">보안상 비공개</button>
             <button class="toggle-opt" onclick="toggleOpt(this)">사회적약자기업</button>
-            <button class="toggle-opt" onclick="toggleOpt(this)">재공고 후 유찰</button>
+            <button class="toggle-opt" onclick="toggleOpt(this)">유찰 후 수의전환</button>
             <button class="toggle-opt" onclick="toggleOpt(this)">해당 없음</button>
           </div>
         </div>
@@ -1966,7 +2081,7 @@
 
       <div class="ref-header">
         <h2>📊 핵심 기준표</h2>
-        <p>2025 지방계약 실무 안내서(서울시) 기반 — 계약업무 핵심 수치 빠른 참조</p>
+        <p>부산광역시 회계재산담당관 계약업무 참고자료 (2026.2.1.) 기반 — 부산시 계약업무 핵심 수치 빠른 참조</p>
         <div class="ref-notice">※ 본 기준표는 참고용이며, 기관별 내부 지침 및 법령 개정사항을 반드시 확인하세요</div>
       </div>
 
@@ -1982,7 +2097,7 @@
             <tr><td><strong>용역·물품</strong></td><td class="ref-highlight">2천만원 이하</td><td>1억원 이하</td><td>1억원 초과</td></tr>
           </tbody>
         </table>
-        <div class="ref-tip">💡 <strong>소액 수의계약 세부기준:</strong> 추정가격 100만원 초과 시 반드시 2인 이상 견적 수집 필수. 1천만원 이하는 일상경비 처리 가능(서울시 기준).</div>
+        <div class="ref-tip">💡 <strong>소액 수의계약 세부기준:</strong> 추정가격 100만원 초과 시 반드시 2인 이상 견적 수집 필수. 1천만원 이하는 일상경비 처리 가능(부산시 기준).</div>
       </div>
 
       <!-- ② 사회적약자기업 수의계약 특례 -->
@@ -2021,18 +2136,42 @@
         <div class="ref-tip">💡 <strong>기간 기산:</strong> 공고문 게시일과 개찰일은 공고 기간에 미산입. 공고 후 → 마감일 전일 기준 역산</div>
       </div>
 
-      <!-- ④ 낙찰하한율 -->
+      <!-- ④ 낙찰하한율 (부산시 기준) -->
       <div class="ref-card">
         <div class="ref-card-title">④ 낙찰하한율 <span class="ref-law-badge">낙찰자결정기준 예규</span></div>
-        <table class="ref-table">
-          <thead><tr><th>계약 방법</th><th>낙찰하한율</th><th>비고</th></tr></thead>
+        <div style="font-size:11px;font-weight:700;color:#a78bfa;margin-bottom:6px;">▸ 공사 적격심사</div>
+        <table class="ref-table" style="margin-bottom:12px;">
+          <thead><tr><th>추정가격</th><th>낙찰하한율</th></tr></thead>
           <tbody>
-            <tr><td><strong>공사 전자공개 수의계약</strong></td><td class="ref-highlight">예정가격의 89.745%</td><td>이 이상 최저가로 낙찰</td></tr>
-            <tr><td><strong>용역·물품 전자공개 수의계약</strong></td><td>예정가격의 88%</td><td>추정가격 2천만원 이하는 90%</td></tr>
-            <tr><td><strong>적격심사(공사)</strong></td><td>낙찰하한율 직상위 최저가</td><td>심사 후 일정 점수 이상 낙찰</td></tr>
+            <tr><td>10억원 미만</td><td class="ref-highlight">89.745%</td></tr>
+            <tr><td>10억원 이상 ~ 50억원 미만</td><td class="ref-highlight">88.745%</td></tr>
+            <tr><td>50억원 이상 ~ 100억원 미만</td><td class="ref-highlight">87.495%</td></tr>
+            <tr><td>100억원 이상 ~ 300억원 미만</td><td class="ref-highlight">81.995%</td></tr>
+            <tr><td>300억원 이상</td><td>종합평가낙찰제 적용</td></tr>
           </tbody>
         </table>
-        <div class="ref-tip">💡 <strong>예시:</strong> 예정가격 1억원인 용역 전자공개 수의계약 시, 8,800만원 이상 제출한 자 중 최저가 낙찰</div>
+        <div style="font-size:11px;font-weight:700;color:#a78bfa;margin-bottom:6px;">▸ 용역 적격심사</div>
+        <table class="ref-table" style="margin-bottom:12px;">
+          <thead><tr><th>추정가격</th><th>낙찰하한율</th></tr></thead>
+          <tbody>
+            <tr><td>2억원 미만</td><td class="ref-highlight">87.745%</td></tr>
+            <tr><td>2억원 이상 ~ 5억원 미만</td><td class="ref-highlight">86.745%</td></tr>
+            <tr><td>5억원 이상 ~ 10억원 미만</td><td class="ref-highlight">85.495%</td></tr>
+            <tr><td>10억원 이상 ~ 30억원 미만</td><td class="ref-highlight">77.995%</td></tr>
+            <tr><td>30억원 이상</td><td class="ref-highlight">72.995%</td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:11px;font-weight:700;color:#a78bfa;margin-bottom:6px;">▸ 물품 적격심사</div>
+        <table class="ref-table" style="margin-bottom:8px;">
+          <thead><tr><th>구분</th><th>낙찰하한율</th></tr></thead>
+          <tbody>
+            <tr><td>2.2억원 미만</td><td class="ref-highlight">84.245%</td></tr>
+            <tr><td>2.2억원 이상</td><td class="ref-highlight">80.495%</td></tr>
+            <tr><td>중소기업자간 경쟁제품</td><td class="ref-highlight">87.995%</td></tr>
+            <tr><td>출판물</td><td>89.995%</td></tr>
+          </tbody>
+        </table>
+        <div class="ref-tip">💡 추정가격은 부가세·관급자재 제외 금액 기준. 수의계약(전자공개)은 적격심사 미실시</div>
       </div>
 
       <!-- ⑤ 계약 보증금 -->
@@ -2042,7 +2181,7 @@
           <thead><tr><th>구분</th><th>기준</th><th>비고</th></tr></thead>
           <tbody>
             <tr><td><strong>원칙</strong></td><td class="ref-highlight">계약금액의 10% 이상</td><td>보증보험증권·현금 등 가능</td></tr>
-            <tr><td><strong>면제 기준</strong></td><td>계약금액 5천만원 이하</td><td>지방계약 한시적 특례 적용 시 (~'25.12.31.)</td></tr>
+            <tr><td><strong>현행 (한시적특례)</strong></td><td class="ref-highlight">계약금액의 5% 이상</td><td>~2026.6.30. (원래 10%)</td></tr><tr><td><strong>면제 기준</strong></td><td>계약금액 5천만원 이하</td><td>면제 시 지급각서 징구</td></tr>
             <tr><td><strong>추가 납부</strong></td><td>지연배상금이 계약금액의 10% 이상 발생 시</td><td>잔여 계약 이행금액 기준 추가 납부</td></tr>
           </tbody>
         </table>
@@ -2084,7 +2223,7 @@
 
       <!-- ⑧ 수의계약 동일업체 횟수 제한 -->
       <div class="ref-card">
-        <div class="ref-card-title">⑧ 수의계약 동일업체 반복 계약 제한 <span class="ref-law-badge">서울시 기준</span></div>
+        <div class="ref-card-title">⑧ 수의계약 동일업체 반복 계약 제한 <span class="ref-law-badge">부산시 기준</span></div>
         <table class="ref-table">
           <thead><tr><th>범위</th><th>제한 횟수</th><th>예외</th></tr></thead>
           <tbody>
@@ -2092,7 +2231,7 @@
             <tr><td><strong>시 전체</strong></td><td class="ref-highlight">동일업체 연 9회 초과 금지</td></tr>
           </tbody>
         </table>
-        <div class="ref-tip">💡 <strong>확인 방법:</strong> 서울계약마당을 통해 발주담당자 1차 확인 → 계약상대자로부터 市 전체 계약 건수 직접 확인 (서울시 기준)</div>
+        <div class="ref-tip">💡 <strong>확인 방법:</strong> 부산계약마당(시스템)을 통해 발주담당자 1차 확인 → 계약상대자로부터 市 전체 계약 건수 직접 확인 (부산시 기준)</div>
       </div>
 
       <!-- ⑨ 계약심의위원회 심의 대상 -->
@@ -2104,14 +2243,88 @@
             <tr><td><strong>공사</strong></td><td class="ref-highlight">추정가격 70억원 이상</td></tr>
             <tr><td><strong>용역·물품</strong></td><td class="ref-highlight">추정가격 20억원 이상</td></tr>
             <tr><td><strong>부정당업자 제재</strong></td><td>모든 금액 (처분 전 심의 필수)</td></tr>
-            <tr><td><strong>설계변경 추가 발주</strong></td><td>추정가격 30억원 이상 공종 추가 시</td></tr>
           </tbody>
         </table>
-        <div class="ref-tip">💡 심의 대상인 경우 계약 의뢰 10일 전까지 계약심의위원회에 안건 제출 필요 (서울시 기준: 매월 3째 목요일 정례 개최)</div>
+        <div class="ref-tip">💡 심의 대상은 계약 의뢰 10일 전까지 안건 제출 필요. 소집회의·서면심의 모두 가능</div>
+      </div>
+
+      <!-- ⑩ 계약심사·일상감사 대상 (부산시) -->
+      <div class="ref-card">
+        <div class="ref-card-title">⑩ 계약심사 · 일상감사 대상 <span class="ref-law-badge">부산시 내부규정</span></div>
+        <table class="ref-table">
+          <thead><tr><th>구분</th><th>계약심사 (추정금액)</th><th>일상감사 (추정가격)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>종합공사</strong></td><td class="ref-highlight">5억원 이상</td><td class="ref-highlight">5억원 이상</td></tr>
+            <tr><td><strong>전문·기타공사</strong></td><td class="ref-highlight">3억원 이상</td><td class="ref-highlight">3억원 이상</td></tr>
+            <tr><td><strong>용역</strong></td><td>1억원 이상</td><td class="ref-highlight">2억원 이상</td></tr>
+            <tr><td><strong>물품</strong></td><td>2천만원 이상</td><td>2천만원 이상</td></tr>
+          </tbody>
+        </table>
+        <div class="ref-tip">💡 계약심사: 입찰공고 전 계약부서 원가심사. 일상감사: 입찰공고 직전 공공감사담당관실 의뢰. 조달청 의뢰계약·협상에 의한 계약은 계약심사 제외</div>
+      </div>
+
+      <!-- ⑪ 한시적 특례 (2026.6.30까지) -->
+      <div class="ref-card">
+        <div class="ref-card-title">⑪ 한시적 특례 <span class="ref-law-badge">행안부 고시 2025-72 (~2026.6.30)</span></div>
+        <table class="ref-table">
+          <thead><tr><th>구분</th><th>현행 특례</th><th>원래 규정</th></tr></thead>
+          <tbody>
+            <tr><td><strong>수의계약 전환</strong></td><td class="ref-highlight">1회 유찰 시 수의계약 허용</td><td>재공고 후 유찰 시</td></tr>
+            <tr><td><strong>입찰보증금</strong></td><td class="ref-highlight">입찰금액의 0.25% 이상</td><td>5% 이상</td></tr>
+            <tr><td><strong>계약보증금</strong></td><td class="ref-highlight">계약금액의 5% 이상</td><td>10% 이상</td></tr>
+            <tr><td><strong>공사이행보증금</strong></td><td class="ref-highlight">계약금액의 20% 이상</td><td>40% 이상</td></tr>
+          </tbody>
+        </table>
+        <div class="ref-tip">⚠️ 2026년 6월 30일까지 한시 적용. 이후 원래 규정으로 복귀. 검사 및 대금지급기간 단축은 특례에서 제외</div>
+      </div>
+
+      <!-- ⑫ 부산시 고유 — 채권·수입증지 -->
+      <div class="ref-card">
+        <div class="ref-card-title">⑫ 부산시 고유 — 채권·수입증지 <span class="ref-law-badge">부산시 조례</span></div>
+        <table class="ref-table">
+          <thead><tr><th>구분</th><th>대상</th><th>금액</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td><strong>지역개발채권</strong></td><td>상하수도 공사·용역·물품 계약</td><td class="ref-highlight">계약금액의 2%</td><td>2천만원 이하 제외. 대금 청구 시 소화</td></tr>
+            <tr><td><strong>도시철도채권</strong></td><td>각종 건설공사 계약</td><td class="ref-highlight">계약금액의 2%</td><td>2천만원 이하 제외. 계약 체결 시 구입</td></tr>
+            <tr><td><strong>부산시 수입증지</strong></td><td>입찰등록 (전자입찰·2천만원↓ 수의 제외)</td><td>1만원</td><td>실적증명서 발급 시 1천원</td></tr>
+            <tr><td><strong>정부수입인지</strong></td><td>계약금액 1천만원 이상 계약서</td><td>2만~35만원</td><td>인지세법 제3조 (금액 구간별 상이)</td></tr>
+          </tbody>
+        </table>
+        <div class="ref-tip">💡 채권 금액 계산: 5천원 단위 절사(지역개발), 2,500원 미만 절사(도시철도)</div>
+      </div>
+
+      <!-- ⑬ 부산시 준공검사관 임명 기준 -->
+      <div class="ref-card">
+        <div class="ref-card-title">⑬ 준공검사관 임명 기준 <span class="ref-law-badge">부산시 회계·계약사무 처리지침</span></div>
+        <table class="ref-table">
+          <thead><tr><th>계약금액</th><th>임명 기준</th></tr></thead>
+          <tbody>
+            <tr><td><strong>10억원 이상</strong></td><td class="ref-highlight">기획관이 임명하는 5급 이상 기술직공무원 2명</td></tr>
+            <tr><td><strong>5억원 ~ 10억원 미만</strong></td><td>소속 실·국장 + 회계재산담당관이 각 1명 임명 (총 2명)</td></tr>
+            <tr><td><strong>1억원 ~ 5억원 미만</strong></td><td>소속 실·국장이 임명하는 7급 이상 기술직공무원 2명</td></tr>
+            <tr><td><strong>1억원 미만</strong></td><td>해당 부서의 장이 임명하는 9급 이상 기술공무원 1명</td></tr>
+            <tr><td><strong>용역·물품</strong></td><td>위 기준 준용. 일반직공무원 임명 가능</td></tr>
+          </tbody>
+        </table>
+        <div class="ref-tip">💡 준공검사 기간: 준공신고서 접수 후 14일 이내 완료</div>
+      </div>
+
+      <!-- ⑭ 부산시 지역의무공동도급 -->
+      <div class="ref-card">
+        <div class="ref-card-title">⑭ 부산시 지역의무공동도급 <span class="ref-law-badge">계약법 제29조</span></div>
+        <table class="ref-table">
+          <thead><tr><th>구분</th><th>내용</th></tr></thead>
+          <tbody>
+            <tr><td><strong>대상</strong></td><td>추정가격 100억원 이상 공사 (용역·물품 해당 없음)</td></tr>
+            <tr><td><strong>지역업체 의무 참여비율</strong></td><td class="ref-highlight">원칙 40% / 지역경제활성화 예외 49%</td></tr>
+            <tr><td><strong>국제입찰 예외</strong></td><td>265억원 이상 외국업체 참여 시 제외</td></tr>
+            <tr><td><strong>가점</strong></td><td>기술용역 30%↑ 3점, 일반용역 40%↑ 5점 (자발적 공동수급)</td></tr>
+          </tbody>
+        </table>
       </div>
 
       <div class="ref-footer-note">
-        📌 본 기준표는 2025년도 서울특별시 지방계약 실무 안내서를 기반으로 작성되었습니다. 법령 개정사항 및 기관별 내부 규정이 다를 수 있으므로 반드시 원문을 확인하세요.
+        📌 본 기준표는 <strong>부산광역시 회계재산담당관 계약업무 참고자료 (2026.2.1. 기준)</strong> 및 현행 지방계약법령을 기반으로 작성되었습니다. 법령 개정 시 변동될 수 있으니 원문을 확인하세요.
         <a href="https://www.law.go.kr" target="_blank" style="color:var(--gold);margin-left:8px;">📚 국가법령정보센터 →</a>
       </div>
 
@@ -2201,7 +2414,7 @@
 
 <!-- FOOTER -->
 <footer>
-  본 서비스의 모든 안내 내용은 일반적인 법령 기준에 따른 참고용입니다.
+  본 서비스는 부산광역시 회계재산담당관 계약업무 참고자료(2026.2.1.) 기준으로 작성된 참고용입니다.
   실제 계약 업무 처리 시에는 <strong>반드시 소속 기관의 회계부서 계약 담당자와 확인</strong>하시기 바랍니다.
   법적 책임은 최종 판단 및 처리를 한 담당자에게 있습니다.
   &nbsp;·&nbsp; © 2026 Daily Spillover
@@ -2345,6 +2558,90 @@
       <div class="law-open-site-arrow">→</div>
     </a>
 
+    <!-- 부산시 조례·규정 -->
+    <div class="law-section-title" style="color:#f472b6;">🌸 부산광역시 계약 관련 조례 · 규정</div>
+
+    <a class="law-item" href="https://www.busan.go.kr/nblaw/index" target="_blank">
+      <div class="law-item-icon li-busan">🌸</div>
+      <div class="law-item-info">
+        <div class="law-item-name">부산광역시 자치법규 통합 검색</div>
+        <div class="law-item-sub">부산시 조례·규칙 전체 검색 · 계약 관련 규정 일괄 확인</div>
+      </div>
+      <div class="law-item-ext">↗ 자치법규</div>
+    </a>
+
+    <a class="law-item" href="https://www.busan.go.kr/nblaw/view?dataId=BB_LAW_0000000000050571" target="_blank">
+      <div class="law-item-icon li-busan">📜</div>
+      <div class="law-item-info">
+        <div class="law-item-name">부산광역시 계약사무 규칙</div>
+        <div class="law-item-sub">계약 사무 위임·위탁 범위, 계약부서 업무 처리 절차</div>
+      </div>
+      <div class="law-item-ext">↗ 규칙</div>
+    </a>
+
+    <a class="law-item" href="https://www.busan.go.kr/nblaw/view?dataId=BB_LAW_0000000000050579" target="_blank">
+      <div class="law-item-icon li-busan">📋</div>
+      <div class="law-item-info">
+        <div class="law-item-name">부산광역시 지역개발기금 설치 조례</div>
+        <div class="law-item-sub">지역개발채권 매입 근거 · 계약금액의 2% 매입 의무 규정</div>
+      </div>
+      <div class="law-item-ext">↗ 조례</div>
+    </a>
+
+    <a class="law-item" href="https://www.busan.go.kr/nblaw/view?dataId=BB_LAW_0000000000050563" target="_blank">
+      <div class="law-item-icon li-busan">🚇</div>
+      <div class="law-item-info">
+        <div class="law-item-name">부산광역시 도시철도채권 조례</div>
+        <div class="law-item-sub">건설공사 계약 시 도시철도채권 매입 근거 · 2% 매입 의무</div>
+      </div>
+      <div class="law-item-ext">↗ 조례</div>
+    </a>
+
+    <a class="law-item" href="https://www.busan.go.kr/nblaw/view?dataId=BB_LAW_0000000000050574" target="_blank">
+      <div class="law-item-icon li-busan">🔍</div>
+      <div class="law-item-info">
+        <div class="law-item-name">부산광역시 계약심의위원회 운영 규칙</div>
+        <div class="law-item-sub">계약심의 대상·절차·위원 구성 등 심의위원회 운영 기준</div>
+      </div>
+      <div class="law-item-ext">↗ 규칙</div>
+    </a>
+
+    <a class="law-item" href="https://www.busan.go.kr/nblaw/view?dataId=BB_LAW_0000000000050572" target="_blank">
+      <div class="law-item-icon li-busan">📊</div>
+      <div class="law-item-info">
+        <div class="law-item-name">부산광역시 계약심사 업무 처리 규칙</div>
+        <div class="law-item-sub">계약심사 대상 금액·절차·서류 기준 (공사 5억↑, 용역 1억↑ 등)</div>
+      </div>
+      <div class="law-item-ext">↗ 규칙</div>
+    </a>
+
+    <a class="law-item" href="https://www.busan.go.kr/nblaw/view?dataId=BB_LAW_0000000000050573" target="_blank">
+      <div class="law-item-icon li-busan">🛡️</div>
+      <div class="law-item-info">
+        <div class="law-item-name">부산광역시 일상감사 규정</div>
+        <div class="law-item-sub">일상감사 대상·절차 (공사 5억↑, 용역 2억↑, 물품 2천만원↑)</div>
+      </div>
+      <div class="law-item-ext">↗ 규정</div>
+    </a>
+
+    <a class="law-item" href="https://www.busan.go.kr/nblaw/view?dataId=BB_LAW_0000000000050575" target="_blank">
+      <div class="law-item-icon li-busan">🤝</div>
+      <div class="law-item-info">
+        <div class="law-item-name">부산광역시 협상에 의한 계약 제안서평가위원회 규칙</div>
+        <div class="law-item-sub">협상계약 평가위원 구성(7~10명)·운영·평가 절차 기준</div>
+      </div>
+      <div class="law-item-ext">↗ 규칙</div>
+    </a>
+
+    <a class="law-open-site" href="https://www.busan.go.kr/nblaw/index" target="_blank">
+      <div class="law-open-site-icon">🌸</div>
+      <div class="law-open-site-text">
+        <strong>부산광역시 자치법규 전체 보기</strong>
+        <span>busan.go.kr · 부산시 조례·규칙·규정 전체 검색</span>
+      </div>
+      <div class="law-open-site-arrow">→</div>
+    </a>
+
   </div>
 </div>
 
@@ -2421,12 +2718,274 @@
   </div>
 </template>
 
+<!-- 검색 오버레이 -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <span class="search-input-icon">🔍</span>
+      <input class="search-input" id="searchInput" type="text"
+        placeholder="검색어를 입력하세요 — 예: 수의계약, 일상감사, 보증금..."
+        oninput="runSearch(this.value)"
+        onkeydown="if(event.key==='Escape') closeSearch()">
+      <button class="search-close-btn" onclick="closeSearch()">✕</button>
+    </div>
+    <!-- 추천 검색어 -->
+    <div class="search-tags" id="searchTags">
+      <span class="search-tag" onclick="setSearchKeyword('수의계약')">수의계약</span>
+      <span class="search-tag" onclick="setSearchKeyword('일상감사')">일상감사</span>
+      <span class="search-tag" onclick="setSearchKeyword('계약심사')">계약심사</span>
+      <span class="search-tag" onclick="setSearchKeyword('입찰보증금')">입찰보증금</span>
+      <span class="search-tag" onclick="setSearchKeyword('계약보증금')">계약보증금</span>
+      <span class="search-tag" onclick="setSearchKeyword('지역개발채권')">지역개발채권</span>
+      <span class="search-tag" onclick="setSearchKeyword('낙찰하한율')">낙찰하한율</span>
+      <span class="search-tag" onclick="setSearchKeyword('계약심의위원회')">계약심의위원회</span>
+      <span class="search-tag" onclick="setSearchKeyword('적격심사')">적격심사</span>
+      <span class="search-tag" onclick="setSearchKeyword('한시적 특례')">한시적 특례</span>
+      <span class="search-tag" onclick="setSearchKeyword('준공검사')">준공검사</span>
+      <span class="search-tag" onclick="setSearchKeyword('부정당업자')">부정당업자</span>
+      <span class="search-tag" onclick="setSearchKeyword('지체상금')">지체상금</span>
+      <span class="search-tag" onclick="setSearchKeyword('선금')">선금</span>
+      <span class="search-tag" onclick="setSearchKeyword('하자보수')">하자보수</span>
+    </div>
+    <div class="search-result-count" id="searchResultCount"></div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
 // ── Navigation ──
 function goChat() { showPage('faq'); }
+
+// ══════════════════════════════════════════
+// 전체 검색 엔진
+// ══════════════════════════════════════════
+
+var SEARCH_INDEX = null;
+
+// 검색 인덱스 빌드 (최초 1회)
+function buildSearchIndex() {
+  if (SEARCH_INDEX) return;
+  SEARCH_INDEX = [];
+
+  // ① FAQ 데이터
+  if (typeof FAQ_DATA !== 'undefined') {
+    FAQ_DATA.forEach(function(item, i) {
+      SEARCH_INDEX.push({
+        type: 'faq',
+        cat: 'src-faq',
+        catLabel: '실무 Q&A',
+        title: item.q,
+        body: item.a ? item.a.replace(/<[^>]+>/g, '') : '',
+        action: function() { showPage('faq'); setTimeout(function() { openFaq(i); }, 100); },
+        actionLabel: '→ Q&A에서 보기'
+      });
+    });
+  }
+
+  // ② 체크리스트 데이터
+  if (typeof CHECKLISTS !== 'undefined') {
+    Object.keys(CHECKLISTS).forEach(function(clKey) {
+      var cl = CHECKLISTS[clKey];
+      if (!cl || !cl.stages) return;
+      cl.stages.forEach(function(stage) {
+        if (!stage || !stage.items) return;
+        stage.items.forEach(function(item) {
+          SEARCH_INDEX.push({
+            type: 'check',
+            cat: 'src-check',
+            catLabel: '체크리스트 · ' + clKey,
+            title: item.title || '',
+            body: (item.sub || '') + ' ' + (item.law ? item.law.join(' ') : ''),
+            action: function() {
+              showPage('checklist');
+              setTimeout(function() { renderChecklist(clKey); }, 100);
+            },
+            actionLabel: '→ ' + clKey + ' 체크리스트'
+          });
+        });
+      });
+    });
+  }
+
+  // ③ 핵심 기준표 — ref-card 텍스트 수집
+  var refCards = document.querySelectorAll('.ref-card');
+  refCards.forEach(function(card) {
+    var titleEl = card.querySelector('.ref-card-title');
+    var titleText = titleEl ? titleEl.textContent.trim() : '';
+    var bodyText = card.textContent.replace(titleText, '').replace(/\s+/g,' ').trim().substring(0, 300);
+    if (titleText) {
+      SEARCH_INDEX.push({
+        type: 'ref',
+        cat: 'src-ref',
+        catLabel: '핵심 기준표',
+        title: titleText,
+        body: bodyText,
+        action: function() { showPage('reference'); },
+        actionLabel: '→ 핵심 기준표에서 보기'
+      });
+    }
+  });
+
+  // ④ 필수 서류 안내 — docs 데이터
+  if (typeof DOCS_DATA !== 'undefined') {
+    Object.keys(DOCS_DATA).forEach(function(cat) {
+      var methods = DOCS_DATA[cat];
+      if (!methods) return;
+      Object.keys(methods).forEach(function(method) {
+        var stages = methods[method];
+        if (!stages) return;
+        stages.forEach(function(stage) {
+          var docs = (stage.docs || []).map(function(d){ return d.name; }).join(', ');
+          if (stage.title) {
+            SEARCH_INDEX.push({
+              type: 'docs',
+              cat: 'src-docs',
+              catLabel: '필수 서류 · ' + cat + ' ' + method,
+              title: stage.title,
+              body: docs,
+              action: function() { showPage('docs'); },
+              actionLabel: '→ 필수 서류 안내'
+            });
+          }
+        });
+      });
+    });
+  }
+
+  // ⑤ 법령 바로가기
+  var lawItems = document.querySelectorAll('.law-item');
+  lawItems.forEach(function(item) {
+    var nameEl = item.querySelector('.law-item-name');
+    var subEl  = item.querySelector('.law-item-sub');
+    var href   = item.getAttribute('href');
+    if (nameEl) {
+      var nameText = nameEl.textContent.trim();
+      var subText  = subEl ? subEl.textContent.trim() : '';
+      SEARCH_INDEX.push({
+        type: 'law',
+        cat: 'src-guide',
+        catLabel: '법령 바로가기',
+        title: nameText,
+        body: subText,
+        action: function() { if (href) window.open(href, '_blank'); },
+        actionLabel: '↗ 법령 바로가기'
+      });
+    }
+  });
+
+  console.log('검색 인덱스 빌드 완료:', SEARCH_INDEX.length, '건');
+}
+
+function openSearch() {
+  buildSearchIndex();
+  document.getElementById('searchOverlay').classList.add('open');
+  setTimeout(function() {
+    var inp = document.getElementById('searchInput');
+    if (inp) { inp.focus(); inp.select(); }
+  }, 80);
+}
+
+function closeSearch() {
+  document.getElementById('searchOverlay').classList.remove('open');
+}
+
+function setSearchKeyword(kw) {
+  var inp = document.getElementById('searchInput');
+  if (inp) { inp.value = kw; inp.focus(); }
+  runSearch(kw);
+}
+
+function highlight(text, query) {
+  if (!query || !text) return text || '';
+  var safe = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp('(' + safe + ')', 'gi'), '<mark>$1</mark>');
+}
+
+function runSearch(query) {
+  var q = (query || '').trim();
+  var countEl   = document.getElementById('searchResultCount');
+  var resultsEl = document.getElementById('searchResults');
+  var tagsEl    = document.getElementById('searchTags');
+
+  if (!q) {
+    countEl.textContent = '';
+    resultsEl.innerHTML = '';
+    tagsEl.style.display = 'flex';
+    return;
+  }
+  tagsEl.style.display = 'none';
+
+  if (!SEARCH_INDEX) buildSearchIndex();
+
+  // 검색 — 제목 우선, 본문 보조
+  var keywords = q.split(/\s+/).filter(Boolean);
+  var scored = [];
+
+  SEARCH_INDEX.forEach(function(item) {
+    var titleLower = (item.title || '').toLowerCase();
+    var bodyLower  = (item.body  || '').toLowerCase();
+    var score = 0;
+
+    keywords.forEach(function(kw) {
+      var kwl = kw.toLowerCase();
+      if (titleLower.includes(kwl)) score += 10;
+      if (bodyLower.includes(kwl))  score += 3;
+    });
+
+    // 중복 제거 (같은 title + cat)
+    if (score > 0) scored.push({ item: item, score: score });
+  });
+
+  // 점수 내림차순 정렬, 최대 30개
+  scored.sort(function(a,b){ return b.score - a.score; });
+  var top = scored.slice(0, 30);
+
+  // 중복 타이틀 제거
+  var seen = {};
+  var deduped = top.filter(function(r) {
+    var key = r.item.cat + '|' + r.item.title;
+    if (seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
+
+  if (deduped.length === 0) {
+    countEl.innerHTML = '';
+    resultsEl.innerHTML = '<div class="search-empty"><div class="search-empty-icon">🔍</div>"<strong>' + q + '</strong>"에 대한 결과가 없습니다.<br><span style="font-size:12px;color:var(--text-muted);">다른 키워드로 검색해보세요 (예: 수의계약, 보증금, 적격심사)</span></div>';
+    return;
+  }
+
+  countEl.innerHTML = '"<strong>' + q + '</strong>" 검색 결과 <strong style="color:#a78bfa">' + deduped.length + '건</strong>';
+
+  resultsEl.innerHTML = deduped.map(function(r) {
+    var item = r.item;
+    var titleHl = highlight(item.title, q);
+    var bodyHl  = highlight(item.body ? item.body.substring(0, 120) + (item.body.length > 120 ? '...' : '') : '', q);
+    return '<div class="search-result-item" onclick="(function(){closeSearch();(' + item.action.toString() + ')();})()">' +
+      '<div class="search-result-header">' +
+        '<span class="search-result-category ' + item.cat + '">' + item.catLabel + '</span>' +
+      '</div>' +
+      '<div class="search-result-title">' + titleHl + '</div>' +
+      (bodyHl ? '<div class="search-result-body">' + bodyHl + '</div>' : '') +
+      '<div class="search-result-action">' + item.actionLabel + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ESC 키로 닫기
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('searchOverlay').classList.contains('open')) {
+    closeSearch();
+  }
+  // Ctrl+K / Cmd+K 로 검색 열기
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    openSearch();
+  }
+});
 
 // ══════════════════════════════════════════
 // v1.5 — 기관 메모 (localStorage 기반)
@@ -2643,7 +3202,7 @@ function getHomeMethod(cat, amtWan, specials) {
   // 긴급·특수 사유 우선
   if (specials.includes('재해·재난 발생') || specials.includes('긴급 조달 필요')) return '긴급수의계약';
   if (specials.includes('특허·독점 기술'))   return '수의계약(특허·독점)';
-  if (specials.includes('재공고 후 유찰'))    return '수의계약(유찰전환)';
+  if (specials.includes('유찰 후 수의전환'))    return '수의계약(유찰전환)';
 
   // 기업 유형 특례
   var spType = getSpecialType(specials);
@@ -2663,12 +3222,12 @@ function getHomeMethod(cat, amtWan, specials) {
     const lim = cat === '종합공사' ? 40000 : cat === '전문공사' ? 20000 : 16000;
     if (amtWan <= 2000)  return '수의계약(소액-1인견적)';
     if (amtWan <= lim)   return '수의계약(전자공개-2인견적)';
-    return amtWan >= 700000 ? '일반경쟁입찰(심의필요)' : '일반경쟁입찰';
+    return amtWan >= 7000000 ? '일반경쟁입찰(심의필요)' : '일반경쟁입찰';
   }
   if (cat === '기술용역' && amtWan >= 10000) return '협상에의한계약';
   if (amtWan <= 2000)  return '수의계약(소액-1인견적)';
   if (amtWan <= 10000) return '수의계약(전자공개-2인견적)';
-  return amtWan >= 200000 ? '일반경쟁입찰(심의필요)' : '일반경쟁입찰';
+  return amtWan >= 2000000 ? '일반경쟁입찰(심의필요)' : '일반경쟁입찰';
 }
 
 function buildSteps(cat, amtWan, method) {
@@ -2795,7 +3354,7 @@ function buildSteps(cat, amtWan, method) {
         isPanro ? { text: '견적서 (1인)', req:'must' } : null,
       ].filter(Boolean),
       laws:    isPanro ? ['시행령_제25조'] : ['시행령_제25조'],
-      caution: isPanro ? panroCaution : (amtWan > 100 ? '⚠️ 100만원 초과 시 반드시 2인 이상 견적 수령. 특정업체 지정은 부당계약 감사 지적 대상입니다.' : ''),
+      caution: isPanro ? panroCaution : (amtWan > 100 ? '⚠️ 2천만원 초과 시 반드시 전자공개 수의계약(2인↑ 견적). 특정업체 지정 금지.' : ''),
       tip: isPanro ? '' : ''
     });
   }
@@ -2835,7 +3394,7 @@ function buildSteps(cat, amtWan, method) {
     todos: [
       { text: '<strong>계약서 작성</strong> — 계약금액·이행기간·지체상금률·하자담보기간 필수 기재. 과업지시서 첨부' },
       { text: '<strong>인지세 납부 확인</strong> — 1천만원 초과 시 발생. 금액별: ~3천만원 2만원 / ~5천만원 4만원 / ~1억 7만원 / ~10억 15만원' },
-      { text: '<strong>계약보증금 징구</strong> — 계약금액의 10% 이상. 5천만원 이하 면제 가능' },
+      { text: '<strong>계약보증금 징구</strong> — 계약금액의 5% 이상 (한시적 특례 ~2026.6.30). 5천만원 이하 면제 가능' },
     ],
     officer: [
       { text: '계약서 (2부 서명 날인)', req:'must' },
@@ -3072,7 +3631,7 @@ const CHECKLISTS = {
           { title: '계약 목적물 규격서 / 설계서 작성', sub: '물품·용역은 규격서, 공사는 설계도면·시방서·내역서 필요. 규격서에 특정 상표 명기 금지', tag: 'docs', law: ['시행령'] },
           { title: '추정가격 산정 (부가세 제외 기준)', sub: '시장가격 조사 또는 2회 이상 견적 수집 후 산정. 부가가치세·제세공과금 제외', tag: 'required', law: ['시행령_제9조', '계약집행기준'] },
           { title: '기초금액 및 예정가격 결정·봉인', sub: '예정가격 결정 후 봉인 보관. 개찰 전까지 절대 누설 금지 (위반 시 형사처벌)', tag: 'required', law: ['시행령_제9조'] },
-          { title: '계약 방법 결정 결재 (계획 심의 여부 확인)', sub: '추정가격 5억 이상 공사, 3억 이상 물품·용역은 계약심의위원회 심의 검토', tag: 'caution', law: ['지방계약법_제9조', '계약집행기준'] },
+          { title: '계약 방법 결정 결재 (계획 심의 여부 확인)', sub: '추정가격 공사 70억원 이상, 물품·용역 20억원 이상은 계약심의위원회 심의 대상 (광역지자체 기준)', tag: 'caution', law: ['지방계약법_제9조', '계약집행기준'] },
         ]
       },
       {
@@ -3081,7 +3640,7 @@ const CHECKLISTS = {
           { title: '나라장터(G2B) 입찰 공고문 등록', sub: '입찰마감일 7일 전까지 공고 필수 (추정가 1억 미만은 5일 전). 자체 공보·홈페이지 병행 공고', tag: 'required', law: ['시행령_제35조', '전자조달법'] },
           { title: '입찰 공고문 필수 기재사항 확인', sub: '입찰 일시·장소, 입찰 목적물 내용, 예정가격 작성 방법, 낙찰 방법, 입찰 참가 자격 포함 여부', tag: 'docs', law: ['시행령_제35조'] },
           { title: '입찰 참가 자격 요건 적정성 확인', sub: '업종·면허 등 자격 제한은 반드시 법령상 근거 필요. 과도한 제한 조건 설정 금지', tag: 'caution', law: ['시행령_제37조', '계약집행기준'] },
-          { title: '입찰 보증금 납부 기준 설정 공고', sub: '입찰금액의 5% 이상을 입찰 보증금으로 설정. 보증보험증권·현금 등 인정 가능', tag: 'docs', law: ['시행령_제38조'] },
+          { title: '입찰 보증금 납부 기준 설정 공고', sub: '입찰금액의 0.25% 이상 (한시적 특례 ~2026.6.30, 원래 5%). 보증보험증권·현금 등 인정', tag: 'docs', law: ['시행령_제38조'] },
           { title: '입찰 설명회 개최 여부 결정 (해당 시)', sub: '대형공사·복잡한 용역의 경우 입찰 설명회 개최 가능. 개최 시 내용 공고에 명시', tag: 'caution', law: ['계약집행기준'] },
         ]
       },
@@ -3100,7 +3659,7 @@ const CHECKLISTS = {
         items: [
           { title: '낙찰자 통보 및 계약 체결 기한 확인', sub: '낙찰자 결정 후 10일 이내 계약 체결 원칙. 기한 초과 시 낙찰 취소 가능', tag: 'required', law: ['시행령_제46조'] },
           { title: '계약서 작성 및 양 당사자 서명·날인', sub: '계약서 필수 기재사항(목적물, 금액, 기간, 지체상금률 등) 누락 없이 작성. 관인 날인', tag: 'required', law: ['지방계약법_제13조', '시행규칙'] },
-          { title: '계약 보증금 납부 확인 (계약금액의 10%)', sub: '계약금액의 10% 이상. 계속비계약은 연차별 계약금액 기준. 보증보험증권 수령 시 유효기간 확인', tag: 'required', law: ['시행령_제51조'] },
+          { title: '계약 보증금 납부 확인 (계약금액의 10%)', sub: '계약금액의 5% 이상 (한시적 특례 ~2026.6.30, 원래 10%). 보증보험증권 유효기간 확인', tag: 'required', law: ['시행령_제51조'] },
           { title: '하도급 제한 및 하도급 계획서 수령 (공사)', sub: '공사 계약 시 하도급 계획서 사전 수령. 재하도급은 원칙적 금지', tag: 'caution', law: ['건설산업기본법_제29조', '지방계약법'] },
           { title: '계약 관련 서류 편철 보관 (5년)', sub: '공고문, 입찰서, 낙찰결정서, 계약서, 보증서류 일체를 하나의 철에 편철하여 5년 보관', tag: 'docs', law: ['계약사무처리기준'] },
         ]
@@ -3154,7 +3713,7 @@ const CHECKLISTS = {
         items: [
           { title: '공개 개찰 실시 (참관인 2인 이상 입회)', sub: '개찰은 공개로 진행. 입찰 결과 즉시 G2B 시스템에 등록', tag: 'required', law: ['시행령_제40조'] },
           { title: '낙찰자 결정 및 낙찰 통보', sub: '공고에서 명시한 낙찰 방법 적용. 적격심사 해당 시 심사 후 최종 낙찰자 결정', tag: 'required', law: ['낙찰자결정기준', '시행령_제42조'] },
-          { title: '계약서 작성 및 계약 보증금 납부 확인', sub: '계약금액 10% 이상 보증금 납부 확인. 유효기간 계약기간 이상인 보증보험증권 수령', tag: 'required', law: ['시행령', '시행규칙'] },
+          { title: '계약서 작성 및 계약 보증금 납부 확인', sub: '계약금액 5% 이상 보증금 납부 확인 (한시적 특례 ~2026.6.30). 보증보험증권 유효기간 확인', tag: 'required', law: ['시행령', '시행규칙'] },
           { title: '계약 제한 조건 위반 여부 사후 점검', sub: '이행 과정에서 제한 조건(면허 유효성 등) 유지 여부 주기적 확인', tag: 'caution', law: ['지방계약법'] },
           { title: '계약 관련 전체 서류 편철 및 보관', sub: '공고문, 자격심사 결과, 계약서 등 일체를 편철하여 5년 보관', tag: 'docs', law: ['계약사무처리기준'] },
         ]
@@ -3176,7 +3735,7 @@ const CHECKLISTS = {
       {
         title: '수의계약 사유 확인 단계',
         items: [
-          { title: '수의계약 사유 해당 여부 법령 검토', sub: '시행령 제25조 각호 해당 여부 확인. ①소액 ②특허·독점 ③특수목적 ④재공고 후 유찰 ⑤긴급 ⑥비공개 등', tag: 'required', law: ['시행령_제25조'] },
+          { title: '수의계약 사유 해당 여부 법령 검토', sub: '시행령 제25조 각호 해당 여부 확인. ①소액 ②특허·독점 ③특수목적 ④유찰 후 수의전환 ⑤긴급 ⑥비공개 등', tag: 'required', law: ['시행령_제25조'] },
           { title: '소액 기준 금액 확인 (유형별 차이)', sub: '물품·용역: 추정가격 2,000만원 이하 / 공사: 2억원 이하 / 전문공사: 1억원 이하', tag: 'required', law: ['시행령_제25조', '계약집행기준'] },
           { title: '수의계약 사유서 작성 (소액 외 사유 시)', sub: '소액 외 사유로 수의계약 시 사유서 작성 및 결재 필수. 감사 대비 소명 자료 확보', tag: 'docs', law: ['시행령_제25조', '계약사무처리기준'] },
           { title: '특정 업체 지정 사유 적정성 검토', sub: '특정 업체와 수의계약 시 법령상 근거 필수. 유착 의심 방지를 위한 내부 결재 강화', tag: 'caution', law: ['지방계약법_제9조', '시행령_제25조'] },
@@ -3195,7 +3754,7 @@ const CHECKLISTS = {
         title: '계약 체결 단계',
         items: [
           { title: '계약서 작성 및 서명·날인', sub: '추정가격 3,000만원 이하는 계약서 생략 가능하나 계약 사실 증명 서류(발주서 등) 작성 권장', tag: 'required', law: ['지방계약법_제13조', '시행규칙'] },
-          { title: '계약 보증금 납부 확인 (해당 시)', sub: '소액 수의계약(추정가격 2,000만원 이하)은 계약보증금 면제 가능. 초과 시 10% 이상 납부', tag: 'caution', law: ['시행령_제51조', '시행규칙'] },
+          { title: '계약 보증금 납부 확인 (해당 시)', sub: '소액 수의계약(2,000만원 이하)은 계약보증금 면제. 초과 시 5% 이상 납부 (한시적 특례 ~2026.6.30)', tag: 'caution', law: ['시행령_제51조', '시행규칙'] },
           { title: '선금 지급 여부 결정 (해당 시)', sub: '선금은 계약금액의 50% 이내. 지급 시 선금 보증증서 수령 필수', tag: 'caution', law: ['시행령_제92조'] },
           { title: '납품기한·장소·조건 계약서 명시', sub: '납품일자, 납품 장소, 검수 방법 등 계약서에 명확히 기재하여 분쟁 예방', tag: 'docs', law: ['지방계약법', '시행규칙'] },
         ]
@@ -3323,7 +3882,7 @@ const CHECKLISTS = {
 
 // ─── 공사 일반경쟁입찰 ───────────────────────
 CHECKLISTS['공사_일반경쟁입찰'] = {
-  desc: '지방계약법 제9조 · 시행령 제13조~42조 | 공사계약 적격심사 기반 (서울시 실무 안내서)',
+  desc: '지방계약법 제9조 · 시행령 제13조~42조 | 공사계약 적격심사 기반 (부산시 계약업무 참고자료 2026.2.1.)',
   stages: [
     {
       title: '사전 준비 단계',
@@ -3332,11 +3891,11 @@ CHECKLISTS['공사_일반경쟁입찰'] = {
         { title: '예산 확보 및 e-호조 지출 품의', sub: '해당 회계연도 세출예산 배정 확인. e-호조 품의번호 기재 필수. 장기계속공사는 총공사비 부기 방식 확인', tag: 'required', law: ['지방재정법', '지방계약법'] },
         { title: '기술용역타당성 심사 (기술심사담당관)', sub: '건설기술용역 포함 공사의 경우 발주 전 기술용역타당성 심사 대상 여부 확인. 일정 규모 이상 의무 대상', tag: 'required', law: ['건설산업기본법', '계약집행기준'] },
         { title: '일상감사 (공공감사담당관)', sub: '공사 발주 전 일상감사 대상 여부 확인. 일상감사 요청 및 결과서 수령 후 계약 의뢰', tag: 'required', law: ['지방계약법'] },
-        { title: '계약심의위원회 심의 (70억 이상)', sub: '추정가격 70억원 이상 공사는 계약심의위원회 심의 대상. 개최 10일 전까지 안건 제출 (매월 셋째 목요일 정례회)', tag: 'caution', law: ['지방계약법'] },
+        { title: '계약심의위원회 심의 (공사 70억↑ / 용역·물품 20억↑)', sub: '추정가격 70억원 이상 공사는 계약심의위원회 심의 대상. 개최 10일 전까지 안건 제출 (매월 셋째 목요일 정례회)', tag: 'caution', law: ['지방계약법'] },
         { title: '원가심사 (계약심사과)', sub: '공사원가 계산서·내역서 제출. 원가심사 결과 반영 후 기초금액·예정가격 결정', tag: 'required', law: ['계약집행기준'] },
         { title: '설계도면·시방서·공사내역서 작성', sub: '설계도면·공사시방서·물량내역서 완비 필수. 내역서상 특정 상표·규격 명기 금지 (부당 제한 지적 사유)', tag: 'docs', law: ['시행령', '건설산업기본법'] },
         { title: '추정가격 산정 및 예정가격 봉인', sub: '표준시장단가 또는 표준품셈 기준으로 원가 계산. 예정가격 결정 후 봉인 보관 — 개찰 전 누설 시 형사처벌', tag: 'required', law: ['시행령_제9조', '계약집행기준'] },
-        { title: '나라장터 발주계획 등록', sub: '서울계약마당·나라장터 발주계획 사전 등록 (원칙: 분기별). 공사용 자재 직접구매 대상 여부도 확인 (종합공사 40억 이상)', tag: 'docs', law: ['전자조달법'] },
+        { title: '나라장터 발주계획 등록', sub: '부산계약마당(시스템)·나라장터 발주계획 사전 등록 (원칙: 분기별). 공사용 자재 직접구매 대상 여부도 확인 (종합공사 40억 이상)', tag: 'docs', law: ['전자조달법'] },
       ]
     },
     {
@@ -3360,7 +3919,7 @@ CHECKLISTS['공사_일반경쟁입찰'] = {
     {
       title: '계약 체결 단계',
       items: [
-        { title: '계약보증금 징구', sub: '계약금액의 10% 이상 (보증보험증권·현금·공제조합 등). 5천만원 이하는 면제. 한시적 특례 50% 인하 (~25.12.31.) 확인', tag: 'required', law: ['시행령'] },
+        { title: '계약보증금 징구', sub: '계약금액의 5% 이상 (한시적 특례 ~2026.6.30, 원래 10%). 5천만원 이하 면제', tag: 'required', law: ['시행령'] },
         { title: '인지세 납부 확인', sub: '1억~10억: 15만원 / 10억 초과: 35만원. 계약서 1부당 납부. 계약 체결 전 납부 영수증 수령 확인', tag: 'docs', law: ['계약집행기준'] },
         { title: '계약서 작성 및 체결 (나라장터)', sub: '나라장터 계약서 초안 송신 → 계약상대자 확인·응답서 제출 → 최종 계약 체결. 착수계 제출 요청', tag: 'required', law: ['시행령', '계약사무처리기준'] },
         { title: '청렴계약이행서약서·근로자권리보호 서약서 징구', sub: '계약 체결 시 청렴계약이행서약서 및 근로자 권리보호 이행서약서 함께 징구', tag: 'docs', law: ['계약집행기준'] },
@@ -3389,7 +3948,7 @@ CHECKLISTS['공사_수의계약'] = {
       title: '사전 준비 단계',
       items: [
         { title: '수의계약 가능 여부 확인 (금액 기준)', sub: '종합공사 4억 이하·전문공사 2억 이하·기타공사(전기·소방·정통) 1억6천만원 이하 → 전자공개 수의계약 가능. 2천만원 이하는 1인 견적 수의계약', tag: 'required', law: ['시행령'] },
-        { title: '동일업체 반복 수의계약 횟수 확인', sub: '기관별 동일업체 연 4회 초과 금지 / 시 전체 연 9회 초과 금지. 서울계약마당·업체 직접 확인 (2중 확인)', tag: 'caution', law: ['계약집행기준'] },
+        { title: '동일업체 반복 수의계약 횟수 확인', sub: '기관별 동일업체 연 4회 초과 금지 / 시 전체 연 9회 초과 금지. 부산계약마당(시스템)·업체 직접 확인 (2중 확인)', tag: 'caution', law: ['계약집행기준'] },
         { title: '부당계약 문구 검토 (특수조건·시방서)', sub: '과업지시서·시방서에 특정 업체에 유리한 조건 포함 여부 확인. 부당계약 체크리스트 활용', tag: 'caution', law: ['지방계약법', '계약집행기준'] },
         { title: '수의계약 사유서 작성', sub: '수의계약 법적 근거(시행령 제25조 해당 호) 명시. 사유가 불명확하면 감사 지적 대상', tag: 'required', law: ['시행령_제25조', '계약집행기준'] },
         { title: '설계서·공사내역서 작성', sub: '공사 설계서·시방서·물량내역서 작성. 부가세 제외 추정가격 기준으로 산출. 특정 상표·공법 명기 금지', tag: 'docs', law: ['시행령'] },
@@ -3483,7 +4042,7 @@ CHECKLISTS['기술용역_적격심사'] = {
       items: [
         { title: '기술용역 범위 및 면허 확인', sub: '발주 용역이 기술용역(건설기술진흥법·엔지니어링산업진흥법·건축사법 등) 해당 여부 확인. 해당 법령상 면허·신고 요건 검토', tag: 'required', law: ['건설산업기본법', '계약집행기준'] },
         { title: '기술용역타당성 심사 (기술심사담당관)', sub: '일정 규모 이상 기술용역은 기술심사담당관 타당성 심사 필수. 심사 완료 후 계약 의뢰 가능', tag: 'required', law: ['건설산업기본법', '계약집행기준'] },
-        { title: '계약심의위원회 심의 (20억 이상)', sub: '용역 추정가격 20억 이상은 계약심의위원회 심의 대상. 개최 10일 전까지 안건 제출', tag: 'caution', law: ['지방계약법'] },
+        { title: '계약심의위원회 심의 (물품·용역 20억↑ / 공사 70억↑)', sub: '용역 추정가격 20억 이상은 계약심의위원회 심의 대상. 개최 10일 전까지 안건 제출', tag: 'caution', law: ['지방계약법'] },
         { title: '과업지시서(용역범위·산출물) 작성', sub: '과업지시서에 용역 범위·산출물·이행기간·제출 서류 명확히 기재. 특정 업체 유리한 조건 금지', tag: 'docs', law: ['시행령', '계약집행기준'] },
         { title: '원가심사 의뢰 및 예정가격 결정', sub: '계약심사과 원가심사 후 기초금액·예정가격 결정·봉인. 엔지니어링대가 기준 적용 여부 확인', tag: 'required', law: ['시행령_제9조', '계약집행기준'] },
         { title: '사전규격 공개 (나라장터, 5천만원 이상)', sub: '추정가격 5천만원 이상 또는 신규용역은 나라장터 사전규격 공개 10일 이상', tag: 'required', law: ['시행령_제35조', '전자조달법'] },
@@ -3532,7 +4091,7 @@ CHECKLISTS['학술용역_수의계약'] = {
       title: '사전 준비 단계',
       items: [
         { title: '학술용역 해당 여부 확인', sub: '학술용역 = 정책 수립·자문을 위한 연구·조사·검사·평가·개발 등 지적 활동 용역. 기술용역·일반용역과 명확히 구분 필요', tag: 'required', law: ['계약집행기준'] },
-        { title: '학술용역심의위원회 심의 (창의행정담당관)', sub: '학술용역은 발주 전 학술용역심의위원회 심의 필수 (서울시 기준). 심의 완료 후 계약 의뢰', tag: 'required', law: ['지방계약법'] },
+        { title: '학술용역심의위원회 심의 (창의행정담당관)', sub: '학술용역은 발주 전 학술용역심의위원회 심의 필수 (부산시 기준). 심의 완료 후 계약 의뢰', tag: 'required', law: ['지방계약법'] },
         { title: '과업지시서 작성 (연구 목적·범위·산출물)', sub: '연구 배경·목적·범위·방법론·산출물·이행기간 명확히 기재. 특정 연구자·기관 유도 금지', tag: 'docs', law: ['계약집행기준'] },
         { title: '추정가격 산정 및 수의계약 가능 여부 확인', sub: '추정가격 2천만원 이하: 1인 견적 수의계약. 1억원 이하: 전자공개 수의계약 (2인 이상). 초과 시 경쟁입찰', tag: 'required', law: ['시행령_제9조'] },
         { title: '사전규격 공개 (신규용역, 나라장터)', sub: '추정가격에 관계없이 신규 학술용역은 나라장터 사전규격 공개 5일 이상', tag: 'required', law: ['전자조달법'] },
@@ -3579,7 +4138,7 @@ CHECKLISTS['일반용역_수의계약'] = {
       title: '수의계약 절차 단계',
       items: [
         { title: '수의계약 사유서 작성', sub: '시행령 제25조 해당 호·목 명시. 1인 견적의 경우 특정 업체 선정 경위 기재', tag: 'required', law: ['시행령_제25조'] },
-        { title: '동일업체 반복 수의계약 횟수 확인', sub: '기관별 연 4회·시 전체 9회 초과 금지 여부 확인 (서울시 기준)', tag: 'caution', law: ['계약집행기준'] },
+        { title: '동일업체 반복 수의계약 횟수 확인', sub: '기관별 연 4회·시 전체 9회 초과 금지 여부 확인 (부산시 기준)', tag: 'caution', law: ['계약집행기준'] },
         { title: '중소기업자간 경쟁제품 해당 여부 확인', sub: '1천만원 이상 중소기업자간 경쟁제품인 경우 직접생산증명서 확인 필수', tag: 'required', law: ['시행령'] },
         { title: '나라장터 전자공개 공고 및 개찰', sub: '1억원 이하 전자공개 수의계약: 기존 3일·신규 5일 이상 공고. 낙찰하한율 88% (2천만원 이하 90%) 이상 최저가', tag: 'required', law: ['시행령_제40조', '전자조달법'] },
         { title: '계약 체결·인지세·청렴계약 이행서약서', sub: '나라장터 전자계약 체결. 수의계약 각서·청렴계약이행서약서·근로자권리보호이행서약서 함께 징구', tag: 'docs', law: ['계약집행기준'] },
@@ -3667,7 +4226,7 @@ CHECKLISTS['물품_수의계약'] = {
         { title: '물품 규격서 작성', sub: '성능·규격·수량 명확히 기재. 특정 상표·인증번호 명기 금지. 동등 이상 물품 인정 여부 명시', tag: 'docs', law: ['시행령', '계약집행기준'] },
         { title: '중소기업자간 경쟁제품·직접생산증명서 확인', sub: '1천만원 이상 중소기업자간 경쟁제품인 경우 직접생산증명서 보유 여부 사전 확인', tag: 'required', law: ['시행령'] },
         { title: '추정가격 산정 및 예정가격 결정', sub: '시장 견적 2회 이상 수집 후 산정. 부가세 제외 기준. 예정가격 기초금액으로 확정', tag: 'required', law: ['시행령_제9조', '계약집행기준'] },
-        { title: '동일업체 반복 수의계약 횟수 확인', sub: '기관별 연 4회·시 전체 9회 초과 금지 (서울시 기준). 서울계약마당·업체 직접 2중 확인', tag: 'caution', law: ['계약집행기준'] },
+        { title: '동일업체 반복 수의계약 횟수 확인', sub: '기관별 연 4회·시 전체 9회 초과 금지 (부산시 기준). 부산계약마당(시스템)·업체 직접 2중 확인', tag: 'caution', law: ['계약집행기준'] },
       ]
     },
     {
@@ -3964,7 +4523,7 @@ function switchObjType(type) {
   });
 }
 CHECKLISTS['공사_발주준비'] = {
-  desc: '공사 발주 전 필수 사전절차 — 서울시 지방계약 실무 안내서 제2장 기반',
+  desc: '공사 발주 전 필수 사전절차 — 부산광역시 회계재산담당관 계약업무 참고자료 기반',
   stages: [
     {
       title: '사업 기본 구상',
@@ -3997,7 +4556,7 @@ CHECKLISTS['공사_발주준비'] = {
     {
       title: '발주 계획 등록 및 계약 의뢰',
       items: [
-        { title: '발주계획 서울계약마당 등록', sub: '발주 전 서울계약마당(직원용) → 발주계획관리에 사업 등록. 원칙 분기별, 추가 발생 시 수시 등록', tag: 'required', law: ['계약집행기준'] },
+        { title: '발주계획 부산계약마당(시스템) 등록', sub: '발주 전 부산계약마당(시스템)(직원용) → 발주계획관리에 사업 등록. 원칙 분기별, 추가 발생 시 수시 등록', tag: 'required', law: ['계약집행기준'] },
         { title: '사전규격 나라장터(G2B) 공개', sub: '추정가격 5천만원 이상 공사 및 신규공사: 입찰공고 전 나라장터에 규격 사전공개 (7일 이상)', tag: 'required', law: ['시행령_제35조', '계약집행기준'] },
         { title: '계약 의뢰 구비서류 확인', sub: '기안문(e호조 품의번호), 사업시행방침서, 설계서, 산출내역서, 청렴계약이행서약서, 부당계약 체크리스트 일체 확인', tag: 'docs', law: ['계약집행기준'] },
         { title: '재정합의 (공사 10억 이상: 재무과장)', sub: '공사 10억원 이상은 재무과장, 10억원 미만은 담당사무관(계약팀장) 재정합의 경유', tag: 'required', law: ['계약집행기준'] },
@@ -4086,7 +4645,7 @@ CHECKLISTS['공사_변경계약'] = {
       items: [
         { title: '설계변경 사유 유형 파악', sub: '①설계서 불분명·상이·누락 ②시공 중 지질·환경 변화 ③발주자 요구에 의한 과업 변경 ④설계서 오류 중 해당 유형 특정', tag: 'required', law: ['시행령_제74조'] },
         { title: '설계변경 요구서 작성 (발주자→업체 또는 업체→발주자)', sub: '설계변경 요구서에 변경 사유, 변경 내용, 수량·단가 변동 내역 상세 기재. 발주자 귀책 vs 상호 귀책 구분', tag: 'docs', law: ['시행령_제74조'] },
-        { title: '설계변경심사 및 분리발주 여부 검토 (30억 추가 시)', sub: '추정가격 30억 이상 공종 추가 시 계약심의위원회 심의 필요 (서울시 기준). 분리발주 가능 여부 검토', tag: 'caution', law: ['지방계약법', '계약집행기준'] },
+        { title: '설계변경심사 및 분리발주 여부 검토 (30억 추가 시)', sub: '추정가격 30억 이상 공종 추가 시 계약심의위원회 심의 필요 (부산시 기준). 분리발주 가능 여부 검토', tag: 'caution', law: ['지방계약법', '계약집행기준'] },
       ]
     },
     {
@@ -4156,7 +4715,7 @@ CHECKLISTS['기술용역_발주준비'] = {
         { title: '과업지시서 작성 (특정 용역사 유리 조건 배제)', sub: '과업 범위, 납품 산출물, 수행 기간 상세 명시. 특정 기술·실적으로 경쟁 과도 제한 금지. 부당계약 체크리스트 검토', tag: 'required', law: ['시행령', '계약집행기준'] },
         { title: '원가계산 및 추정가격 산출', sub: '엔지니어링사업 대가기준 또는 설계대가 기준 등 적용. 직접인건비·직접경비·일반관리비·이윤 항목별 산출', tag: 'required', law: ['시행령_제9조', '계약집행기준'] },
         { title: '사전규격 나라장터 공개 (5천만원 이상)', sub: '5천만원 이상 또는 신규 용역: 입찰공고 전 나라장터에 과업내용 7일 이상 사전공개', tag: 'required', law: ['시행령_제35조'] },
-        { title: '발주계획 서울계약마당 등록', sub: '분기별 발주계획 등록. 신규 발주 건 수시 등록', tag: 'required', law: ['계약집행기준'] },
+        { title: '발주계획 부산계약마당(시스템) 등록', sub: '분기별 발주계획 등록. 신규 발주 건 수시 등록', tag: 'required', law: ['계약집행기준'] },
       ]
     }
   ]
@@ -4202,12 +4761,12 @@ CHECKLISTS['기술용역_협상'] = {
 };
 
 CHECKLISTS['학술용역_심의절차'] = {
-  desc: '학술용역 심의 — 서울시 학술용역 심의회 설치 및 운영에 관한 조례 기반',
+  desc: '학술용역 심의 — 지방계약법 및 부산시 학술용역 심의 관련 조례 기반',
   stages: [
     {
       title: '학술용역 해당 여부 판단',
       items: [
-        { title: '학술용역 정의 해당 여부 확인', sub: '서울시 조례: 시 정책 수립·개발이나 사업 자문을 위해 시행하는 비정형화된 연구용역. 기술·정보통신·일반용역은 제외', tag: 'required', law: ['계약집행기준'] },
+        { title: '학술용역 정의 해당 여부 확인', sub: '계약집행기준: 시 정책 수립·개발이나 사업 자문을 위해 시행하는 비정형화된 연구용역. 기술·정보통신·일반용역은 제외', tag: 'required', law: ['계약집행기준'] },
         { title: '학술연구분야분류표 해당 학문 분야 확인', sub: '인문학·사회과학·자연과학·공학·의약학·농수해양학·예술체육학 중 해당 분야 분류. 심의 안건 작성에 활용', tag: 'docs', law: ['계약집행기준'] },
         { title: '계약방법 사전 결정 (협상 vs 수의계약)', sub: '추정가격 1억원 이상: 협상에 의한 계약 원칙 / 1억원 미만: 수의계약 또는 적격심사 가능', tag: 'required', law: ['시행령'] },
       ]
@@ -4215,7 +4774,7 @@ CHECKLISTS['학술용역_심의절차'] = {
     {
       title: '학술용역 심의회 심의',
       items: [
-        { title: '심의 신청서 및 심의 자료 작성', sub: '사업 목적·배경, 과업 범위, 예산(안), 수행 기관 조건, 기대효과 등 포함한 심의 자료 작성. 창의행정담당관(서울시 기준)에 제출', tag: 'required', law: ['계약집행기준'] },
+        { title: '심의 신청서 및 심의 자료 작성', sub: '사업 목적·배경, 과업 범위, 예산(안), 수행 기관 조건, 기대효과 등 포함한 심의 자료 작성. 창의행정담당관(부산시 기준)에 제출', tag: 'required', law: ['계약집행기준'] },
         { title: '학술용역심의회 심의 경유', sub: '심의 결과에 따라 필요성·규모·방법 등 조정 가능. 심의 결과서 계약 의뢰 시 첨부 필수', tag: 'required', law: ['계약집행기준'] },
         { title: '심의 결과 반영 및 과업지시서 수정', sub: '심의에서 지적된 사항 과업지시서에 반영. 과업 범위 축소·확대 등 조정 후 재검토', tag: 'docs', law: ['계약집행기준'] },
       ]
@@ -4335,7 +4894,7 @@ const DOCS_DATA = {
           { name: '부당계약 특수조건 체크리스트', note: '특정업체 유리 조건·과도한 면허 요건 등 부당 조건 배제 확인 서식', req: 'required' },
           { name: '청렴계약이행서약서 (기관 서약)', note: '발주기관 부분 서약 완료 후 계약 의뢰 서류에 첨부', req: 'required' },
           { name: '계약심의위원회 심의 결과서', note: '70억원 이상 공사에 한함. 심의 완료 후 결과서 첨부 필수', req: 'conditional' },
-          { name: '발주계획 등록 확인 (서울계약마당)', note: '발주계획 등록 후 시스템 출력 화면 또는 접수번호 기록', req: 'required' },
+          { name: '발주계획 등록 확인 (부산계약마당(시스템))', note: '발주계획 등록 후 시스템 출력 화면 또는 접수번호 기록', req: 'required' },
         ],
         company: []
       },
@@ -4497,7 +5056,7 @@ const DOCS_DATA = {
           { name: '원가계산서', note: '엔지니어링대가기준 또는 설계대가기준 적용. 직접인건비·직접경비·일반관리비·이윤 항목 산출', req: 'required' },
           { name: '추정가격 조서', note: '원가계산 결과 기준 (부가세 제외)', req: 'required' },
           { name: '기술용역타당성 심사 결과서', note: '기술심사담당관 심의 완료 후 결과서. 보완 요청 사항 과업지시서에 반영', req: 'required' },
-          { name: '학술용역심의회 심의 결과서', note: '학술용역의 경우. 창의행정담당관(서울시) 심의 완료 후 첨부', req: 'conditional' },
+          { name: '학술용역심의회 심의 결과서', note: '학술용역의 경우. 부산시 학술용역심의 완료 후 첨부', req: 'conditional' },
           { name: '계약심의위원회 심의 결과서', note: '추정가격 20억원 이상 용역. 심의 안건 10일 전 제출 후 결과서 첨부', req: 'conditional' },
           { name: '사전규격 G2B 공개 확인', note: '5천만원 이상 또는 신규용역: 7일 이상 공개', req: 'required' },
           { name: '부당계약 특수조건 체크리스트', note: '과업내용서 검토 결과 기록', req: 'required' },
@@ -5103,7 +5662,7 @@ const LAW_ARTICLES = {
 💡 실무 포인트
   • 수의계약 사유서 작성은 필수 (해당 호 명시)
   • 100만원 초과 시 반드시 2인 이상 견적 수령
-  • 동일업체 연 4회 초과 금지 (서울시: 시 전체 연 9회)`
+  • 동일업체 연 4회 초과 금지 (부산시: 시 전체 연 9회)`
   },
 
   '시행령_제35조': {
@@ -5678,13 +6237,13 @@ const FAQ_DATA = [
   {
     cat: '수의계약',
     q: '수의계약 시 동일 업체와 몇 번까지 계약할 수 있나요?',
-    a: `서울시 기준으로 두 가지 제한이 동시에 적용됩니다.
+    a: `부산시 기준으로 두 가지 제한이 동시에 적용됩니다.
 
   • 기관별(실·국·본부 단위): 동일 업체와 연 4회 초과 금지
   • 시 전체: 동일 업체와 연 9회 초과 금지
 
 확인 방법:
-  1. 서울계약마당에서 해당 업체 계약 이력 조회 (1차 확인)
+  1. 부산계약마당(시스템)에서 해당 업체 계약 이력 조회 (1차 확인)
   2. 업체로부터 시 전체 계약 건수 확인서 직접 징구 (2차 확인)
 
 예외: 시행령 제26조·27조 해당 수의계약, 특허 등 이행업체 1인인 경우
@@ -5706,7 +6265,7 @@ const FAQ_DATA = [
 핵심 주의사항:
   • 최초 공고 시 정한 가격·조건을 변경할 수 없음
   • 특정 업체를 미리 정해놓고 유찰을 유도하는 것은 위법
-  • 수의계약 사유서에 '재공고 후 유찰' 사유 명확히 기재 필수`,
+  • 수의계약 사유서에 '유찰 후 수의전환' 사유 명확히 기재 필수`,
     laws: ['시행령_제41조'],
     checklist: '수의계약'
   },
@@ -6381,7 +6940,7 @@ function runRecommend() {
   const isEmergency = special.includes('재해·재난 발생') || special.includes('긴급 조달 필요');
   const isExclusive = special.includes('특허·독점 기술') || special.includes('보안상 비공개');
   const isSocial = special.includes('사회적약자기업');
-  const isRePublish = special.includes('재공고 후 유찰');
+  const isRePublish = special.includes('유찰 후 수의전환');
   const isConstruction = ['종합공사','전문공사','기타공사'].includes(cat);
 
   // 긴급/재해 우선
@@ -6413,7 +6972,7 @@ function runRecommend() {
     if (amtWan <= 5000) {
       type = '수의계약 (사회적약자기업 특례)';
       desc = `추정가격 ${amtStr}으로, 사회적약자기업(여성기업·장애인기업·청년창업·취약계층 고용 30%+)의 경우 5천만원 이하 1인 견적 수의계약이 가능합니다.`;
-      laws = ['판로지원법 제7조', '지방계약법 시행령 제25조', '서울시 사회적 가치 조례'];
+      laws = ['판로지원법 제7조', '지방계약법 시행령 제25조', '부산시 사회적 가치 관련 조례'];
       steps = ['해당 기업 유형 인증서 확인 (여성기업확인서·장애인기업확인서 등)', '직접생산증명서 확인 (1천만원 이상 중소기업 경쟁제품)', '1인 견적 수의계약 체결'];
     } else {
       type = '경쟁입찰 (사회적약자기업 우선 배려)';
@@ -6439,7 +6998,7 @@ function runRecommend() {
       desc = `추정가격 ${amtStr}으로, 나라장터(G2B) 전자공개 수의계약이 적합합니다. 낙찰하한율은 예정가격의 88%(2천만원 이하는 90%) 이상 최저가로 낙찰합니다.`;
       laws = ['지방계약법 시행령 제25조 제1항 제5호', '계약집행기준 제5장'];
       steps = ['사전규격 나라장터 공개 (신규사업 필수)', '전자공개 수의계약 안내공고 (기존 3일·신규 5일 이상)', '개찰 및 낙찰자 결정 (하한율 이상 최저가)', '계약 체결 및 보증금 납부', '이행 감독 및 검수·대금 지급'];
-      caution = '💡 동일업체와 연 4회 초과(기관별), 연 9회 초과(시 전체) 수의계약은 금지됩니다(서울시 기준).';
+      caution = '💡 동일업체와 연 4회 초과(기관별), 연 9회 초과(시 전체) 수의계약은 금지됩니다(부산시 기준).';
     } else {
       const needReview = amtWan >= 200000; // 20억 이상 계약심의위원회
       type = '일반경쟁입찰';
