@@ -1431,6 +1431,15 @@
 
   /* ══════════════ 인쇄 / PDF 출력 ══════════════ */
   @media print {
+    /* CSS 변수 강제 재정의 — 다크테마 흰글자가 인쇄 시 안보이는 현상 방지 */
+    :root {
+      --text-primary:   #1a1a2e !important;
+      --text-secondary: #333333 !important;
+      --text-muted:     #555555 !important;
+      --gray-300:       #555555 !important;
+      --gray-400:       #444444 !important;
+    }
+
     /* 화면 전용 요소 숨김 */
     header, footer, .cl-sidebar, .cl-toolbar,
     .law-overlay, .law-drawer, .law-modal-overlay,
@@ -1526,6 +1535,10 @@
       -webkit-background-clip: unset !important;
       -webkit-text-fill-color: #2e1065 !important;
       background-clip: unset !important;
+      -webkit-text-stroke: 0 !important;
+      text-shadow: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
     .stage-header .stage-count {
       font-size: 9pt !important;
