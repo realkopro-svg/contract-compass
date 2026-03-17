@@ -4258,8 +4258,11 @@ function printChecklist() {
     el.style.display = 'block';
   });
 
-  // ── 핵심: <style> 태그 직접 삽입 ──
-  // CSS 변수·beforeprint 타이밍 문제를 완전히 우회하는 유일한 확실한 방법
+  // 기존 style 태그 제거
+  var old = document.getElementById('print-override-style');
+  if (old) old.parentNode.removeChild(old);
+
+  // ── 핵심: <style> 태그 직접 삽입 (Chrome PC repaint 대기 후 인쇄) ──
   var styleTag = document.createElement('style');
   styleTag.id = 'print-override-style';
   styleTag.innerHTML = [
@@ -4312,19 +4315,13 @@ function printChecklist() {
     '  font-weight: 600 !important;',
     '}',
     '.stage-header .stage-arrow { display: none !important; }',
-    '.check-item-title {',
-    '  color: #111 !important;',
-    '  -webkit-text-fill-color: #111 !important;',
-    '}',
-    '.check-item-sub {',
-    '  color: #444 !important;',
-    '  -webkit-text-fill-color: #444 !important;',
-    '}'
+    '.check-title { color:#111!important; -webkit-text-fill-color:#111!important; }',
+    '.check-sub   { color:#444!important; -webkit-text-fill-color:#444!important; }'
   ].join('\n');
   document.head.appendChild(styleTag);
 
-  // 인쇄 실행
-  window.print();
+  // Chrome PC: 스타일 repaint 대기 후 인쇄 (150ms)
+  setTimeout(function() { window.print(); }, 150);
 }
 
 // ── beforeprint / afterprint 이벤트 기반 처리 (Mac 포함 모든 브라우저 대응) ──
