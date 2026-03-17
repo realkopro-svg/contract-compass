@@ -1318,7 +1318,7 @@
 
   /* ══════════════ 검색 SEARCH ══════════════ */
   .header-search-btn {
-    margin-left: auto;
+    margin-left: 12px;
     padding: 6px 14px;
     background: rgba(139,92,246,0.15);
     border: 1px solid rgba(139,92,246,0.3);
@@ -1682,7 +1682,6 @@
         <span>Contract Compass · 부산시 v3.0</span>
       </div>
     </a>
-    <span class="header-badge">부산v3.0</span>
     <button class="header-search-btn" onclick="openSearch()" title="전체 검색">🔍 검색</button>
   </div>
   <div class="header-nav">
@@ -2898,12 +2897,11 @@ function buildSearchIndex() {
 }
 
 function openSearch() {
-  buildSearchIndex();
-  document.getElementById('searchOverlay').classList.add('open');
-  setTimeout(function() {
-    var inp = document.getElementById('searchInput');
-    if (inp) { inp.focus(); inp.select(); }
-  }, 80);
+  buildSearchIndex(); // 이미 빌드된 경우 내부에서 skip 처리
+  var overlay = document.getElementById('searchOverlay');
+  overlay.classList.add('open');
+  var inp = document.getElementById('searchInput');
+  if (inp) { inp.focus(); inp.select(); }
 }
 
 function closeSearch() {
@@ -5461,6 +5459,8 @@ document.addEventListener('DOMContentLoaded', function() {
   renderDocsMethodBtns();
   renderDocs();
   renderFaq();
+  // 검색 인덱스 미리 빌드 — 첫 클릭 즉시 응답을 위해
+  setTimeout(function() { buildSearchIndex(); }, 500);
 });
 
 // ══════════════════════════════════════════
