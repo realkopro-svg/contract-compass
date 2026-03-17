@@ -2005,15 +2005,34 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">특수 상황 (해당 항목 선택)</label>
-          <div class="toggle-group">
+          <label class="form-label">③ 특수 상황 · 대상 기업 (해당 항목 선택)</label>
+
+          <div style="font-size:10px;color:rgba(248,250,252,0.4);margin-bottom:6px;">— 계약 상황</div>
+          <div class="toggle-group" style="margin-bottom:10px;">
             <button class="toggle-opt" onclick="toggleOpt(this)">재해·재난 발생</button>
-            <button class="toggle-opt" onclick="toggleOpt(this)">특허·독점 기술</button>
             <button class="toggle-opt" onclick="toggleOpt(this)">긴급 조달 필요</button>
+            <button class="toggle-opt" onclick="toggleOpt(this)">특허·독점 기술</button>
             <button class="toggle-opt" onclick="toggleOpt(this)">보안상 비공개</button>
-            <button class="toggle-opt" onclick="toggleOpt(this)">사회적약자기업</button>
             <button class="toggle-opt" onclick="toggleOpt(this)">유찰 후 수의전환</button>
-            <button class="toggle-opt" onclick="toggleOpt(this)">해당 없음</button>
+          </div>
+
+          <div style="font-size:10px;color:rgba(248,250,252,0.4);margin-bottom:6px;">— 금액 무관 수의계약 (중증장애인 생산시설)</div>
+          <div class="toggle-group" style="margin-bottom:10px;">
+            <button class="toggle-opt toggle-opt-unlimited" onclick="toggleOptExclusive(this)">🏭 중증장애인 생산시설 <span style="font-size:10px;opacity:0.7">(금액 무관)</span></button>
+          </div>
+
+          <div style="font-size:10px;color:rgba(248,250,252,0.4);margin-bottom:6px;">— 5천만원 이하 수의계약 특례 (판로지원법)</div>
+          <div class="toggle-group" style="margin-bottom:10px;">
+            <button class="toggle-opt toggle-opt-5k" onclick="toggleOptExclusive(this)">👩 여성기업 <span style="font-size:10px;opacity:0.7">(5천만원↓)</span></button>
+            <button class="toggle-opt toggle-opt-5k" onclick="toggleOptExclusive(this)">♿ 장애인기업 <span style="font-size:10px;opacity:0.7">(5천만원↓)</span></button>
+            <button class="toggle-opt toggle-opt-5k" onclick="toggleOptExclusive(this)">🌱 청년창업기업 <span style="font-size:10px;opacity:0.7">(5천만원↓)</span></button>
+            <button class="toggle-opt toggle-opt-5k" onclick="toggleOptExclusive(this)">🤝 취약계층 고용기업 <span style="font-size:10px;opacity:0.7">(5천만원↓)</span></button>
+          </div>
+
+          <div style="font-size:10px;color:rgba(248,250,252,0.4);margin-bottom:6px;">— 2천만원 이하 수의계약 특례 (판로지원법)</div>
+          <div class="toggle-group" style="margin-bottom:6px;">
+            <button class="toggle-opt toggle-opt-2k" onclick="toggleOptExclusive(this)">💚 사회적기업·예비사회적기업 <span style="font-size:10px;opacity:0.7">(2천만원↓)</span></button>
+            <button class="toggle-opt toggle-opt-2k" onclick="toggleOptExclusive(this)">🏘️ 자활기업·마을기업·협동조합 <span style="font-size:10px;opacity:0.7">(2천만원↓)</span></button>
           </div>
         </div>
 
@@ -2592,11 +2611,11 @@
     </a>
 
     <!-- 일상감사 규정 (훈령 제1358호, 2012.1.18.) — 감사담당관 소관 -->
-    <a class="law-item" href="https://www.law.go.kr/행정규칙/부산광역시일상감사규정" target="_blank">
+    <a class="law-item" href="https://www.elis.go.kr/allalr/selectAlrBdtList?srchKwd=%EC%9D%BC%EC%83%81%EA%B0%90%EC%82%AC%EA%B7%9C%EC%A0%95&ctpvCd=26&sggCd=000&menuNm=allalr" target="_blank">
       <div class="law-item-icon li-busan">🛡️</div>
       <div class="law-item-info">
         <div class="law-item-name">부산광역시 일상감사 규정 <span style="font-size:10px;color:var(--text-muted);">훈령 제1358호</span></div>
-        <div class="law-item-sub">일상감사 의뢰 → 7일 이내 의견서 발송 · 재검토 7일 이내 · 감사담당관(☎ 051-888-1661)</div>
+        <div class="law-item-sub">일상감사 의뢰 → 7일 이내 의견서 발송 · 재검토 7일 이내 · 감사담당관(☎ 051-888-1661) · <span style="color:var(--gold)">자치법규정보시스템(elis.go.kr)에서 검색</span></div>
       </div>
       <div class="law-item-ext">↗ law.go.kr</div>
     </a>
@@ -6902,12 +6921,20 @@ function toggleFaqAnswer(idx) {
 
 // ── Recommender ──
 function toggleOpt(btn) {
-  if (btn.textContent === '해당 없음') {
+  if (btn.textContent.trim().startsWith('해당')) {
     document.querySelectorAll('.toggle-opt').forEach(b => b.classList.remove('selected'));
   } else {
     document.querySelector('.toggle-opt:last-child')?.classList.remove('selected');
   }
   btn.classList.toggle('selected');
+}
+
+// 기업유형은 상호 배타적 (하나만 선택)
+function toggleOptExclusive(btn) {
+  var wasOn = btn.classList.contains('selected');
+  // 기업유형 버튼 전체 해제
+  document.querySelectorAll('.toggle-opt-unlimited, .toggle-opt-5k, .toggle-opt-2k').forEach(function(b) { b.classList.remove('selected'); });
+  if (!wasOn) btn.classList.add('selected');
 }
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -6938,11 +6965,14 @@ function runRecommend() {
       : amtWan.toLocaleString() + '만원';
   let type, desc, laws, steps, caution = '';
 
-  const special = [...document.querySelectorAll('.toggle-opt.selected')].map(b => b.textContent);
-  const isEmergency = special.includes('재해·재난 발생') || special.includes('긴급 조달 필요');
-  const isExclusive = special.includes('특허·독점 기술') || special.includes('보안상 비공개');
-  const isSocial = special.includes('사회적약자기업');
-  const isRePublish = special.includes('유찰 후 수의전환');
+  const special = [...document.querySelectorAll('.toggle-opt.selected')].map(b => b.textContent.trim());
+  const isEmergency = special.some(s => s.includes('재해·재난') || s.includes('긴급 조달'));
+  const isExclusive = special.some(s => s.includes('특허·독점') || s.includes('보안상'));
+  const isRePublish = special.some(s => s.includes('유찰 후'));
+  // 기업유형 세분화
+  const isUnlimited = special.some(s => s.includes('중증장애인'));
+  const is5k = special.some(s => s.includes('여성기업') || s.includes('장애인기업') || s.includes('청년창업') || s.includes('취약계층'));
+  const is2k = special.some(s => s.includes('사회적기업') || s.includes('자활기업') || s.includes('마을기업') || s.includes('협동조합'));
   const isConstruction = ['종합공사','전문공사','기타공사'].includes(cat);
 
   // 긴급/재해 우선
@@ -6969,18 +6999,43 @@ function runRecommend() {
     steps = ['최초 입찰 공고 및 개찰 → 유찰 확인', '재공고 입찰 실시 → 재유찰 확인', '수의계약 가능 여부 검토 (당초 조건 변경 불가)', '수의계약 체결 (견적서 징구)'];
     caution = '⚠️ 재공고 후 수의계약 시 최초 입찰에 부칠 때 정한 가격과 조건을 변경할 수 없습니다 (시행령 제26조).';
   }
-  // 사회적약자기업
-  else if (isSocial) {
+  // 판로지원 특례 — 중증장애인 생산시설 (금액 무관)
+  else if (isUnlimited) {
+    type = '수의계약 (중증장애인 생산시설 — 금액 무관)';
+    desc = `추정가격 ${amtStr}으로, 중증장애인 생산품 생산시설은 금액에 관계없이 수의계약이 가능합니다.`;
+    laws = ['판로지원법 제7조의2', '지방계약법 시행령 제25조 제1항 제5호'];
+    steps = ['중증장애인 생산품 생산시설 지정 확인 (한국장애인개발원)', '직접 생산 여부 확인', '1인 견적 수의계약 체결'];
+    caution = '⚠️ 반드시 한국장애인개발원이 지정한 시설인지 확인하세요. 지정 취소 여부도 계약 전 재확인 필요.';
+  }
+  // 판로지원 특례 — 5천만원 이하 (여성기업·장애인기업·청년창업·취약계층)
+  else if (is5k) {
+    const firmType = special.find(s => s.includes('여성기업') || s.includes('장애인기업') || s.includes('청년창업') || s.includes('취약계층')) || '해당 기업';
     if (amtWan <= 5000) {
-      type = '수의계약 (사회적약자기업 특례)';
-      desc = `추정가격 ${amtStr}으로, 사회적약자기업(여성기업·장애인기업·청년창업·취약계층 고용 30%+)의 경우 5천만원 이하 1인 견적 수의계약이 가능합니다.`;
-      laws = ['판로지원법 제7조', '지방계약법 시행령 제25조', '부산시 사회적 가치 관련 조례'];
-      steps = ['해당 기업 유형 인증서 확인 (여성기업확인서·장애인기업확인서 등)', '직접생산증명서 확인 (1천만원 이상 중소기업 경쟁제품)', '1인 견적 수의계약 체결'];
+      type = `수의계약 (판로지원 특례 — ${firmType.replace(/\s*\(.*\)/, '').trim()})`;
+      desc = `추정가격 ${amtStr}으로, ${firmType.replace(/\s*\(.*\)/, '').trim()}은 5천만원 이하 1인 견적 수의계약이 가능합니다.`;
+      laws = ['판로지원법 제7조', '지방계약법 시행령 제25조 제1항 제5호'];
+      steps = ['해당 기업 인증서 확인 (여성기업확인서·장애인기업확인서·청년창업확인서 등)', '직접생산증명서 확인 (1천만원 이상 중소기업 경쟁제품)', '1인 견적 수의계약 체결'];
     } else {
-      type = '경쟁입찰 (사회적약자기업 우선 배려)';
-      desc = `추정가격 ${amtStr}은 수의계약 특례 범위를 초과합니다. 일반 경쟁 입찰로 진행하되, 사회적약자기업 가산점 등 우선 배려 제도를 적용하세요.`;
-      laws = ['판로지원법', '지방계약법 제9조'];
-      steps = ['일반 경쟁입찰 절차 진행', '낙찰자 결정 시 사회적가치 가산점 검토', '계약 체결'];
+      type = '경쟁입찰 (5천만원 초과 — 특례 불가)';
+      desc = `추정가격 ${amtStr}은 판로지원 특례(5천만원 이하) 범위를 초과합니다. 일반 경쟁입찰로 진행하세요.`;
+      laws = ['지방계약법 시행령 제25조'];
+      steps = ['일반 경쟁입찰 절차 진행'];
+    }
+    caution = '';
+  }
+  // 판로지원 특례 — 2천만원 이하 (사회적기업·자활기업·마을기업·협동조합)
+  else if (is2k) {
+    const firmType2 = special.find(s => s.includes('사회적기업') || s.includes('자활기업') || s.includes('마을기업') || s.includes('협동조합')) || '해당 기업';
+    if (amtWan <= 2000) {
+      type = `수의계약 (판로지원 특례 — ${firmType2.replace(/\s*\(.*\)/, '').trim()})`;
+      desc = `추정가격 ${amtStr}으로, ${firmType2.replace(/\s*\(.*\)/, '').trim()}은 2천만원 이하 1인 견적 수의계약이 가능합니다.`;
+      laws = ['판로지원법 제7조', '지방계약법 시행령 제25조 제1항 제5호'];
+      steps = ['해당 기업 인증서 확인 (사회적기업인증서·자활기업확인서 등)', '직접생산증명서 확인 (1천만원 이상 중소기업 경쟁제품)', '1인 견적 수의계약 체결'];
+    } else {
+      type = '경쟁입찰 (2천만원 초과 — 특례 불가)';
+      desc = `추정가격 ${amtStr}은 판로지원 특례(2천만원 이하) 범위를 초과합니다. 일반 경쟁입찰로 진행하세요.`;
+      laws = ['지방계약법 시행령 제25조'];
+      steps = ['일반 경쟁입찰 절차 진행'];
     }
     caution = '';
   }
