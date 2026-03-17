@@ -4252,143 +4252,122 @@ function printChecklist() {
   // print-target 지정
   document.getElementById('page-checklist').classList.add('print-target');
 
-  // ── 인쇄 전 스타일 직접 주입 (CSS 변수·beforeprint 타이밍 문제 우회) ──
-
-  // 1. stage-items 모두 펼치기
+  // stage-items 모두 펼치기
   document.querySelectorAll('.stage-items').forEach(function(el) {
-    el.setAttribute('data-print-orig-display', el.style.display);
+    el.setAttribute('data-print-orig-display', el.style.display || '');
     el.style.display = 'block';
   });
 
-  // 2. stage-header 전체 스타일 강제 적용
-  document.querySelectorAll('.stage-header').forEach(function(el) {
-    el.setAttribute('data-print-orig-style', el.getAttribute('style') || '');
-    el.style.cssText = [
-      'display:flex', 'flex-direction:row', 'align-items:center',
-      'gap:10px', 'background-color:#ede9fe', 'border:2px solid #7c3aed',
-      'border-radius:6px', 'padding:8px 14px', 'margin-bottom:6px',
-      'visibility:visible', 'opacity:1', 'break-inside:avoid',
-      'page-break-inside:avoid'
-    ].join('!important;') + '!important';
-
-    var num = el.querySelector('.stage-num');
-    if (num) {
-      num.style.cssText = [
-        'display:inline-flex', 'align-items:center', 'justify-content:center',
-        'width:24px', 'height:24px', 'min-width:24px', 'border-radius:50%',
-        'background:#5b21b6', 'color:#ffffff', 'font-size:11pt',
-        'font-weight:900', 'flex-shrink:0', 'visibility:visible'
-      ].join('!important;') + '!important';
-    }
-
-    var title = el.querySelector('.stage-title');
-    if (title) {
-      title.style.cssText = [
-        'color:#2e1065', '-webkit-text-fill-color:#2e1065',
-        'font-size:12pt', 'font-weight:800', 'flex:1',
-        'display:block', 'background:none', 'background-image:none',
-        '-webkit-background-clip:unset', 'background-clip:unset',
-        'text-shadow:none', 'opacity:1', 'visibility:visible'
-      ].join('!important;') + '!important';
-    }
-
-    var count = el.querySelector('.stage-count');
-    if (count) {
-      count.style.cssText = 'color:#5b21b6!important;font-size:9pt!important;font-weight:600!important;display:block!important;';
-    }
-
-    var arrow = el.querySelector('.stage-arrow');
-    if (arrow) arrow.style.display = 'none';
-  });
-
-  // 3. check-item 텍스트 색상 강제
-  document.querySelectorAll('.check-item-title').forEach(function(el) {
-    el.setAttribute('data-print-orig-color', el.style.color);
-    el.style.setProperty('color', '#111', 'important');
-    el.style.setProperty('-webkit-text-fill-color', '#111', 'important');
-  });
-  document.querySelectorAll('.check-item-sub').forEach(function(el) {
-    el.setAttribute('data-print-orig-color', el.style.color);
-    el.style.setProperty('color', '#444', 'important');
-    el.style.setProperty('-webkit-text-fill-color', '#444', 'important');
-  });
+  // ── 핵심: <style> 태그 직접 삽입 ──
+  // CSS 변수·beforeprint 타이밍 문제를 완전히 우회하는 유일한 확실한 방법
+  var styleTag = document.createElement('style');
+  styleTag.id = 'print-override-style';
+  styleTag.innerHTML = [
+    '.stage-header {',
+    '  display: flex !important;',
+    '  align-items: center !important;',
+    '  gap: 10px !important;',
+    '  background-color: #ede9fe !important;',
+    '  border: 2px solid #7c3aed !important;',
+    '  border-radius: 6px !important;',
+    '  padding: 8px 14px !important;',
+    '  margin-bottom: 6px !important;',
+    '  visibility: visible !important;',
+    '  opacity: 1 !important;',
+    '}',
+    '.stage-header .stage-num {',
+    '  display: inline-flex !important;',
+    '  align-items: center !important;',
+    '  justify-content: center !important;',
+    '  width: 24px !important;',
+    '  height: 24px !important;',
+    '  min-width: 24px !important;',
+    '  border-radius: 50% !important;',
+    '  background: #5b21b6 !important;',
+    '  color: #ffffff !important;',
+    '  font-size: 11pt !important;',
+    '  font-weight: 900 !important;',
+    '  flex-shrink: 0 !important;',
+    '  -webkit-print-color-adjust: exact !important;',
+    '  print-color-adjust: exact !important;',
+    '}',
+    '.stage-header .stage-title {',
+    '  color: #2e1065 !important;',
+    '  -webkit-text-fill-color: #2e1065 !important;',
+    '  font-size: 12pt !important;',
+    '  font-weight: 800 !important;',
+    '  flex: 1 !important;',
+    '  display: block !important;',
+    '  background: none !important;',
+    '  background-image: none !important;',
+    '  -webkit-background-clip: unset !important;',
+    '  background-clip: unset !important;',
+    '  text-shadow: none !important;',
+    '  visibility: visible !important;',
+    '  opacity: 1 !important;',
+    '}',
+    '.stage-header .stage-count {',
+    '  color: #5b21b6 !important;',
+    '  font-size: 9pt !important;',
+    '  font-weight: 600 !important;',
+    '}',
+    '.stage-header .stage-arrow { display: none !important; }',
+    '.check-item-title {',
+    '  color: #111 !important;',
+    '  -webkit-text-fill-color: #111 !important;',
+    '}',
+    '.check-item-sub {',
+    '  color: #444 !important;',
+    '  -webkit-text-fill-color: #444 !important;',
+    '}'
+  ].join('\n');
+  document.head.appendChild(styleTag);
 
   // 인쇄 실행
   window.print();
 }
 
 // ── beforeprint / afterprint 이벤트 기반 처리 (Mac 포함 모든 브라우저 대응) ──
+// ── beforeprint: printChecklist()가 열리지 않을 때의 폴백 (Ctrl+P 직접 인쇄 대응) ──
 window.addEventListener('beforeprint', function() {
-  // 1. stage-items 펼치기
   document.querySelectorAll('.stage-items').forEach(function(el) {
-    el.setAttribute('data-orig', el.style.display);
     el.style.display = 'block';
   });
-
-  // 2. stage-header 스타일 직접 주입
-  document.querySelectorAll('.stage-header').forEach(function(el) {
-    el.setAttribute('data-orig-style', el.getAttribute('style') || '');
-    el.style.display         = 'flex';
-    el.style.alignItems      = 'center';
-    el.style.gap             = '10px';
-    el.style.backgroundColor = '#ede9fe';
-    el.style.border          = '2px solid #7c3aed';
-    el.style.borderRadius    = '6px';
-    el.style.padding         = '8px 14px';
-    el.style.marginBottom    = '6px';
-    el.style.visibility      = 'visible';
-    el.style.breakInside     = 'avoid';
-
-    // 번호 원
-    var num = el.querySelector('.stage-num');
-    if (num) {
-      num.setAttribute('data-orig-style', num.getAttribute('style') || '');
-      num.style.display         = 'inline-flex';
-      num.style.alignItems      = 'center';
-      num.style.justifyContent  = 'center';
-      num.style.width           = '24px';
-      num.style.height          = '24px';
-      num.style.minWidth        = '24px';
-      num.style.borderRadius    = '50%';
-      num.style.backgroundColor = '#5b21b6';
-      num.style.color           = '#ffffff';
-      num.style.fontSize        = '11pt';
-      num.style.fontWeight      = '900';
-      num.style.flexShrink      = '0';
-    }
-
-    // 단계 타이틀 — 그라디언트 해제
-    var title = el.querySelector('.stage-title');
-    if (title) {
-      title.setAttribute('data-orig-style', title.getAttribute('style') || '');
-      title.style.color                  = '#2e1065';
-      title.style.fontSize               = '12pt';
-      title.style.fontWeight             = '800';
-      title.style.flex                   = '1';
-      title.style.visibility             = 'visible';
-      title.style.background             = 'none';
-      title.style.webkitBackgroundClip   = 'unset';
-      title.style.backgroundClip         = 'unset';
-      title.style.webkitTextFillColor    = '#2e1065';
-    }
-
-    // 완료 카운트
-    var count = el.querySelector('.stage-count');
-    if (count) {
-      count.style.color      = '#5b21b6';
-      count.style.fontSize   = '9pt';
-      count.style.fontWeight = '600';
-    }
-
-    // 화살표 숨김
-    var arrow = el.querySelector('.stage-arrow');
-    if (arrow) arrow.style.display = 'none';
-  });
+  // style 태그가 아직 없으면 삽입 (Ctrl+P 직접 인쇄 대응)
+  if (!document.getElementById('print-override-style')) {
+    var styleTag = document.createElement('style');
+    styleTag.id = 'print-override-style';
+    styleTag.innerHTML = [
+      '.stage-header { display:flex!important; align-items:center!important; gap:10px!important;',
+      '  background-color:#ede9fe!important; border:2px solid #7c3aed!important;',
+      '  border-radius:6px!important; padding:8px 14px!important; margin-bottom:6px!important; }',
+      '.stage-header .stage-num { display:inline-flex!important; align-items:center!important;',
+      '  justify-content:center!important; width:24px!important; height:24px!important;',
+      '  border-radius:50%!important; background:#5b21b6!important; color:#fff!important;',
+      '  font-size:11pt!important; font-weight:900!important; flex-shrink:0!important;',
+      '  -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; }',
+      '.stage-header .stage-title { color:#2e1065!important;',
+      '  -webkit-text-fill-color:#2e1065!important; font-size:12pt!important;',
+      '  font-weight:800!important; flex:1!important; display:block!important;',
+      '  background:none!important; background-image:none!important;',
+      '  -webkit-background-clip:unset!important; background-clip:unset!important;',
+      '  text-shadow:none!important; visibility:visible!important; opacity:1!important; }',
+      '.stage-header .stage-count { color:#5b21b6!important; font-size:9pt!important; }',
+      '.stage-header .stage-arrow { display:none!important; }',
+      '.check-item-title { color:#111!important; -webkit-text-fill-color:#111!important; }',
+      '.check-item-sub   { color:#444!important; -webkit-text-fill-color:#444!important; }'
+    ].join('\n');
+    document.head.appendChild(styleTag);
+  }
 });
 
 window.addEventListener('afterprint', function() {
   // print-target 해제
   document.getElementById('page-checklist').classList.remove('print-target');
+
+  // 동적 삽입한 style 태그 제거
+  var styleTag = document.getElementById('print-override-style');
+  if (styleTag) styleTag.parentNode.removeChild(styleTag);
 
   // stage-items 원복
   document.querySelectorAll('.stage-items').forEach(function(el) {
@@ -4396,7 +4375,6 @@ window.addEventListener('afterprint', function() {
     if (orig !== null && orig !== '') el.style.display = orig;
     else el.style.removeProperty('display');
     el.removeAttribute('data-print-orig-display');
-    // 구버전 속성도 정리
     el.removeAttribute('data-orig');
   });
 
@@ -4406,22 +4384,6 @@ window.addEventListener('afterprint', function() {
     if (orig !== null) el.setAttribute('style', orig);
     el.removeAttribute('data-print-orig-style');
     el.removeAttribute('data-orig-style');
-    var num = el.querySelector('.stage-num');
-    if (num) { num.removeAttribute('data-orig-style'); }
-    var title = el.querySelector('.stage-title');
-    if (title) { title.removeAttribute('data-orig-style'); }
-  });
-
-  // check-item 텍스트 색상 원복
-  document.querySelectorAll('.check-item-title').forEach(function(el) {
-    el.style.removeProperty('color');
-    el.style.removeProperty('-webkit-text-fill-color');
-    el.removeAttribute('data-print-orig-color');
-  });
-  document.querySelectorAll('.check-item-sub').forEach(function(el) {
-    el.style.removeProperty('color');
-    el.style.removeProperty('-webkit-text-fill-color');
-    el.removeAttribute('data-print-orig-color');
   });
 });
 
