@@ -1315,38 +1315,6 @@
     font-size: 13px; color: var(--text-secondary); white-space: pre-wrap; line-height: 2;
   }
 
-/* ══════════════ 기관 메모 MEMO ══════════════ */
-  .org-memo-wrap {
-    margin-top: 32px; border-top: 1px solid rgba(139,92,246,0.12); padding-top: 20px;
-  }
-  .org-memo-toggle {
-    display: flex; align-items: center; gap: 10px; cursor: pointer;
-    background: none; border: none; width: 100%; text-align: left; padding: 0;
-  }
-  .org-memo-toggle-title { font-family:'Noto Sans KR',sans-serif; font-size:13px; font-weight:700; color:var(--text-secondary); flex:1; }
-  .org-memo-toggle-badge { font-size:9px; font-weight:700; padding:2px 7px; background:rgba(139,92,246,0.15); border:1px solid rgba(139,92,246,0.25); color:#a78bfa; border-radius:10px; }
-  .org-memo-toggle-arrow { font-size:11px; color:var(--text-muted); transition:transform .2s; }
-  .org-memo-toggle-arrow.open { transform:rotate(180deg); }
-  .org-memo-body { display:none; margin-top:14px; }
-  .org-memo-body.open { display:block; }
-  .org-memo-tabs { display:flex; gap:4px; margin-bottom:12px; flex-wrap:wrap; }
-  .org-memo-tab { padding:5px 12px; border-radius:16px; font-size:11px; font-weight:600; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:var(--text-muted); cursor:pointer; transition:all .15s; font-family:'Noto Sans KR',sans-serif; }
-  .org-memo-tab:hover { border-color:rgba(139,92,246,0.4); color:#a78bfa; }
-  .org-memo-tab.active { background:rgba(139,92,246,0.2); border-color:rgba(139,92,246,0.4); color:#a78bfa; }
-  .org-memo-editor { display:flex; flex-direction:column; gap:10px; }
-  .org-memo-label { font-size:11px; font-weight:600; color:var(--text-muted); display:flex; align-items:center; gap:6px; }
-  .org-memo-textarea { width:100%; min-height:120px; padding:12px 14px; border:1px solid rgba(255,255,255,0.1); border-radius:8px; background:rgba(255,255,255,0.04); color:var(--text-primary); font-family:'Noto Sans KR',sans-serif; font-size:13px; line-height:1.7; resize:vertical; outline:none; transition:border-color .18s; }
-  .org-memo-textarea:focus { border-color:#8b5cf6; }
-  .org-memo-textarea::placeholder { color:var(--text-muted); }
-  .org-memo-actions { display:flex; gap:8px; align-items:center; }
-  .org-memo-save { padding:8px 18px; background:linear-gradient(135deg,#8b5cf6,#ec4899); color:#fff; border:none; border-radius:8px; font-family:'Noto Sans KR',sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition:opacity .15s; }
-  .org-memo-save:hover { opacity:0.85; }
-  .org-memo-clear { padding:8px 14px; background:transparent; border:1px solid rgba(255,255,255,0.1); color:var(--text-muted); border-radius:8px; font-family:'Noto Sans KR',sans-serif; font-size:12px; cursor:pointer; transition:all .15s; }
-  .org-memo-clear:hover { border-color:rgba(244,63,94,0.4); color:#fca5a5; }
-  .org-memo-hint { font-size:10px; color:var(--text-muted); margin-left:auto; }
-  .org-memo-display { background:rgba(139,92,246,0.06); border:1px solid rgba(139,92,246,0.15); border-left:3px solid #8b5cf6; border-radius:0 8px 8px 0; padding:12px 16px; margin-top:14px; font-size:12px; color:var(--text-secondary); line-height:1.8; white-space:pre-wrap; display:none; }
-  .org-memo-display.show { display:block; }
-  .org-memo-display-title { font-size:10px; font-weight:700; color:#a78bfa; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
 
   /* ══════════════ 검색 SEARCH ══════════════ */
   .header-search-btn {
@@ -1467,7 +1435,7 @@
     header, footer, .cl-sidebar, .cl-toolbar,
     .law-overlay, .law-drawer, .law-modal-overlay,
     .toast, #pwaInstallBanner, #iosInstallGuide,
-    .org-memo-wrap, .nav-btn, .header-badge,
+    .nav-btn, .header-badge,
     .progress-ring { display: none !important; }
 
     body {
@@ -2735,79 +2703,6 @@
   </div>
 </div>
 
-<!-- 기관 메모 패널 (JS로 각 페이지에 동적 삽입) -->
-<!-- 기관 메모: 홈 전용 (입력 가능) -->
-<template id="orgMemoTemplate">
-  <div class="org-memo-wrap" id="orgMemoPanel-PAGE">
-    <button class="org-memo-toggle" onclick="toggleOrgMemo('PAGE')">
-      <span style="font-size:15px">📌</span>
-      <span class="org-memo-toggle-title">우리 기관 추가 규정 · 메모</span>
-      <span class="org-memo-toggle-badge" id="orgMemoBadge-PAGE">미입력</span>
-      <span class="org-memo-toggle-arrow" id="orgMemoArrow-PAGE">▼</span>
-    </button>
-    <div class="org-memo-body" id="orgMemoBody-PAGE">
-      <div style="background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.18);border-radius:8px;padding:13px 16px;margin-bottom:14px;font-size:12px;line-height:1.85;color:var(--text-secondary);">
-        <div style="font-weight:700;color:#a78bfa;margin-bottom:6px;">📌 이 기능 사용 안내</div>
-        우리 기관의 내부 규정·지침·업무참고사항을 입력해 두면, 모든 페이지에서 함께 표시됩니다.<br>
-        입력한 내용은 <strong style="color:var(--text-primary)">이 컴퓨터의 브라우저에만 저장</strong>되며, 외부 서버로 전송되지 않습니다.<br><br>
-        <span style="background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);color:#fca5a5;border-radius:5px;padding:4px 10px;display:inline-block;font-size:11px;font-weight:600;">
-          ⚠️ 중요 — 이 앱의 안내 내용은 일반적인 법령 기준입니다. 실제 계약 업무 처리 시에는 반드시 소속 기관의 회계부서 계약 담당자와 내용을 확인하시기 바랍니다.
-        </span>
-      </div>
-      <div class="org-memo-tabs" id="orgMemoTabs-PAGE">
-        <button class="org-memo-tab active" onclick="switchMemoTab('PAGE','general',this)">📋 기관 내부 규정</button>
-        <button class="org-memo-tab" onclick="switchMemoTab('PAGE','caution',this)">⚠️ 주의·특이사항</button>
-      </div>
-      <div class="org-memo-editor" id="orgMemoEditor-PAGE">
-        <div class="org-memo-label"><span>✏️</span> 우리 기관의 규정·지침·참고사항을 직접 입력하세요</div>
-        <textarea class="org-memo-textarea" id="orgMemoText-PAGE"
-          placeholder="입력 예시:&#10;• 수의계약 전 반드시 과장 사전 결재 필요 (내부규정)&#10;• 추정가격 500만원 이상 계약은 계약심의위 사전 요청&#10;• 전자공개 수의계약: 공고 후 반드시 총무과 검토 공람&#10;• 용역계약 시 과업지시서 법무팀 검토 필수 (50만원 이상)&#10;&#10;— 주의사항 탭에는 과거 감사 지적사항 등을 기재하면 유용합니다"></textarea>
-        <div class="org-memo-actions">
-          <button class="org-memo-save" onclick="saveMemo('PAGE')">💾 저장</button>
-          <button class="org-memo-clear" onclick="clearMemo('PAGE')">🗑 삭제</button>
-          <span class="org-memo-hint" id="orgMemoHint-PAGE"></span>
-        </div>
-      </div>
-      <div class="org-memo-display" id="orgMemoDisplay-PAGE">
-        <div class="org-memo-display-title">📌 저장된 우리 기관 메모</div>
-        <div id="orgMemoDisplayText-PAGE"></div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<!-- 기관 메모: 다른 페이지용 (읽기 전용) -->
-<template id="orgMemoReadTemplate">
-  <div class="org-memo-wrap" id="orgMemoPanel-PAGE">
-    <button class="org-memo-toggle" onclick="toggleOrgMemo('PAGE')">
-      <span style="font-size:15px">📌</span>
-      <span class="org-memo-toggle-title">우리 기관 규정 · 메모</span>
-      <span class="org-memo-toggle-badge" id="orgMemoBadge-PAGE">미입력</span>
-      <span class="org-memo-toggle-arrow" id="orgMemoArrow-PAGE">▼</span>
-    </button>
-    <div class="org-memo-body" id="orgMemoBody-PAGE">
-      <!-- 저장된 내용 표시 -->
-      <div class="org-memo-readonly" id="orgMemoReadonly-PAGE">
-        <div id="orgMemoReadText-PAGE" style="font-size:13px;color:var(--text-secondary);line-height:1.9;white-space:pre-wrap;"></div>
-        <div style="margin-top:12px;">
-          <button onclick="showPage('home')" style="background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);color:#a78bfa;border-radius:7px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">
-            ✏️ 홈에서 수정하기
-          </button>
-        </div>
-      </div>
-      <!-- 미입력 안내 -->
-      <div class="org-memo-empty" id="orgMemoEmpty-PAGE" style="display:none;">
-        <div style="font-size:12px;color:var(--text-muted);line-height:1.8;padding:8px 0;">
-          아직 입력된 기관 메모가 없습니다.<br>
-          <button onclick="showPage('home')" style="margin-top:8px;background:linear-gradient(135deg,#8b5cf6,#ec4899);border:none;color:#fff;border-radius:7px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">
-            📌 홈에서 입력하기
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <!-- 검색 오버레이 -->
 <div class="search-overlay" id="searchOverlay">
   <div class="search-box">
@@ -3076,186 +2971,6 @@ document.addEventListener('keydown', function(e) {
     openSearch();
   }
 });
-
-// ══════════════════════════════════════════
-// v1.5 — 기관 메모 (localStorage 기반)
-// ══════════════════════════════════════════
-const MEMO_KEY = 'orgMemo_v15_';
-var memoActiveTabs = {};
-
-// 홈만 입력 가능, 나머지는 읽기전용
-var MEMO_HOME = { id: 'home', selector: '.home-wrap' };
-var MEMO_READONLY_PAGES = [
-  { id: 'checklist', selector: '.cl-layout' },
-  { id: 'docs',      selector: '.docs-layout' },
-  { id: 'recommend', selector: '.rec-layout' },
-  { id: 'reference', selector: '.ref-layout' },
-  { id: 'faq',       selector: '.faq-page-layout' },
-];
-
-function initOrgMemos() {
-  // ── 홈: 입력용 패널 ──
-  var homeContainer = document.querySelector('#page-home .home-wrap');
-  if (homeContainer && !document.getElementById('orgMemoPanel-home')) {
-    var tmpl = document.getElementById('orgMemoTemplate');
-    if (tmpl) {
-      var html = tmpl.innerHTML.replace(/PAGE/g, 'home');
-      var div = document.createElement('div');
-      div.innerHTML = html;
-      homeContainer.appendChild(div.firstElementChild);
-      loadMemoDisplay('home');
-      // 홈은 기본으로 펼쳐진 상태
-      var body  = document.getElementById('orgMemoBody-home');
-      var arrow = document.getElementById('orgMemoArrow-home');
-      if (body)  body.classList.add('open');
-      if (arrow) arrow.classList.add('open');
-      var ta = document.getElementById('orgMemoText-home');
-      if (ta) ta.value = getMemoData('home', 'general');
-    }
-  }
-
-  // ── 나머지 페이지: 읽기전용 패널 ──
-  MEMO_READONLY_PAGES.forEach(function(p) {
-    var container = document.querySelector('#page-' + p.id + ' ' + p.selector);
-    if (!container || document.getElementById('orgMemoPanel-' + p.id)) return;
-    var tmpl = document.getElementById('orgMemoReadTemplate');
-    if (!tmpl) return;
-    var html = tmpl.innerHTML.replace(/PAGE/g, p.id);
-    var div = document.createElement('div');
-    div.innerHTML = html;
-    container.appendChild(div.firstElementChild);
-    refreshReadonlyMemo(p.id);
-  });
-}
-
-// 읽기전용 패널 내용 갱신 (홈에서 저장한 내용을 모든 페이지에 반영)
-function refreshReadonlyMemo(pageId) {
-  var tabs   = ['general', 'caution'];
-  var labels = { general: '📋 기관 내부 규정', caution: '⚠️ 주의·특이사항' };
-  var combined = '';
-  tabs.forEach(function(tab) {
-    var t = getMemoData('home', tab); // 항상 home 키에서 읽음
-    if (t.trim()) {
-      combined += labels[tab] + '\n' + t + '\n\n';
-    }
-  });
-
-  var readText  = document.getElementById('orgMemoReadText-'  + pageId);
-  var emptyEl   = document.getElementById('orgMemoEmpty-'     + pageId);
-  var readonlyEl= document.getElementById('orgMemoReadonly-'  + pageId);
-  var badge     = document.getElementById('orgMemoBadge-'     + pageId);
-
-  if (combined.trim()) {
-    if (readText)   readText.textContent = combined.trim();
-    if (readonlyEl) readonlyEl.style.display = 'block';
-    if (emptyEl)    emptyEl.style.display    = 'none';
-    if (badge) {
-      badge.textContent    = '메모 있음';
-      badge.style.background  = 'rgba(16,185,129,0.15)';
-      badge.style.borderColor = 'rgba(16,185,129,0.3)';
-      badge.style.color       = '#34d399';
-    }
-  } else {
-    if (readonlyEl) readonlyEl.style.display = 'none';
-    if (emptyEl)    emptyEl.style.display    = 'block';
-    if (badge) {
-      badge.textContent    = '미입력';
-      badge.style.background  = '';
-      badge.style.borderColor = '';
-      badge.style.color       = '';
-    }
-  }
-}
-
-// 모든 읽기전용 패널 일괄 갱신 (홈에서 저장 후 호출)
-function refreshAllReadonlyMemos() {
-  MEMO_READONLY_PAGES.forEach(function(p) {
-    if (document.getElementById('orgMemoPanel-' + p.id)) {
-      refreshReadonlyMemo(p.id);
-    }
-  });
-}
-
-function toggleOrgMemo(pageId) {
-  var body  = document.getElementById('orgMemoBody-' + pageId);
-  var arrow = document.getElementById('orgMemoArrow-' + pageId);
-  var open  = body.classList.contains('open');
-  body.classList.toggle('open', !open);
-  arrow.classList.toggle('open', !open);
-  if (!open) {
-    var tab = memoActiveTabs[pageId] || 'general';
-    var ta  = document.getElementById('orgMemoText-' + pageId);
-    if (ta) ta.value = getMemoData(pageId, tab);
-  }
-}
-
-function switchMemoTab(pageId, tab, btn) {
-  memoActiveTabs[pageId] = tab;
-  var tabs = document.querySelectorAll('#orgMemoTabs-' + pageId + ' .org-memo-tab');
-  tabs.forEach(function(b) { b.classList.remove('active'); });
-  btn.classList.add('active');
-  var ta = document.getElementById('orgMemoText-' + pageId);
-  if (ta) ta.value = getMemoData(pageId, tab);
-  updateMemoHint(pageId, tab);
-}
-
-function getMemoKey(pageId, tab) { return MEMO_KEY + pageId + '_' + (tab || 'general'); }
-function getMemoData(pageId, tab) {
-  try { return localStorage.getItem(getMemoKey(pageId, tab)) || ''; } catch(e) { return ''; }
-}
-function saveMemo(pageId) {
-  var tab  = memoActiveTabs[pageId] || 'general';
-  var text = (document.getElementById('orgMemoText-' + pageId) || {}).value || '';
-  try {
-    text.trim() ? localStorage.setItem(getMemoKey(pageId, tab), text)
-                : localStorage.removeItem(getMemoKey(pageId, tab));
-    loadMemoDisplay(pageId);
-    updateMemoHint(pageId, tab);
-    refreshAllReadonlyMemos(); // 모든 읽기전용 패널 즉시 갱신
-    showToast('✅ 저장되었습니다. 모든 페이지에 반영됩니다.');
-  } catch(e) { showToast('⚠️ 저장 실패'); }
-}
-function clearMemo(pageId) {
-  var tab = memoActiveTabs[pageId] || 'general';
-  try {
-    localStorage.removeItem(getMemoKey(pageId, tab));
-    var ta = document.getElementById('orgMemoText-' + pageId);
-    if (ta) ta.value = '';
-    loadMemoDisplay(pageId);
-    updateMemoHint(pageId, tab);
-    refreshAllReadonlyMemos(); // 모든 읽기전용 패널 즉시 갱신
-    showToast('🗑 메모가 삭제되었습니다');
-  } catch(e) {}
-}
-function loadMemoDisplay(pageId) {
-  var tabs = ['general','caution'];
-  var labels = { general:'📋 기관 내부 규정', caution:'⚠️ 주의·특이사항' };
-  var combined = ''; var cnt = 0;
-  tabs.forEach(function(tab) {
-    var t = getMemoData(pageId, tab);
-    if (t.trim()) { combined += '<strong style="color:#a78bfa;font-size:11px;">' + labels[tab] + '</strong>\n' + t + '\n\n'; cnt++; }
-  });
-  var dispEl = document.getElementById('orgMemoDisplay-' + pageId);
-  var dispText = document.getElementById('orgMemoDisplayText-' + pageId);
-  var badge = document.getElementById('orgMemoBadge-' + pageId);
-  if (dispEl && dispText) {
-    if (combined.trim()) { dispText.innerHTML = combined.trim().replace(/\n/g,'<br>'); dispEl.classList.add('show'); }
-    else dispEl.classList.remove('show');
-  }
-  if (badge) {
-    badge.textContent = cnt > 0 ? '메모 ' + cnt + '개' : '미입력';
-    badge.style.background = cnt > 0 ? 'rgba(16,185,129,0.15)' : '';
-    badge.style.borderColor = cnt > 0 ? 'rgba(16,185,129,0.3)' : '';
-    badge.style.color = cnt > 0 ? '#34d399' : '';
-  }
-}
-function updateMemoHint(pageId, tab) {
-  var saved = getMemoData(pageId, tab);
-  var hint = document.getElementById('orgMemoHint-' + pageId);
-  if (!hint) return;
-  if (saved.trim()) { var d = new Date(); hint.textContent = '마지막 저장: ' + d.getFullYear() + '.' + (d.getMonth()+1) + '.' + d.getDate(); }
-  else hint.textContent = '';
-}
 
 // ══════════════════════════════════════════
 // 홈 — 계약 프로세스 가이드
@@ -5700,7 +5415,6 @@ document.addEventListener('DOMContentLoaded', function() {
   renderDocsMethodBtns();
   renderDocs();
   renderFaq();
-  setTimeout(initOrgMemos, 100);
 });
 
 // ══════════════════════════════════════════
@@ -7202,13 +6916,6 @@ function showPage(name) {
   const nb = document.getElementById('nav-' + name);
   if (nb) nb.classList.add('active');
   window.scrollTo(0, 0);
-  setTimeout(function() {
-    initOrgMemos();
-    // 홈이 아닌 페이지 이동 시 읽기전용 패널 최신 내용으로 갱신
-    if (name !== 'home' && document.getElementById('orgMemoPanel-' + name)) {
-      refreshReadonlyMemo(name);
-    }
-  }, 50);
 }
 
 function runRecommend() {
