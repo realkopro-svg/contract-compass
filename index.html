@@ -1679,10 +1679,10 @@
 </svg></div>
       <div class="logo-text">
         <strong>계약나침반 <span style="font-size:13px;background:rgba(236,72,153,0.2);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:4px;padding:1px 7px;vertical-align:middle;font-weight:700;">부산시</span></strong>
-        <span>Contract Compass · 부산시 v2.1</span>
+        <span>Contract Compass · 부산시 v3.0</span>
       </div>
     </a>
-    <span class="header-badge">부산v2.1</span>
+    <span class="header-badge">부산v3.0</span>
     <button class="header-search-btn" onclick="openSearch()" title="전체 검색">🔍 검색</button>
   </div>
   <div class="header-nav">
@@ -1710,7 +1710,7 @@
 
       <!-- 인트로 -->
       <div class="home-intro">
-        <div class="home-intro-badge">🧭 계약나침반 &nbsp;<span style="font-size:10px;background:rgba(236,72,153,0.25);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:3px;padding:1px 6px;">부산시 v2.1</span></div>
+        <div class="home-intro-badge">🧭 계약나침반 &nbsp;<span style="font-size:10px;background:rgba(236,72,153,0.25);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:3px;padding:1px 6px;">부산시 v3.0</span></div>
         <h1>계약 요청을 받으셨나요?<br><em>계약나침반이 방향을 잡아드립니다</em></h1>
         <p>처음 계약을 맡은 담당자도 당황하지 마세요. 목적물 유형과 금액을 입력하면<br>올바른 방향과 전체 프로세스, 단계별 서류까지 한번에 안내합니다.</p>
       </div>
@@ -1813,7 +1813,7 @@
     <!-- 인쇄 전용 헤더 (화면에서는 숨김) -->
     <div class="print-header">
       <h1>🧭 계약나침반 — 절차 체크리스트</h1>
-      <p>출력일: <span id="printDate"></span> · Contract Compass 부산시 v2.1</p>
+      <p>출력일: <span id="printDate"></span> · Contract Compass 부산시 v3.0</p>
     </div>
 
     <div class="cl-layout">
@@ -1969,7 +1969,7 @@
 
         <div class="cl-toolbar">
           <button class="btn btn-outline" onclick="resetAll()">↺ 초기화</button>
-          <button class="btn btn-outline" onclick="printChecklist()">📄 PDF 출력</button>
+          <button class="btn btn-outline" onclick="printChecklist()">📥 체크리스트 다운로드</button>
         </div>
       </div>
     </div>
@@ -2419,7 +2419,7 @@
       </div>
 
       <div class="faq-cat-tabs" id="faqCatTabs">
-        <button class="faq-cat-tab active" onclick="filterFaq('전체',this)">전체 30</button>
+        <button class="faq-cat-tab active" onclick="filterFaq('전체',this)">전체</button>
         <button class="faq-cat-tab" onclick="filterFaq('수의계약',this)">수의계약</button>
         <button class="faq-cat-tab" onclick="filterFaq('입찰·공고',this)">입찰·공고</button>
         <button class="faq-cat-tab" onclick="filterFaq('계약체결',this)">계약체결</button>
@@ -2460,7 +2460,7 @@
   본 서비스는 부산광역시 회계재산담당관 계약업무 참고자료(2026.2.1.) 기준으로 작성된 참고용입니다.
   실제 계약 업무 처리 시에는 <strong>반드시 소속 기관의 회계부서 계약 담당자와 확인</strong>하시기 바랍니다.
   법적 책임은 최종 판단 및 처리를 한 담당자에게 있습니다.
-  &nbsp;·&nbsp; © 2026 Daily Spillover
+  &nbsp;·&nbsp; © 2026 Contract Compass · Built by KJH
 </footer>
 
 <!-- 법령 오버레이 -->
@@ -4244,145 +4244,107 @@ function toggleStage(header) {
   arrow.classList.toggle('open', !isOpen);
 }
 function printChecklist() {
-  // 출력일 삽입
   var d = new Date();
-  var dateEl = document.getElementById('printDate');
-  if (dateEl) dateEl.textContent = d.getFullYear() + '년 ' + (d.getMonth()+1) + '월 ' + d.getDate() + '일';
+  var dateStr = d.getFullYear() + '년 ' + (d.getMonth()+1) + '월 ' + d.getDate() + '일';
 
-  // print-target 지정
-  document.getElementById('page-checklist').classList.add('print-target');
+  var data = CHECKLISTS[currentType];
+  if (!data) { showToast('체크리스트를 먼저 선택해 주세요'); return; }
 
-  // stage-items 모두 펼치기
-  document.querySelectorAll('.stage-items').forEach(function(el) {
-    el.setAttribute('data-print-orig-display', el.style.display || '');
-    el.style.display = 'block';
+  var typeLabel = document.querySelector('.contract-type-btn.active');
+  var typeName = typeLabel ? typeLabel.textContent.replace(/[📌🏆🔄✅🔬📚🧹📦]/g,'').trim() : currentType;
+
+  // 체크 완료 항목 수집
+  var checkedItems = {};
+  document.querySelectorAll('.check-item.checked').forEach(function(el){
+    var t = el.querySelector('.check-title');
+    if(t) checkedItems[t.textContent.trim()] = true;
   });
 
-  // 기존 style 태그 제거
-  var old = document.getElementById('print-override-style');
-  if (old) old.parentNode.removeChild(old);
+  var tagLabels = {required:'필수', docs:'서류', caution:'주의'};
+  var tagColors = {
+    required:'background:#fee2e2;color:#b91c1c;',
+    docs:    'background:#dbeafe;color:#1d4ed8;',
+    caution: 'background:#fef3c7;color:#92400e;'
+  };
 
-  // ── 핵심: <style> 태그 직접 삽입 (Chrome PC repaint 대기 후 인쇄) ──
-  var styleTag = document.createElement('style');
-  styleTag.id = 'print-override-style';
-  styleTag.innerHTML = [
-    '.stage-header {',
-    '  display: flex !important;',
-    '  align-items: center !important;',
-    '  gap: 10px !important;',
-    '  background-color: #ede9fe !important;',
-    '  border: 2px solid #7c3aed !important;',
-    '  border-radius: 6px !important;',
-    '  padding: 8px 14px !important;',
-    '  margin-bottom: 6px !important;',
-    '  visibility: visible !important;',
-    '  opacity: 1 !important;',
-    '}',
-    '.stage-header .stage-num {',
-    '  display: inline-flex !important;',
-    '  align-items: center !important;',
-    '  justify-content: center !important;',
-    '  width: 24px !important;',
-    '  height: 24px !important;',
-    '  min-width: 24px !important;',
-    '  border-radius: 50% !important;',
-    '  background: #5b21b6 !important;',
-    '  color: #ffffff !important;',
-    '  font-size: 11pt !important;',
-    '  font-weight: 900 !important;',
-    '  flex-shrink: 0 !important;',
-    '  -webkit-print-color-adjust: exact !important;',
-    '  print-color-adjust: exact !important;',
-    '}',
-    '.stage-header .stage-title {',
-    '  color: #2e1065 !important;',
-    '  -webkit-text-fill-color: #2e1065 !important;',
-    '  font-size: 12pt !important;',
-    '  font-weight: 800 !important;',
-    '  flex: 1 !important;',
-    '  display: block !important;',
-    '  background: none !important;',
-    '  background-image: none !important;',
-    '  -webkit-background-clip: unset !important;',
-    '  background-clip: unset !important;',
-    '  text-shadow: none !important;',
-    '  visibility: visible !important;',
-    '  opacity: 1 !important;',
-    '}',
-    '.stage-header .stage-count {',
-    '  color: #5b21b6 !important;',
-    '  font-size: 9pt !important;',
-    '  font-weight: 600 !important;',
-    '}',
-    '.stage-header .stage-arrow { display: none !important; }',
-    '.check-title { color:#111!important; -webkit-text-fill-color:#111!important; }',
-    '.check-sub   { color:#444!important; -webkit-text-fill-color:#444!important; }'
-  ].join('\n');
-  document.head.appendChild(styleTag);
+  var stagesHtml = '';
+  data.stages.forEach(function(stage, si){
+    var itemsHtml = '';
+    stage.items.forEach(function(item){
+      var checked = !!checkedItems[item.title];
+      var tc = tagColors[item.tag] || tagColors.caution;
+      var tl = tagLabels[item.tag] || '주의';
+      itemsHtml +=
+        '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;margin:3px 0;' +
+        'border:1px solid #e5e7eb;border-radius:6px;background:'+(checked?'#f0fdf4':'#fff')+';">' +
+          '<div style="width:16px;height:16px;min-width:16px;margin-top:2px;border-radius:3px;' +
+          'border:2px solid '+(checked?'#10b981':'#d1d5db')+';background:'+(checked?'#10b981':'#fff')+';' +
+          'display:flex;align-items:center;justify-content:center;">' +
+          (checked?'<span style="color:#fff;font-size:10px;font-weight:900;">✓</span>':'') +
+          '</div>' +
+          '<div style="flex:1;">' +
+            '<div style="font-size:10pt;font-weight:600;color:'+(checked?'#9ca3af':'#111')+';'+
+            (checked?'text-decoration:line-through;':'')+'">' + item.title + '</div>' +
+            '<div style="font-size:8.5pt;color:#555;margin-top:2px;line-height:1.5;">' + item.sub + '</div>' +
+          '</div>' +
+          '<div style="font-size:8pt;padding:2px 8px;border-radius:4px;white-space:nowrap;font-weight:600;'+tc+'">' + tl + '</div>' +
+        '</div>';
+    });
+    stagesHtml +=
+      '<div style="margin-bottom:16px;page-break-inside:avoid;">' +
+        '<div style="display:flex;align-items:center;gap:10px;padding:9px 14px;margin-bottom:6px;' +
+        'background:#ede9fe;border:2px solid #7c3aed;border-radius:6px;' +
+        '-webkit-print-color-adjust:exact;print-color-adjust:exact;">' +
+          '<div style="width:26px;height:26px;min-width:26px;border-radius:50%;' +
+          'background:#5b21b6;color:#fff;display:flex;align-items:center;justify-content:center;' +
+          'font-size:12pt;font-weight:900;-webkit-print-color-adjust:exact;print-color-adjust:exact;">' +
+          (si+1) + '</div>' +
+          '<div style="font-size:12pt;font-weight:800;color:#2e1065;flex:1;">' + stage.title + '</div>' +
+        '</div>' +
+        '<div style="padding-left:8px;">' + itemsHtml + '</div>' +
+      '</div>';
+  });
 
-  // Chrome PC: 스타일 repaint 대기 후 인쇄 (150ms)
-  setTimeout(function() { window.print(); }, 150);
+  var html =
+    '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">' +
+    '<title>계약나침반_'+typeName+'_'+dateStr.replace(/ /g,'')+'</title>' +
+    '<style>' +
+      'body{margin:0;padding:24px 28px;font-family:"맑은 고딕","Noto Sans KR",sans-serif;background:#fff;color:#111;}' +
+      'h1{font-size:20pt;font-weight:900;color:#1a0a40;margin:0;}' +
+      '.subtitle{font-size:9pt;color:#666;margin-top:4px;}' +
+      '.divider{border:none;border-top:3px solid #7c3aed;margin:12px 0 18px;}' +
+      '@page{margin:15mm 12mm;size:A4;}' +
+      '@media print{' +
+        'body{padding:0;}' +
+        'button.no-print{display:none!important;}' +
+        '-webkit-print-color-adjust:exact;print-color-adjust:exact;' +
+      '}' +
+    '</style></head><body>' +
+    '<div style="text-align:center;">' +
+      '<h1>🧭 계약나침반 — 절차 체크리스트</h1>' +
+      '<div class="subtitle">출력일: '+dateStr+' · Contract Compass 부산시 v3.0 · <strong>'+typeName+'</strong></div>' +
+    '</div>' +
+    '<hr class="divider">' +
+    '<div style="text-align:right;margin-bottom:12px;">' +
+      '<button class="no-print" onclick="window.print()" ' +
+      'style="padding:8px 18px;background:#7c3aed;color:#fff;border:none;border-radius:6px;' +
+      'font-size:10pt;font-weight:700;cursor:pointer;">🖨️ PDF 저장</button>' +
+    '</div>' +
+    stagesHtml +
+    '</body></html>';
+
+  // HTML 파일로 다운로드
+  var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = '계약나침반_'+typeName+'_'+dateStr.replace(/[년월 ]/g,'').replace('일','') + '.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  showToast('✅ HTML 파일로 저장됩니다. 열어서 PDF 저장 버튼을 누르세요.');
 }
-
-// ── beforeprint / afterprint 이벤트 기반 처리 (Mac 포함 모든 브라우저 대응) ──
-// ── beforeprint: printChecklist()가 열리지 않을 때의 폴백 (Ctrl+P 직접 인쇄 대응) ──
-window.addEventListener('beforeprint', function() {
-  document.querySelectorAll('.stage-items').forEach(function(el) {
-    el.style.display = 'block';
-  });
-  // style 태그가 아직 없으면 삽입 (Ctrl+P 직접 인쇄 대응)
-  if (!document.getElementById('print-override-style')) {
-    var styleTag = document.createElement('style');
-    styleTag.id = 'print-override-style';
-    styleTag.innerHTML = [
-      '.stage-header { display:flex!important; align-items:center!important; gap:10px!important;',
-      '  background-color:#ede9fe!important; border:2px solid #7c3aed!important;',
-      '  border-radius:6px!important; padding:8px 14px!important; margin-bottom:6px!important; }',
-      '.stage-header .stage-num { display:inline-flex!important; align-items:center!important;',
-      '  justify-content:center!important; width:24px!important; height:24px!important;',
-      '  border-radius:50%!important; background:#5b21b6!important; color:#fff!important;',
-      '  font-size:11pt!important; font-weight:900!important; flex-shrink:0!important;',
-      '  -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; }',
-      '.stage-header .stage-title { color:#2e1065!important;',
-      '  -webkit-text-fill-color:#2e1065!important; font-size:12pt!important;',
-      '  font-weight:800!important; flex:1!important; display:block!important;',
-      '  background:none!important; background-image:none!important;',
-      '  -webkit-background-clip:unset!important; background-clip:unset!important;',
-      '  text-shadow:none!important; visibility:visible!important; opacity:1!important; }',
-      '.stage-header .stage-count { color:#5b21b6!important; font-size:9pt!important; }',
-      '.stage-header .stage-arrow { display:none!important; }',
-      '.check-item-title { color:#111!important; -webkit-text-fill-color:#111!important; }',
-      '.check-item-sub   { color:#444!important; -webkit-text-fill-color:#444!important; }'
-    ].join('\n');
-    document.head.appendChild(styleTag);
-  }
-});
-
-window.addEventListener('afterprint', function() {
-  // print-target 해제
-  document.getElementById('page-checklist').classList.remove('print-target');
-
-  // 동적 삽입한 style 태그 제거
-  var styleTag = document.getElementById('print-override-style');
-  if (styleTag) styleTag.parentNode.removeChild(styleTag);
-
-  // stage-items 원복
-  document.querySelectorAll('.stage-items').forEach(function(el) {
-    var orig = el.getAttribute('data-print-orig-display');
-    if (orig !== null && orig !== '') el.style.display = orig;
-    else el.style.removeProperty('display');
-    el.removeAttribute('data-print-orig-display');
-    el.removeAttribute('data-orig');
-  });
-
-  // stage-header 원복
-  document.querySelectorAll('.stage-header').forEach(function(el) {
-    var orig = el.getAttribute('data-print-orig-style');
-    if (orig !== null) el.setAttribute('style', orig);
-    el.removeAttribute('data-print-orig-style');
-    el.removeAttribute('data-orig-style');
-  });
-});
 
 function resetAll() {
   renderChecklist(currentType);
