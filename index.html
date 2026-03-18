@@ -1429,7 +1429,106 @@
   }
   .search-empty .search-empty-icon { font-size: 36px; margin-bottom: 10px; }
 
+  /* ══════════════ 홈 간략 흐름도 ══════════════ */
+  .home-mini-flow {
+    background: rgba(139,92,246,0.07);
+    border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+  .home-mini-flow-title {
+    font-size: 13px; font-weight: 700; color: var(--text-primary);
+    margin-bottom: 14px;
+  }
+  .home-mini-flow-steps {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+  }
+  .hmf-step {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(139,92,246,0.25);
+    border-radius: 8px; padding: 8px 12px; cursor: default;
+    min-width: 60px; text-align: center;
+    transition: all .15s;
+  }
+  .hmf-step:hover { background: rgba(139,92,246,0.15); border-color: rgba(139,92,246,0.5); }
+  .hmf-step-key { border-color: rgba(236,72,153,0.4); background: rgba(236,72,153,0.07); }
+  .hmf-step-key:hover { background: rgba(236,72,153,0.15); }
+  .hmf-step-end { border-color: rgba(16,185,129,0.4); background: rgba(16,185,129,0.07); }
+  .hmf-step-end:hover { background: rgba(16,185,129,0.15); }
+  .hmf-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: linear-gradient(135deg,#8b5cf6,#ec4899);
+    color: #fff; font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hmf-label { font-size: 10px; color: var(--text-secondary); line-height: 1.4; }
+  .hmf-arrow { font-size: 12px; color: rgba(139,92,246,0.5); flex-shrink: 0; }
+  .hmf-hint {
+    margin-top: 12px; font-size: 11px; color: var(--text-muted);
+    padding: 8px 12px; background: rgba(255,255,255,0.03);
+    border-radius: 6px; border-left: 3px solid rgba(139,92,246,0.4);
+  }
+
+  /* ══════════════ 계약 흐름도 페이지 ══════════════ */
+  .flow-tabs {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .flow-tab {
+    padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700;
+    border: 1px solid rgba(139,92,246,0.3); color: var(--text-muted);
+    background: rgba(255,255,255,0.03); cursor: pointer;
+    font-family: "Noto Sans KR",sans-serif; line-height: 1.4;
+    transition: all .15s; text-align: center;
+  }
+  .flow-tab:hover { border-color: rgba(139,92,246,0.5); color: #a78bfa; background: rgba(139,92,246,0.08); }
+  .flow-tab.active { background: rgba(139,92,246,0.18); border-color: #8b5cf6; color: #c4b5fd; }
+  .flow-chart-wrap {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 24px 20px; overflow-x: auto;
+  }
+  .flow-col-wrap {
+    display: flex; gap: 0; align-items: flex-start; min-width: fit-content;
+  }
+  .flow-col {
+    display: flex; flex-direction: column; align-items: center; min-width: 110px;
+  }
+  .flow-col-header {
+    font-size: 11px; font-weight: 800; color: #c4b5fd;
+    background: rgba(139,92,246,0.2); border: 1px solid rgba(139,92,246,0.3);
+    border-radius: 6px; padding: 5px 10px; margin-bottom: 12px;
+    text-align: center; width: 90px; white-space: nowrap;
+  }
+  .flow-node {
+    width: 90px; min-height: 38px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; text-align: center;
+    padding: 6px 4px; line-height: 1.3; cursor: pointer;
+    transition: all .15s; margin-bottom: 6px;
+    border: 1.5px solid rgba(139,92,246,0.3);
+    background: rgba(139,92,246,0.1); color: var(--text-primary);
+  }
+  .flow-node:hover { background: rgba(139,92,246,0.25); border-color: #8b5cf6; transform: scale(1.03); }
+  .flow-node.fn-start { background: rgba(139,92,246,0.25); border-color: #8b5cf6; font-weight: 800; }
+  .flow-node.fn-key { background: rgba(236,72,153,0.15); border-color: rgba(236,72,153,0.5); color: #f9a8d4; }
+  .flow-node.fn-end { background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.4); color: #6ee7b7; }
+  .flow-node.fn-gray { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); color: var(--text-muted); }
+  .flow-col-arrow {
+    font-size: 18px; color: rgba(139,92,246,0.4); padding: 0 4px;
+    margin-top: 50px;
+  }
+  .flow-legend {
+    display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px;
+    font-size: 11px; color: var(--text-muted);
+  }
+  .flow-legend-item { display: flex; align-items: center; gap: 6px; }
+  .flow-legend-dot {
+    width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0;
+  }
+
   /* ══════════════ 인쇄 / PDF 출력 ══════════════ */
+
   @media print {
     /* CSS 변수 강제 재정의 — 다크테마 흰글자가 인쇄 시 안보이는 현상 방지 */
     :root {
@@ -1679,7 +1778,7 @@
 </svg></div>
       <div class="logo-text">
         <strong>계약나침반 <span style="font-size:13px;background:rgba(236,72,153,0.2);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:4px;padding:1px 7px;vertical-align:middle;font-weight:700;">부산시</span></strong>
-        <span>Contract Compass · 부산시 v3.0</span>
+        <span>Contract Compass · 부산시 v3.1</span>
       </div>
     </a>
     <button class="header-search-btn" onclick="openSearch()" title="전체 검색">🔍 검색</button>
@@ -1695,6 +1794,8 @@
       <button class="nav-btn" id="nav-recommend" onclick="showPage('recommend')">계약방법 추천</button>
       <button class="nav-btn" id="nav-reference" onclick="showPage('reference')">핵심 기준표</button>
       <div class="nav-divider"></div>
+      <button class="nav-btn" id="nav-flowchart" onclick="showPage('flowchart')">계약 흐름도</button>
+      <div class="nav-divider"></div>
       <button class="nav-btn nav-btn-law" onclick="openLawDrawer()">법령 바로가기</button>
     </nav>
   </div>
@@ -1709,9 +1810,56 @@
 
       <!-- 인트로 -->
       <div class="home-intro">
-        <div class="home-intro-badge">🧭 계약나침반 &nbsp;<span style="font-size:10px;background:rgba(236,72,153,0.25);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:3px;padding:1px 6px;">부산시 v3.0</span></div>
+        <div class="home-intro-badge">🧭 계약나침반 &nbsp;<span style="font-size:10px;background:rgba(236,72,153,0.25);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:3px;padding:1px 6px;">부산시 v3.1</span></div>
         <h1>계약 요청을 받으셨나요?<br><em>계약나침반이 방향을 잡아드립니다</em></h1>
         <p>처음 계약을 맡은 담당자도 당황하지 마세요. 목적물 유형과 금액을 입력하면<br>올바른 방향과 전체 프로세스, 단계별 서류까지 한번에 안내합니다.</p>
+      </div>
+
+      <!-- 간략 계약 흐름도 -->
+      <div class="home-mini-flow">
+        <div class="home-mini-flow-title">📊 계약업무 전체 흐름 <span onclick="showPage('flowchart')" style="font-size:11px;color:#a78bfa;cursor:pointer;margin-left:8px;text-decoration:underline;">상세 흐름도 보기 →</span></div>
+        <div class="home-mini-flow-steps">
+          <div class="hmf-step">
+            <div class="hmf-num">1</div>
+            <div class="hmf-label">예산 확인·<br>목적물 확인</div>
+          </div>
+          <div class="hmf-arrow">▶</div>
+          <div class="hmf-step">
+            <div class="hmf-num">2</div>
+            <div class="hmf-label">계약방법<br>결정</div>
+          </div>
+          <div class="hmf-arrow">▶</div>
+          <div class="hmf-step hmf-step-key">
+            <div class="hmf-num">3</div>
+            <div class="hmf-label">입찰공고<br>또는 견적</div>
+          </div>
+          <div class="hmf-arrow">▶</div>
+          <div class="hmf-step hmf-step-key">
+            <div class="hmf-num">4</div>
+            <div class="hmf-label">낙찰자<br>결정</div>
+          </div>
+          <div class="hmf-arrow">▶</div>
+          <div class="hmf-step">
+            <div class="hmf-num">5</div>
+            <div class="hmf-label">계약<br>체결</div>
+          </div>
+          <div class="hmf-arrow">▶</div>
+          <div class="hmf-step">
+            <div class="hmf-num">6</div>
+            <div class="hmf-label">이행·<br>감독</div>
+          </div>
+          <div class="hmf-arrow">▶</div>
+          <div class="hmf-step">
+            <div class="hmf-num">7</div>
+            <div class="hmf-label">검사·<br>검수</div>
+          </div>
+          <div class="hmf-arrow">▶</div>
+          <div class="hmf-step hmf-step-end">
+            <div class="hmf-num">8</div>
+            <div class="hmf-label">대금<br>지급</div>
+          </div>
+        </div>
+        <div class="hmf-hint">💡 아래에서 계약 정보를 입력하면 이 흐름 중 어느 단계부터, 어떤 방법으로 진행해야 하는지 안내해 드립니다.</div>
       </div>
 
       <!-- 입력 카드 -->
@@ -1812,7 +1960,7 @@
     <!-- 인쇄 전용 헤더 (화면에서는 숨김) -->
     <div class="print-header">
       <h1>🧭 계약나침반 — 절차 체크리스트</h1>
-      <p>출력일: <span id="printDate"></span> · Contract Compass 부산시 v3.0</p>
+      <p>출력일: <span id="printDate"></span> · Contract Compass 부산시 v3.1</p>
     </div>
 
     <div class="cl-layout">
@@ -1971,6 +2119,26 @@
           <button class="btn btn-outline" onclick="printChecklist()">📥 체크리스트 다운로드</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ─── PAGE: FLOWCHART ─── -->
+  <div class="page" id="page-flowchart">
+    <div style="max-width:1100px;margin:0 auto;padding:24px 16px;">
+      <h2 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:4px;">📊 계약업무 흐름도</h2>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px;">계약방법별 전체 업무 흐름을 한눈에 확인하세요. 단계를 클릭하면 관련 체크리스트로 이동합니다.</p>
+
+      <!-- 탭 선택 -->
+      <div class="flow-tabs" id="flowTabs">
+        <button class="flow-tab active" onclick="selectFlow('suui1',this)">1인 견적<br>수의계약</button>
+        <button class="flow-tab" onclick="selectFlow('suui2',this)">2인 견적<br>수의계약</button>
+        <button class="flow-tab" onclick="selectFlow('iphal',this)">경쟁<br>입찰</button>
+        <button class="flow-tab" onclick="selectFlow('jodal',this)">조달청<br>계약</button>
+        <button class="flow-tab" onclick="selectFlow('shopping',this)">나라장터<br>쇼핑몰</button>
+      </div>
+
+      <!-- 흐름도 컨테이너 -->
+      <div id="flowContainer"></div>
     </div>
   </div>
 
@@ -4319,7 +4487,7 @@ function printChecklist() {
     '</style></head><body>' +
     '<div style="text-align:center;">' +
       '<h1>🧭 계약나침반 — 절차 체크리스트</h1>' +
-      '<div class="subtitle">출력일: '+dateStr+' · Contract Compass 부산시 v3.0 · <strong>'+typeName+'</strong></div>' +
+      '<div class="subtitle">출력일: '+dateStr+' · Contract Compass 부산시 v3.1 · <strong>'+typeName+'</strong></div>' +
     '</div>' +
     '<hr class="divider">' +
     '<div style="text-align:right;margin-bottom:12px;">' +
@@ -4342,6 +4510,240 @@ function printChecklist() {
   setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
   showToast('✅ HTML 파일로 저장됩니다. 열어서 PDF 저장 버튼을 누르세요.');
 }
+
+// ══════════════════════════════════════════
+// 계약업무 흐름도 데이터 & 렌더링
+// ══════════════════════════════════════════
+var FLOW_DATA = {
+  suui1: {
+    label: '1인 견적 수의계약 (2천만원 이하)',
+    cols: [
+      { header: '발주 준비', nodes: [
+        { text: '예산 확인', type: 'fn-start' },
+        { text: '목적물 확인 규격서 작성', type: '' },
+        { text: '추정가격 산정', type: '' },
+        { text: '수의계약 사유 확인', type: 'fn-key' },
+      ]},
+      { header: '견적 징구', nodes: [
+        { text: '업체 선정', type: '' },
+        { text: '1인 견적서 수령', type: 'fn-key' },
+        { text: '가격 검토 (예정가 대비)', type: '' },
+      ]},
+      { header: '계약 체결', nodes: [
+        { text: '수의계약서 작성·날인', type: 'fn-key' },
+        { text: '인지세 납부', type: '' },
+        { text: '계약보증금 (해당 시)', type: '' },
+        { text: '청렴서약서 징구', type: '' },
+      ]},
+      { header: '이행·감독', nodes: [
+        { text: '감독관 지정', type: '' },
+        { text: '이행 감독 일지 작성', type: '' },
+      ]},
+      { header: '검사·대금', nodes: [
+        { text: '검사·검수 (14일 이내)', type: 'fn-key' },
+        { text: '채권 매입필증 수령 (2천만↑)', type: '' },
+        { text: '대금 지급 (5일 이내)', type: 'fn-end' },
+      ]},
+    ]
+  },
+  suui2: {
+    label: '2인 견적 수의계약 (2천만원 초과 ~ 1억원 이하)',
+    cols: [
+      { header: '발주 준비', nodes: [
+        { text: '예산 확인', type: 'fn-start' },
+        { text: '규격서· 과업지시서', type: '' },
+        { text: '추정가격 산정', type: '' },
+        { text: '수의계약 사유 확인', type: 'fn-key' },
+      ]},
+      { header: '전자공개', nodes: [
+        { text: 'G2B 사전규격 공개 (5일↑)', type: 'fn-key' },
+        { text: '2인 이상 견적 접수', type: 'fn-key' },
+        { text: '개찰·낙찰 결정', type: '' },
+      ]},
+      { header: '계약 체결', nodes: [
+        { text: '계약서 작성·날인', type: 'fn-key' },
+        { text: '계약보증금 납부', type: '' },
+        { text: '청렴서약서 징구', type: '' },
+      ]},
+      { header: '이행·감독', nodes: [
+        { text: '감독관 지정', type: '' },
+        { text: '이행 감독', type: '' },
+        { text: '일상감사 (해당 시)', type: '' },
+      ]},
+      { header: '검사·대금', nodes: [
+        { text: '검사·검수 (14일 이내)', type: 'fn-key' },
+        { text: '채권 매입필증 수령', type: '' },
+        { text: '대금 지급 (5일 이내)', type: 'fn-end' },
+      ]},
+    ]
+  },
+  iphal: {
+    label: '일반경쟁입찰 (공사 4억↑ / 용역·물품 1억↑)',
+    cols: [
+      { header: '발주 준비', nodes: [
+        { text: '예산 확인', type: 'fn-start' },
+        { text: '설계서· 규격서 작성', type: '' },
+        { text: '원가심사 (계약심사과)', type: 'fn-key' },
+        { text: '예정가격 결정·봉인', type: 'fn-key' },
+        { text: '일상감사 의뢰', type: '' },
+      ]},
+      { header: '입찰 공고', nodes: [
+        { text: 'G2B 사전규격 공개 (7일↑)', type: '' },
+        { text: 'G2B 입찰공고', type: 'fn-key' },
+        { text: '공고기간 준수', type: '' },
+      ]},
+      { header: '입찰·개찰', nodes: [
+        { text: '전자입찰 접수', type: '' },
+        { text: '공개 개찰 (참관인 2인)', type: 'fn-key' },
+        { text: '유효입찰 2인 이상 확인', type: '' },
+      ]},
+      { header: '낙찰·계약', nodes: [
+        { text: '적격심사 또는 최저가', type: 'fn-key' },
+        { text: '부정당업자 G2B 확인', type: '' },
+        { text: '낙찰통보 (10일 내 계약)', type: '' },
+        { text: '계약서 체결', type: 'fn-key' },
+        { text: '계약보증금 납부 (10%)', type: '' },
+      ]},
+      { header: '이행·감독', nodes: [
+        { text: '착공신고 (공사)', type: '' },
+        { text: '감독관 지정·일지', type: '' },
+        { text: '기성검사 (해당 시)', type: '' },
+      ]},
+      { header: '검사·대금', nodes: [
+        { text: '준공·납품 검사', type: 'fn-key' },
+        { text: '하자보증금 (공사)', type: '' },
+        { text: '채권 매입필증 수령', type: '' },
+        { text: '대금 지급 (5일 이내)', type: 'fn-end' },
+      ]},
+    ]
+  },
+  jodal: {
+    label: '조달청 계약 (나라장터 의뢰)',
+    cols: [
+      { header: '사전 준비', nodes: [
+        { text: '예산 확인', type: 'fn-start' },
+        { text: '규격서· 과업지시서', type: '' },
+        { text: '원가심사 (해당 시)', type: '' },
+      ]},
+      { header: '조달 의뢰', nodes: [
+        { text: '조달청 계약 요청', type: 'fn-key' },
+        { text: '조달청 응답 확인', type: '' },
+      ]},
+      { header: '계약 진행', nodes: [
+        { text: '조달청 입찰·낙찰', type: 'fn-key', note: '조달청 처리' },
+        { text: '계약체결 통보 수령', type: '' },
+      ]},
+      { header: '이행·검사', nodes: [
+        { text: '납품· 이행 관리', type: '' },
+        { text: '검사·검수 (14일 이내)', type: 'fn-key' },
+      ]},
+      { header: '대금 지급', nodes: [
+        { text: '조달수수료 확인', type: '' },
+        { text: '채권 매입필증 수령', type: '' },
+        { text: '대금 지급 (5일 이내)', type: 'fn-end' },
+      ]},
+    ]
+  },
+  shopping: {
+    label: '나라장터 쇼핑몰 구매',
+    cols: [
+      { header: '사전 확인', nodes: [
+        { text: '예산 확인', type: 'fn-start' },
+        { text: '쇼핑몰 등록 물품 검색', type: '' },
+        { text: '규격·가격 적정성 검토', type: '' },
+      ]},
+      { header: '구매 요청', nodes: [
+        { text: 'G2B 쇼핑몰 구매 요청', type: 'fn-key' },
+        { text: '업체 납품 요구 확인', type: '' },
+      ]},
+      { header: '납품·검수', nodes: [
+        { text: '납품 수령', type: '' },
+        { text: '검수조서 작성', type: 'fn-key' },
+      ]},
+      { header: '대금 지급', nodes: [
+        { text: '계산서 수령', type: '' },
+        { text: '채권 매입필증 (2천만↑)', type: '' },
+        { text: '대금 지급 (5일 이내)', type: 'fn-end' },
+      ]},
+    ]
+  }
+};
+
+function selectFlow(key, btn) {
+  document.querySelectorAll('.flow-tab').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderFlow(key);
+}
+
+function renderFlow(key) {
+  var data = FLOW_DATA[key];
+  if (!data) return;
+  var container = document.getElementById('flowContainer');
+
+  // 클릭 가능 노드 → 체크리스트 이동 매핑
+  var nodeMap = {
+    '원가심사 (계약심사과)': 'checklist',
+    '예정가격 결정·봉인': 'checklist',
+    'G2B 입찰공고': 'checklist',
+    '전자입찰 접수': 'checklist',
+    '적격심사 또는 최저가': 'checklist',
+    '계약서 체결': 'checklist',
+    '준공·납품 검사': 'checklist',
+    '대금 지급 (5일 이내)': 'checklist',
+    '검사·검수 (14일 이내)': 'checklist',
+    '계약서 작성·날인': 'checklist',
+    '2인 이상 견적 접수': 'checklist',
+  };
+
+  var colsHtml = data.cols.map(function(col){
+    var nodesHtml = col.nodes.map(function(node){
+      var linked = !!nodeMap[node.text];
+      var clickable = linked ? ' onclick="showPage(\'' + nodeMap[node.text] + '\')" title="클릭: 체크리스트로 이동"' : '';
+      var clickStyle = linked ? ' style="cursor:pointer;"' : '';
+      return '<div class="flow-node ' + node.type + '"' + clickable + clickStyle + '>' +
+        node.text + '</div>';
+    }).join('');
+    return '<div class="flow-col">' +
+      '<div class="flow-col-header">' + col.header + '</div>' +
+      nodesHtml +
+      '</div>';
+  });
+
+  // 컬럼 사이에 화살표 삽입
+  var withArrows = [];
+  colsHtml.forEach(function(col, i){
+    withArrows.push(col);
+    if (i < colsHtml.length - 1) {
+      withArrows.push('<div class="flow-col-arrow">▶</div>');
+    }
+  });
+
+  container.innerHTML =
+    '<div class="flow-chart-wrap">' +
+      '<div style="font-size:12px;font-weight:700;color:#a78bfa;margin-bottom:16px;">' + data.label + '</div>' +
+      '<div class="flow-col-wrap">' + withArrows.join('') + '</div>' +
+      '<div class="flow-legend">' +
+        '<div class="flow-legend-item"><div class="flow-legend-dot" style="background:rgba(139,92,246,0.25);border:1.5px solid #8b5cf6;"></div> 일반 단계</div>' +
+        '<div class="flow-legend-item"><div class="flow-legend-dot" style="background:rgba(236,72,153,0.15);border:1.5px solid rgba(236,72,153,0.5);"></div> 핵심 주의 단계</div>' +
+        '<div class="flow-legend-item"><div class="flow-legend-dot" style="background:rgba(16,185,129,0.15);border:1.5px solid rgba(16,185,129,0.4);"></div> 완료 단계</div>' +
+        '<div class="flow-legend-item" style="color:#a78bfa;">💡 진한 테두리 항목 클릭 시 체크리스트로 이동</div>' +
+      '</div>' +
+    '</div>';
+}
+
+// 흐름도 페이지 진입 시 기본 표시
+var _origShowPage = showPage;
+showPage = function(name) {
+  _origShowPage(name);
+  if (name === 'flowchart') {
+    renderFlow('suui1');
+    var firstTab = document.querySelector('.flow-tab');
+    if (firstTab) {
+      document.querySelectorAll('.flow-tab').forEach(function(b){ b.classList.remove('active'); });
+      firstTab.classList.add('active');
+    }
+  }
+};
 
 function resetAll() {
   renderChecklist(currentType);
