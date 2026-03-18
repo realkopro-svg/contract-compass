@@ -2126,7 +2126,7 @@
   <div class="page" id="page-flowchart">
     <div style="max-width:1100px;margin:0 auto;padding:24px 16px;">
       <h2 style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:4px;">📊 계약업무 흐름도</h2>
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px;">계약방법별 전체 업무 흐름을 한눈에 확인하세요. 단계를 클릭하면 관련 체크리스트로 이동합니다.</p>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px;">계약방법별 전체 업무 흐름을 한눈에 확인하세요.</p>
 
       <!-- 탭 선택 -->
       <div class="flow-tabs" id="flowTabs">
@@ -4680,28 +4680,9 @@ function renderFlow(key) {
   if (!data) return;
   var container = document.getElementById('flowContainer');
 
-  // 클릭 가능 노드 → 체크리스트 이동 매핑
-  var nodeMap = {
-    '원가심사 (계약심사과)': 'checklist',
-    '예정가격 결정·봉인': 'checklist',
-    'G2B 입찰공고': 'checklist',
-    '전자입찰 접수': 'checklist',
-    '적격심사 또는 최저가': 'checklist',
-    '계약서 체결': 'checklist',
-    '준공·납품 검사': 'checklist',
-    '대금 지급 (5일 이내)': 'checklist',
-    '검사·검수 (14일 이내)': 'checklist',
-    '계약서 작성·날인': 'checklist',
-    '2인 이상 견적 접수': 'checklist',
-  };
-
   var colsHtml = data.cols.map(function(col){
     var nodesHtml = col.nodes.map(function(node){
-      var linked = !!nodeMap[node.text];
-      var clickable = linked ? ' onclick="showPage(\'' + nodeMap[node.text] + '\')" title="클릭: 체크리스트로 이동"' : '';
-      var clickStyle = linked ? ' style="cursor:pointer;"' : '';
-      return '<div class="flow-node ' + node.type + '"' + clickable + clickStyle + '>' +
-        node.text + '</div>';
+      return '<div class="flow-node ' + node.type + '">' + node.text + '</div>';
     }).join('');
     return '<div class="flow-col">' +
       '<div class="flow-col-header">' + col.header + '</div>' +
@@ -4726,7 +4707,6 @@ function renderFlow(key) {
         '<div class="flow-legend-item"><div class="flow-legend-dot" style="background:rgba(139,92,246,0.25);border:1.5px solid #8b5cf6;"></div> 일반 단계</div>' +
         '<div class="flow-legend-item"><div class="flow-legend-dot" style="background:rgba(236,72,153,0.15);border:1.5px solid rgba(236,72,153,0.5);"></div> 핵심 주의 단계</div>' +
         '<div class="flow-legend-item"><div class="flow-legend-dot" style="background:rgba(16,185,129,0.15);border:1.5px solid rgba(16,185,129,0.4);"></div> 완료 단계</div>' +
-        '<div class="flow-legend-item" style="color:#a78bfa;">💡 진한 테두리 항목 클릭 시 체크리스트로 이동</div>' +
       '</div>' +
     '</div>';
 }
