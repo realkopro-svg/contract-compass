@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#07071a">
 <meta name="description" content="부산시 공공계약 업무담당자를 위한 A-Z 프로세스 가이드 웹앱. 계약유형 판별, 실무Q&A, 절차 체크리스트까지 한 곳에서.">
-<title>계약나침반 · 부산시 공공계약 가이드</title>
+<title>계약나침반 · 부산시 공공계약 가이드 v3.1</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -516,7 +516,7 @@ footer { border-top: 1px solid var(--border-card); padding: 40px 24px; }
       </div>
     </a>
     <div class="nav-right">
-      <span class="nav-badge">부산시 v3.0</span>
+      <span class="nav-badge">부산시 v3.1</span>
       <a href="#story" class="nav-anchor">만든 이유</a>
       <a href="#features" class="nav-anchor">기능 소개</a>
       <a href="#process" class="nav-anchor">계약 프로세스</a>
@@ -571,7 +571,7 @@ footer { border-top: 1px solid var(--border-card); padding: 40px 24px; }
   </p>
 
   <div class="hero-stats">
-    <div class="stat-item"><span class="stat-num">7</span><span class="stat-label">전문 탭 구성</span></div>
+    <div class="stat-item"><span class="stat-num">8</span><span class="stat-label">전문 탭 구성</span></div>
     <div class="stat-item"><span class="stat-num">50+</span><span class="stat-label">실무 Q&amp;A 수록</span></div>
     <div class="stat-item"><span class="stat-num">30+</span><span class="stat-label">관련 법령 연결</span></div>
     <div class="stat-item"><span class="stat-num">'26</span><span class="stat-label">최신 시행령 반영</span></div>
@@ -647,7 +647,7 @@ footer { border-top: 1px solid var(--border-card); padding: 40px 24px; }
   <div class="features" id="features">
     <div class="section-label reveal">기능 소개</div>
     <h2 class="section-title reveal reveal-delay-1">계약 업무의 모든 것,<br>한 화면에서</h2>
-    <p class="section-desc reveal reveal-delay-2">복잡한 공공계약 절차를 7개 탭으로 체계화했습니다. 어떤 상황에서도 정확한 답을 빠르게 찾을 수 있습니다.</p>
+    <p class="section-desc reveal reveal-delay-2">복잡한 공공계약 절차를 8개 탭으로 체계화했습니다. 어떤 상황에서도 정확한 답을 빠르게 찾을 수 있습니다.</p>
 
     <div class="tabs-showcase reveal reveal-delay-3">
       <div class="tabs-nav">
@@ -668,6 +668,9 @@ footer { border-top: 1px solid var(--border-card); padding: 40px 24px; }
         </button>
         <button class="tab-btn" onclick="switchTab(5,this)">
           <div class="tab-icon">⚖️</div><div><span class="tab-name">법령 바로가기</span><span class="tab-hint">법제처 직접 연결</span></div>
+        </button>
+        <button class="tab-btn" onclick="switchTab(6,this)">
+          <div class="tab-icon">📊</div><div><span class="tab-name">계약 흐름도</span><span class="tab-hint">5가지 계약유형 흐름</span></div>
         </button>
       </div>
       <div class="tab-panels">
@@ -761,6 +764,24 @@ footer { border-top: 1px solid var(--border-card); padding: 40px 24px; }
             <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>지방계약법 시행령 (2026.1.2 시행 버전)</span></div>
             <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>지방계약법 시행규칙 및 관련 예규·고시 링크</span></div>
             <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>법제처·행안부·조달청·나라장터 바로가기 모음</span></div>
+          </div>
+        </div>
+        <div class="tab-panel">
+          <span class="panel-badge badge-cyan">📊 계약 흐름도</span>
+          <h3 class="panel-title">계약방식별 전체 흐름, 한눈에</h3>
+          <p class="panel-desc">5가지 계약방식의 처음부터 끝까지 전체 흐름을 시각적으로 보여줍니다. 어느 단계인지 바로 확인할 수 있어요.</p>
+          <div class="panel-features-list">
+            <div class="pf-item"><div class="pf-dot dot-cyan">✓</div><span><strong style="color:var(--text-1);">1인 견적 수의계약</strong> — 2천만원 이하 소액 계약 흐름</span></div>
+            <div class="pf-item"><div class="pf-dot dot-cyan">✓</div><span><strong style="color:var(--text-1);">2인 이상 견적 수의계약</strong> — 2천만원 초과 수의계약 흐름</span></div>
+            <div class="pf-item"><div class="pf-dot dot-cyan">✓</div><span><strong style="color:var(--text-1);">경쟁입찰</strong> — 일반·제한경쟁 공고~낙찰~계약 전 과정</span></div>
+            <div class="pf-item"><div class="pf-dot dot-cyan">✓</div><span><strong style="color:var(--text-1);">조달청 계약</strong> — 조달 요청부터 납품까지 흐름</span></div>
+            <div class="pf-item"><div class="pf-dot dot-cyan">✓</div><span><strong style="color:var(--text-1);">나라장터 쇼핑몰</strong> — 전자조달 구매 흐름</span></div>
+          </div>
+          <div class="panel-mock">
+            <div class="mock-row"><span class="mock-row-label">1인 견적 수의계약</span><span class="val-green">2천만원 이하</span></div>
+            <div class="mock-row"><span class="mock-row-label">2인 이상 견적 수의계약</span><span class="val-cyan">2천만원 초과</span></div>
+            <div class="mock-row"><span class="mock-row-label">경쟁입찰</span><span class="val-purple">일반·제한경쟁</span></div>
+            <div class="mock-row"><span class="mock-row-label">조달청 / 쇼핑몰</span><span class="val-gold">전자조달</span></div>
           </div>
         </div>
       </div>
@@ -872,7 +893,7 @@ footer { border-top: 1px solid var(--border-card); padding: 40px 24px; }
   <div class="footer-inner">
     <div class="footer-left">
       <div class="footer-logo"><strong>계약나침반</strong></div>
-      <span class="footer-version">v3.0</span>
+      <span class="footer-version">v3.1</span>
       <span class="footer-info">부산시 공공계약 A-Z 가이드</span>
     </div>
     <div class="footer-right">
