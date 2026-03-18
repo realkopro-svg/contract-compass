@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07071a">
+<meta name="description" content="부산시 공공계약 업무담당자를 위한 A-Z 프로세스 가이드 웹앱. 계약유형 판별, 실무Q&A, 절차 체크리스트까지 한 곳에서.">
+<title>계약나침반 · 부산시 공공계약 가이드</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:           #07071a;
+  --bg-card:      rgba(255,255,255,0.04);
+  --purple:       #8b5cf6;
+  --purple-light: #a78bfa;
+  --pink:         #ec4899;
+  --pink-light:   #f472b6;
+  --cyan:         #22d3ee;
+  --gold:         #f59e0b;
+  --green:        #10b981;
+  --text-1:       #f8fafc;
+  --text-2:       rgba(248,250,252,0.65);
+  --text-3:       rgba(248,250,252,0.38);
+  --border-card:  rgba(255,255,255,0.07);
+  --radius:       12px;
+  --radius-lg:    20px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg); color: var(--text-1);
+  overflow-x: hidden; letter-spacing: -0.01em;
+}
+.mesh {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -5%, rgba(139,92,246,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 90%, rgba(236,72,153,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 5% 70%,  rgba(34,211,238,0.06) 0%, transparent 50%);
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(7,7,26,0.82);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(139,92,246,0.14);
+}
+.nav-inner {
+  max-width: 1140px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo svg { filter: drop-shadow(0 0 8px rgba(139,92,246,0.55)); }
+.nav-logo-text strong {
+  display: block; font-size: 17px; font-weight: 800; line-height: 1;
+  background: linear-gradient(90deg, #c4b5fd, #f472b6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; letter-spacing: -0.02em;
+}
+.nav-logo-text span {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: var(--text-3); letter-spacing: 2.5px; text-transform: uppercase;
+}
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-badge {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  color: rgba(167,139,250,0.8); background: rgba(139,92,246,0.12);
+  border: 1px solid rgba(139,92,246,0.25);
+  padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px;
+}
+.nav-anchor {
+  font-size: 12px; font-weight: 600; color: var(--text-3);
+  text-decoration: none; transition: color .18s;
+}
+.nav-anchor:hover { color: var(--purple-light); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 120px 24px 60px;
+}
+.compass-ring-wrap {
+  position: relative; width: 140px; height: 140px;
+  margin: 0 auto 40px;
+  animation: fadeUp 0.6s ease both;
+}
+.compass-ring-wrap svg { position: absolute; inset: 0; }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes spin-rev  { to { transform: rotate(-360deg); } }
+@keyframes pulse-glow { 0%,100%{opacity:.6} 50%{opacity:1} }
+.ring-outer { animation: spin-slow 20s linear infinite; }
+.ring-inner { animation: spin-rev 12s linear infinite; }
+.compass-glow {
+  position: absolute; inset: -30px;
+  background: radial-gradient(circle, rgba(139,92,246,0.35) 0%, transparent 65%);
+  animation: pulse-glow 3s ease-in-out infinite; border-radius: 50%;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(139,92,246,0.14); border: 1px solid rgba(139,92,246,0.3);
+  color: #a78bfa; font-size: 11px; font-weight: 700;
+  padding: 5px 16px; border-radius: 20px; letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 24px; animation: fadeUp 0.7s ease both;
+}
+.hero-eyebrow .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #a78bfa;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+.hero-title {
+  font-size: clamp(38px, 7vw, 72px); font-weight: 900; line-height: 1.1;
+  letter-spacing: -0.03em; margin-bottom: 20px;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+.hero-title .grad {
+  background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #fb923c 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-title .block { display: block; }
+.hero-sub {
+  font-size: clamp(15px, 2.5vw, 18px); color: var(--text-2); line-height: 1.75;
+  max-width: 580px; margin: 0 auto 48px; font-weight: 400;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+.hero-sub strong { color: var(--text-1); font-weight: 600; }
+.hero-stats {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex-wrap: wrap;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg); padding: 0 8px;
+  animation: fadeUp 0.8s 0.3s ease both;
+  max-width: 680px; margin: 0 auto 52px;
+}
+.stat-item {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 20px 28px; flex: 1; min-width: 130px;
+}
+.stat-item + .stat-item { border-left: 1px solid var(--border-card); }
+.stat-num {
+  font-family: 'DM Mono', monospace; font-size: 28px; font-weight: 500;
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; line-height: 1; margin-bottom: 5px;
+}
+.stat-label { font-size: 11px; color: var(--text-3); white-space: nowrap; }
+.scroll-indicator {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: var(--text-3); font-size: 10px; font-family: 'DM Mono', monospace;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  animation: fadeUp 1s 0.5s ease both;
+}
+.scroll-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(180deg, rgba(139,92,246,0.7), transparent);
+  animation: scrollLine 1.8s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%  {transform:scaleY(0);transform-origin:top}
+  50% {transform:scaleY(1);transform-origin:top}
+  51% {transform:scaleY(1);transform-origin:bottom}
+  100%{transform:scaleY(0);transform-origin:bottom}
+}
+
+/* ── STORY ── */
+.story-section {
+  padding: 120px 24px 100px; position: relative; overflow: hidden;
+}
+.story-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(139,92,246,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.story-inner { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+.story-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 52px; }
+.story-eyebrow-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.35), transparent);
+}
+.story-eyebrow-text {
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px;
+  color: var(--purple-light); text-transform: uppercase; white-space: nowrap;
+}
+.story-quote-mark {
+  font-size: 96px; line-height: 0.7;
+  background: linear-gradient(135deg, rgba(139,92,246,0.45), rgba(236,72,153,0.3));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  display: block; margin-bottom: 8px; user-select: none;
+}
+.story-headline {
+  font-size: clamp(24px, 3.5vw, 34px); font-weight: 800;
+  letter-spacing: -0.03em; line-height: 1.3; margin-bottom: 52px; color: var(--text-1);
+}
+.story-headline .grad {
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.story-body { display: flex; flex-direction: column; }
+.story-paragraph {
+  position: relative; padding: 28px 0 28px 36px;
+  border-left: 1px solid rgba(255,255,255,0.06);
+}
+.story-paragraph::before {
+  content: ''; position: absolute; left: -1px; top: 0;
+  width: 2px; height: 0;
+  background: linear-gradient(180deg, var(--purple), var(--pink));
+  transition: height 1.1s cubic-bezier(0.4,0,0.2,1);
+}
+.story-paragraph.visible::before { height: 100%; }
+.story-paragraph p {
+  font-size: clamp(15px, 2vw, 17px); color: var(--text-2);
+  line-height: 2.0; font-weight: 400; word-break: keep-all;
+}
+.story-paragraph p + p { margin-top: 18px; }
+.story-paragraph.emphasis {
+  border-left-color: rgba(139,92,246,0.3);
+  background: rgba(139,92,246,0.05);
+  border-radius: 0 14px 14px 0; padding: 28px 32px 28px 36px;
+}
+.story-paragraph.emphasis p { color: rgba(248,250,252,0.82); }
+.story-paragraph.accent { border-left-color: rgba(236,72,153,0.3); }
+.story-paragraph.accent p { color: rgba(248,250,252,0.78); }
+.story-paragraph.accent::before { background: linear-gradient(180deg, var(--pink), rgba(251,146,60,0.8)); }
+.story-closing {
+  margin-top: 64px; padding-top: 48px;
+  border-top: 1px solid rgba(255,255,255,0.07); text-align: center;
+}
+.story-compass-deco { display: flex; justify-content: center; margin-bottom: 24px; opacity: 0.5; }
+.story-closing-main {
+  font-size: clamp(20px, 3vw, 28px); font-weight: 800;
+  letter-spacing: -0.03em; line-height: 1.55; margin-bottom: 16px;
+  background: linear-gradient(135deg, #c4b5fd 0%, #f472b6 55%, #fb923c 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.story-closing-sub { font-size: 16px; color: var(--text-3); line-height: 1.7; }
+
+/* ── SECTION COMMON ── */
+.section-label {
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px;
+  color: var(--purple-light); text-transform: uppercase; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::before { content:''; display:block; width:24px; height:1px; background:var(--purple-light); }
+.section-title {
+  font-size: clamp(28px, 4vw, 44px); font-weight: 800;
+  letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px;
+}
+.section-desc { font-size: 15px; color: var(--text-2); line-height: 1.75; max-width: 520px; margin-bottom: 56px; }
+
+/* ── FEATURES ── */
+.features { padding: 100px 24px; max-width: 1140px; margin: 0 auto; }
+.tabs-showcase {
+  display: grid; grid-template-columns: 280px 1fr; gap: 2px;
+  background: var(--border-card); border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg); overflow: hidden;
+}
+.tabs-nav { background: rgba(255,255,255,0.02); display: flex; flex-direction: column; }
+.tab-btn {
+  display: flex; align-items: center; gap: 12px; padding: 16px 20px;
+  background: none; border: none; border-bottom: 1px solid var(--border-card);
+  color: var(--text-3); cursor: pointer; text-align: left; transition: all .18s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.tab-btn:last-child { border-bottom: none; }
+.tab-btn.active { background: rgba(139,92,246,0.1); color: var(--text-1); border-right: 2px solid var(--purple); }
+.tab-btn:hover:not(.active) { background: rgba(255,255,255,0.04); color: var(--text-2); }
+.tab-icon {
+  width: 34px; height: 34px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0; background: rgba(255,255,255,0.05);
+}
+.tab-btn.active .tab-icon { background: rgba(139,92,246,0.2); }
+.tab-name { font-size: 13px; font-weight: 600; display: block; line-height: 1.2; margin-bottom: 2px; }
+.tab-hint { font-size: 10px; color: var(--text-3); font-weight: 400; }
+.tab-btn.active .tab-hint { color: rgba(167,139,250,0.7); }
+.tab-panels { background: rgba(255,255,255,0.025); }
+.tab-panel { display: none; padding: 36px; animation: fadeIn .25s ease; }
+.tab-panel.active { display: block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.panel-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; padding: 3px 12px; border-radius: 20px; margin-bottom: 16px;
+}
+.badge-purple { background:rgba(139,92,246,0.15); border:1px solid rgba(139,92,246,0.3); color:#a78bfa; }
+.badge-pink   { background:rgba(236,72,153,0.12); border:1px solid rgba(236,72,153,0.25); color:#f472b6; }
+.badge-cyan   { background:rgba(34,211,238,0.1);  border:1px solid rgba(34,211,238,0.25);  color:#67e8f9; }
+.badge-gold   { background:rgba(245,158,11,0.1);  border:1px solid rgba(245,158,11,0.25);  color:#fbbf24; }
+.panel-title { font-size: 22px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.02em; }
+.panel-desc  { font-size: 14px; color: var(--text-2); line-height: 1.75; margin-bottom: 24px; }
+.panel-features-list { display: flex; flex-direction: column; gap: 10px; }
+.pf-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text-2); line-height: 1.6; }
+.pf-dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0; margin-top: 1px;
+}
+.dot-purple{background:rgba(139,92,246,0.2);color:#a78bfa}
+.dot-pink  {background:rgba(236,72,153,0.15);color:#f472b6}
+.dot-cyan  {background:rgba(34,211,238,0.12);color:#67e8f9}
+.dot-gold  {background:rgba(245,158,11,0.12);color:#fbbf24}
+.panel-mock {
+  background: rgba(7,7,26,0.6); border: 1px solid rgba(139,92,246,0.15);
+  border-radius: 10px; padding: 16px; margin-top: 20px;
+  font-family: 'DM Mono', monospace; font-size: 11.5px;
+}
+.mock-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px; border-radius: 6px; margin-bottom: 4px;
+}
+.mock-row:last-child { margin-bottom: 0; }
+.mock-row:hover { background: rgba(139,92,246,0.07); }
+.mock-row-label { color: var(--text-2); font-size: 11px; }
+.val-purple{color:#a78bfa} .val-green{color:#34d399} .val-gold{color:#fbbf24}
+.val-pink{color:#f472b6}   .val-cyan{color:#67e8f9}
+.mock-divider { height:1px; background:var(--border-card); margin:8px 0; }
+
+/* ── BUSAN ── */
+.busan-section { padding: 80px 24px; }
+.busan-inner { max-width: 1140px; margin: 0 auto; }
+.busan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 48px; }
+.busan-card {
+  background: var(--bg-card); border: 1px solid var(--border-card);
+  border-radius: var(--radius); padding: 24px;
+  transition: all .2s; position: relative; overflow: hidden;
+}
+.busan-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+.bc-purple::before{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
+.bc-pink::before  {background:linear-gradient(90deg,#ec4899,#f472b6)}
+.bc-cyan::before  {background:linear-gradient(90deg,#22d3ee,#67e8f9)}
+.bc-gold::before  {background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.bc-green::before {background:linear-gradient(90deg,#10b981,#34d399)}
+.busan-card:hover { border-color:rgba(139,92,246,0.25); background:rgba(255,255,255,0.06); transform:translateY(-2px); }
+.bc-icon { font-size:24px; margin-bottom:12px; display:block; }
+.bc-title { font-size:14px; font-weight:700; margin-bottom:6px; }
+.bc-desc  { font-size:12px; color:var(--text-3); line-height:1.65; }
+
+/* ── LAW TICKER ── */
+.law-strip { padding: 48px 24px; overflow: hidden; }
+.law-strip-inner { max-width: 1140px; margin: 0 auto; }
+.law-ticker {
+  display: flex; overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+.law-ticker-track {
+  display: flex; gap: 10px; align-items: center;
+  animation: ticker 25s linear infinite; white-space: nowrap; flex-shrink: 0;
+}
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.law-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: 20px; font-size: 11px;
+  font-family: 'DM Mono', monospace; font-weight: 500; white-space: nowrap; flex-shrink: 0;
+  border: 1px solid rgba(245,158,11,0.25); background: rgba(245,158,11,0.08); color: #fbbf24;
+}
+
+/* ── TIMELINE ── */
+.process-section {
+  padding: 100px 24px;
+  background: linear-gradient(180deg, transparent 0%, rgba(139,92,246,0.04) 50%, transparent 100%);
+}
+.process-inner { max-width: 1140px; margin: 0 auto; }
+.timeline {
+  display: flex; flex-direction: column; max-width: 700px;
+  margin: 48px auto 0; position: relative;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 23px; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(139,92,246,0.4) 10%, rgba(139,92,246,0.4) 90%, transparent 100%);
+}
+.tl-item { display: flex; gap: 20px; align-items: flex-start; padding: 0 0 32px; }
+.tl-num {
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 2px solid rgba(139,92,246,0.4); background: rgba(139,92,246,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500;
+  color: #a78bfa; flex-shrink: 0; position: relative; z-index: 1;
+}
+.tl-body { padding-top: 8px; }
+.tl-title { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+.tl-desc  { font-size: 13px; color: var(--text-3); line-height: 1.7; }
+.tl-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tl-chip {
+  font-size: 10px; font-family: 'DM Mono', monospace;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09);
+  color: var(--text-3); padding: 3px 9px; border-radius: 4px;
+}
+
+/* ── CTA ── */
+.cta-section { padding: 130px 24px; text-align: center; }
+.cta-inner { max-width: 700px; margin: 0 auto; position: relative; }
+.cta-glow {
+  position: absolute; inset: -80px;
+  background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cta-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25);
+  color: #34d399; font-size: 11px; font-weight: 700;
+  padding: 5px 16px; border-radius: 20px; letter-spacing: 0.5px;
+  margin-bottom: 32px; text-transform: uppercase;
+}
+.cta-title {
+  font-size: clamp(32px, 5vw, 54px); font-weight: 900;
+  letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px;
+}
+.cta-title .grad {
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.cta-desc {
+  font-size: 16px; color: var(--text-2); line-height: 1.8; margin-bottom: 48px;
+  max-width: 500px; margin-left: auto; margin-right: auto;
+}
+.btn-cta-main {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: #fff; font-weight: 800; font-size: 18px;
+  padding: 20px 52px; border-radius: 14px;
+  text-decoration: none; transition: all .25s;
+  box-shadow: 0 8px 40px rgba(139,92,246,0.5);
+  letter-spacing: -0.01em; position: relative; overflow: hidden;
+}
+.btn-cta-main::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  opacity: 0; transition: opacity .25s;
+}
+.btn-cta-main:hover { transform: translateY(-3px); box-shadow: 0 16px 56px rgba(139,92,246,0.65); }
+.btn-cta-main:hover::before { opacity: 1; }
+.cta-sub-info {
+  margin-top: 28px;
+  display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap;
+}
+.cta-sub-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-3); font-family: 'DM Mono', monospace; }
+.cta-url { display: block; margin-top: 20px; font-size: 11px; color: rgba(139,92,246,0.5); font-family: 'DM Mono', monospace; letter-spacing: 0.5px; }
+
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--border-card); padding: 40px 24px; }
+.footer-inner {
+  max-width: 1140px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-left { display: flex; align-items: center; gap: 12px; }
+.footer-logo strong {
+  font-size: 15px; font-weight: 800;
+  background: linear-gradient(90deg, #c4b5fd, #f472b6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.footer-info { font-size: 11px; color: var(--text-3); font-family: 'DM Mono', monospace; }
+.footer-right { display: flex; gap: 20px; align-items: center; }
+.footer-link { font-size: 12px; color: var(--text-3); text-decoration: none; transition: color .15s; }
+.footer-link:hover { color: var(--purple-light); }
+.footer-version {
+  font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(139,92,246,0.6);
+  background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2);
+  padding: 2px 8px; border-radius: 4px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .tabs-showcase { grid-template-columns: 1fr; }
+  .tabs-nav { flex-direction: row; overflow-x: auto; flex-wrap: nowrap; }
+  .tab-btn { flex-shrink: 0; border-right: none !important; border-bottom: 2px solid transparent !important; }
+  .tab-btn.active { border-bottom-color: var(--purple) !important; }
+  .tab-hint { display: none; }
+  .stat-item { padding: 14px 16px; }
+  .stat-num { font-size: 22px; }
+  .nav-badge, .nav-anchor { display: none; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-right { justify-content: center; }
+  .btn-cta-main { font-size: 16px; padding: 17px 32px; }
+}
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .4s; }
+</style>
+</head>
+<body>
+
+<div class="mesh"></div>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+        <rect width="34" height="34" rx="8" fill="#0e0e2e"/>
+        <circle cx="17" cy="17" r="13" stroke="#8b5cf6" stroke-width="1.2" opacity="0.5"/>
+        <circle cx="17" cy="17" r="9" stroke="rgba(139,92,246,0.3)" stroke-width="0.8" stroke-dasharray="2 3"/>
+        <g transform="rotate(38 17 17)">
+          <polygon points="17,5 20,17 17,14 14,17" fill="#a78bfa"/>
+          <polygon points="17,29 14,17 17,20 20,17" fill="#f472b6"/>
+        </g>
+        <circle cx="17" cy="17" r="2.5" fill="white"/>
+      </svg>
+      <div class="nav-logo-text">
+        <strong>계약나침반</strong>
+        <span>Contract Compass</span>
+      </div>
+    </a>
+    <div class="nav-right">
+      <span class="nav-badge">부산시 v3.0</span>
+      <a href="#story" class="nav-anchor">만든 이유</a>
+      <a href="#features" class="nav-anchor">기능 소개</a>
+      <a href="#process" class="nav-anchor">계약 프로세스</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ 1. HERO — 인트로 (버튼 없음) ══ -->
+<section class="hero">
+  <div class="compass-ring-wrap">
+    <div class="compass-glow"></div>
+    <svg viewBox="0 0 140 140" fill="none" width="140" height="140">
+      <g class="ring-outer">
+        <circle cx="70" cy="70" r="65" stroke="rgba(139,92,246,0.25)" stroke-width="1"/>
+        <circle cx="70" cy="5"   r="2.5" fill="rgba(139,92,246,0.5)"/>
+        <circle cx="70" cy="135" r="2.5" fill="rgba(139,92,246,0.3)"/>
+        <circle cx="5"  cy="70"  r="2.5" fill="rgba(139,92,246,0.3)"/>
+        <circle cx="135" cy="70" r="2.5" fill="rgba(139,92,246,0.5)"/>
+        <line x1="70" y1="5"   x2="70"  y2="15"  stroke="rgba(139,92,246,0.4)"  stroke-width="1.5"/>
+        <line x1="70" y1="125" x2="70"  y2="135" stroke="rgba(139,92,246,0.25)" stroke-width="1"/>
+        <line x1="5"  y1="70"  x2="15"  y2="70"  stroke="rgba(139,92,246,0.25)" stroke-width="1"/>
+        <line x1="125" y1="70" x2="135" y2="70"  stroke="rgba(139,92,246,0.4)"  stroke-width="1.5"/>
+      </g>
+      <g class="ring-inner">
+        <circle cx="70" cy="70" r="50" stroke="rgba(236,72,153,0.18)" stroke-width="1" stroke-dasharray="4 5"/>
+      </g>
+      <circle cx="70" cy="70" r="38" stroke="rgba(139,92,246,0.35)" stroke-width="1.5"/>
+      <g transform="rotate(38 70 70)">
+        <polygon points="70,32 76,70 70,62 64,70" fill="#a78bfa"/>
+        <polygon points="70,108 64,70 70,78 76,70" fill="#f472b6"/>
+      </g>
+      <circle cx="70" cy="70" r="7" fill="#07071a" stroke="rgba(139,92,246,0.4)" stroke-width="1.5"/>
+      <circle cx="70" cy="70" r="3" fill="white" opacity="0.9"/>
+    </svg>
+  </div>
+
+  <div class="hero-eyebrow">
+    <span class="dot"></span>
+    부산시 공공계약 A-Z 가이드
+    <span class="dot"></span>
+  </div>
+
+  <h1 class="hero-title">
+    <span class="block">계약 업무의</span>
+    <span class="grad">정확한 방향</span>을 찾다
+  </h1>
+
+  <p class="hero-sub">
+    지방계약법 <strong>2026.1.2 시행 기준</strong> 완전 반영.<br>
+    계약유형 판별부터 서류 준비, 법령 조회까지<br>
+    부산시 공공계약 담당자를 위한 올인원 가이드입니다.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat-item"><span class="stat-num">7</span><span class="stat-label">전문 탭 구성</span></div>
+    <div class="stat-item"><span class="stat-num">50+</span><span class="stat-label">실무 Q&amp;A 수록</span></div>
+    <div class="stat-item"><span class="stat-num">30+</span><span class="stat-label">관련 법령 연결</span></div>
+    <div class="stat-item"><span class="stat-num">'26</span><span class="stat-label">최신 시행령 반영</span></div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- ══ 2. STORY — 만든 이유 ══ -->
+<section class="story-section" id="story">
+  <div class="story-inner">
+
+    <div class="story-eyebrow reveal">
+      <div class="story-eyebrow-line"></div>
+      <span class="story-eyebrow-text">만든 이유</span>
+      <div class="story-eyebrow-line"></div>
+    </div>
+
+    <span class="story-quote-mark reveal">"</span>
+
+    <h2 class="story-headline reveal reveal-delay-1">
+      공무원 20년차가<br>처음으로 <span class="grad">계약 업무</span>를 맡았습니다.
+    </h2>
+
+    <div class="story-body">
+      <div class="story-paragraph reveal">
+        <p>20년을 공직에서 일했지만 계약 담당은 처음이었습니다. 발주부서에서 계약 요청이 들어오면 무엇부터 손을 대야 할지 몰랐고, 찾아봐야 할 법령과 규정은 넘쳐났습니다. 지방계약법, 시행령, 시행규칙… 조문 하나를 읽으면 다른 조문을 또 찾아야 했습니다.</p>
+      </div>
+
+      <div class="story-paragraph emphasis reveal">
+        <p>무엇보다 두려웠던 건 <strong style="color:var(--text-1);font-weight:700;">'실수'</strong>였습니다.</p>
+        <p>공공계약은 단순한 행정 처리가 아닙니다. 잘못된 판단 하나가 감사 지적으로, 때로는 더 무거운 책임으로 돌아옵니다. 그 무게감은 경험해 본 사람만 압니다. 계약 요청 공문을 책상 위에 올려두고 몇 번이나 다시 읽으며 안절부절했던 기억이 납니다.</p>
+      </div>
+
+      <div class="story-paragraph reveal">
+        <p>그래서 만들었습니다.</p>
+        <p>처음에는 전국 모든 지방계약 담당자에게 도움이 되길 바랐습니다. 하지만 자치단체마다 별도의 규정과 지침이 있어 모두를 담아내기가 어려웠습니다. 결국 개발자가 속한 부산시 기준으로 제작했습니다.</p>
+      </div>
+
+      <div class="story-paragraph accent reveal">
+        <p>부산시 담당자가 아니더라도 괜찮습니다. 지방계약법이라는 큰 틀은 어느 자치단체나 같습니다. 이 앱으로 방향을 잡고, 세부적인 사항은 소속 기관의 선배 공무원이나 계약 담당 부서를 통해 확인하신다면 충분히 참고가 될 것이라고 생각합니다.</p>
+      </div>
+
+      <div class="story-paragraph reveal">
+        <p>모든 것을 해결해 주는 도구가 아닙니다. 처음 계약 업무를 맡은 담당자가 빠르게 방향을 잡을 수 있도록, 작은 나침반 하나를 놓아두고 싶었습니다. 어떤 계약인지, 무엇부터 해야 하는지, 어떤 서류가 필요한지. 그 출발점을 함께 찾아가고 싶었습니다.</p>
+        <p>언젠가 기회가 된다면, 전국 모든 지자체에서 사용할 수 있는 웹앱도 만들어 볼 계획입니다.</p>
+      </div>
+    </div>
+
+    <div class="story-closing reveal">
+      <div class="story-compass-deco">
+        <svg width="36" height="36" viewBox="0 0 34 34" fill="none">
+          <circle cx="17" cy="17" r="15" stroke="rgba(139,92,246,0.5)" stroke-width="1.2"/>
+          <g transform="rotate(38 17 17)">
+            <polygon points="17,4 20,17 17,13 14,17" fill="#a78bfa"/>
+            <polygon points="17,30 14,17 17,21 20,17" fill="#f472b6"/>
+          </g>
+          <circle cx="17" cy="17" r="2.5" fill="white" opacity="0.7"/>
+        </svg>
+      </div>
+      <p class="story-closing-main">당신의 첫 번째 계약 업무를,<br>조금이나마 덜 두렵게.</p>
+      <p class="story-closing-sub">그것이 이 앱을 만든 이유입니다.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ 3. FEATURES — 기능 소개 ══ -->
+<section style="position:relative;z-index:1;">
+  <div class="features" id="features">
+    <div class="section-label reveal">기능 소개</div>
+    <h2 class="section-title reveal reveal-delay-1">계약 업무의 모든 것,<br>한 화면에서</h2>
+    <p class="section-desc reveal reveal-delay-2">복잡한 공공계약 절차를 7개 탭으로 체계화했습니다. 어떤 상황에서도 정확한 답을 빠르게 찾을 수 있습니다.</p>
+
+    <div class="tabs-showcase reveal reveal-delay-3">
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab(0,this)">
+          <div class="tab-icon">🏠</div><div><span class="tab-name">계약유형 판별</span><span class="tab-hint">홈 · 계약방법 추천</span></div>
+        </button>
+        <button class="tab-btn" onclick="switchTab(1,this)">
+          <div class="tab-icon">💬</div><div><span class="tab-name">실무 Q&amp;A</span><span class="tab-hint">50+ 문답 수록</span></div>
+        </button>
+        <button class="tab-btn" onclick="switchTab(2,this)">
+          <div class="tab-icon">✅</div><div><span class="tab-name">절차 체크리스트</span><span class="tab-hint">단계별 프로세스</span></div>
+        </button>
+        <button class="tab-btn" onclick="switchTab(3,this)">
+          <div class="tab-icon">📋</div><div><span class="tab-name">필수서류</span><span class="tab-hint">서류 준비 가이드</span></div>
+        </button>
+        <button class="tab-btn" onclick="switchTab(4,this)">
+          <div class="tab-icon">📊</div><div><span class="tab-name">핵심 기준표</span><span class="tab-hint">금액·기준 한눈에</span></div>
+        </button>
+        <button class="tab-btn" onclick="switchTab(5,this)">
+          <div class="tab-icon">⚖️</div><div><span class="tab-name">법령 바로가기</span><span class="tab-hint">법제처 직접 연결</span></div>
+        </button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active">
+          <span class="panel-badge badge-purple">🏠 홈 · 계약유형 판별</span>
+          <h3 class="panel-title">계약방법, 바로 알 수 있어요</h3>
+          <p class="panel-desc">계약유형·금액·특수조건을 입력하면 입찰방법, 공고기간, 추정가격 산정 방법까지 즉시 안내합니다.</p>
+          <div class="panel-features-list">
+            <div class="pf-item"><div class="pf-dot dot-purple">✓</div><span>공사·물품·용역 등 계약유형 선택 → 적용 법령 자동 안내</span></div>
+            <div class="pf-item"><div class="pf-dot dot-purple">✓</div><span>추정금액 입력 시 일반경쟁·제한경쟁·수의계약 자동 판별</span></div>
+            <div class="pf-item"><div class="pf-dot dot-purple">✓</div><span>부산시 특화 조건 (채권, 일상감사, 계약심사) 반영</span></div>
+            <div class="pf-item"><div class="pf-dot dot-purple">✓</div><span>결과 화면에서 절차 체크리스트·필수서류 탭으로 바로 이동</span></div>
+          </div>
+          <div class="panel-mock">
+            <div class="mock-row"><span class="mock-row-label">계약유형</span><span class="val-purple">공사</span></div>
+            <div class="mock-row"><span class="mock-row-label">추정금액</span><span class="val-cyan">3억 5천만원</span></div>
+            <div class="mock-divider"></div>
+            <div class="mock-row"><span class="mock-row-label">계약방법</span><span class="val-green">일반경쟁입찰</span></div>
+            <div class="mock-row"><span class="mock-row-label">공고기간</span><span class="val-gold">10일 이상</span></div>
+          </div>
+        </div>
+        <div class="tab-panel">
+          <span class="panel-badge badge-pink">💬 실무 Q&amp;A</span>
+          <h3 class="panel-title">현장 질문, 즉시 답변</h3>
+          <p class="panel-desc">수의계약, 입찰, 계약변경, 원가계산 등 실무에서 자주 나오는 질문 50개 이상 수록. 카테고리별 빠른 필터 제공.</p>
+          <div class="panel-features-list">
+            <div class="pf-item"><div class="pf-dot dot-pink">✓</div><span>수의계약·입찰·계약변경·보증금·감독·원가 6개 카테고리</span></div>
+            <div class="pf-item"><div class="pf-dot dot-pink">✓</div><span>관련 법령 조항(시행령·시행규칙) 클릭 시 법제처 바로 연결</span></div>
+            <div class="pf-item"><div class="pf-dot dot-pink">✓</div><span>2026.1.2 개정 금액 기준 완전 반영 (소기업·소상공인 1억 이하 등)</span></div>
+            <div class="pf-item"><div class="pf-dot dot-pink">✓</div><span>💡 실무 팁 포함 — 감사 지적 포인트, 주의사항 상세 설명</span></div>
+          </div>
+          <div class="panel-mock">
+            <div class="mock-row"><span class="mock-row-label">Q. 소기업·소상공인 수의계약 한도?</span></div>
+            <div class="mock-row" style="padding-left:20px;"><span class="val-green">A. 1억원 이하 (2026.1.2 기준)</span></div>
+            <div class="mock-divider"></div>
+            <div class="mock-row"><span class="mock-row-label">관련 법령</span><span class="val-gold">시행령 제25조 →</span></div>
+          </div>
+        </div>
+        <div class="tab-panel">
+          <span class="panel-badge badge-cyan">✅ 절차 체크리스트</span>
+          <h3 class="panel-title">단계 하나도 빠짐없이</h3>
+          <p class="panel-desc">일반경쟁·제한경쟁·수의계약별로 처음부터 끝까지 체크할 수 있는 단계별 프로세스 가이드.</p>
+          <div class="panel-features-list">
+            <div class="pf-item"><div class="pf-dot dot-cyan">✓</div><span>계약방법별 전체 프로세스 시각화 (기획→공고→입찰→계약→이행→정산)</span></div>
+            <div class="pf-item"><div class="pf-dot dot-cyan">✓</div><span>각 단계별 주의사항, 법적 기한, 필요 서식 안내</span></div>
+            <div class="pf-item"><div class="pf-dot dot-cyan">✓</div><span>부산시 일상감사·계약심사 해당 여부 자동 표시</span></div>
+            <div class="pf-item"><div class="pf-dot dot-cyan">✓</div><span>체크박스 형태로 진행 상황 직접 체크 가능</span></div>
+          </div>
+          <div class="panel-mock">
+            <div class="mock-row"><span class="mock-row-label">① 사업계획 수립</span><span class="val-green">✓</span></div>
+            <div class="mock-row"><span class="mock-row-label">② 예산 확인</span><span class="val-green">✓</span></div>
+            <div class="mock-row"><span class="mock-row-label">③ 계약심사 의뢰</span><span class="val-gold">진행중</span></div>
+            <div class="mock-row"><span class="mock-row-label">④ 입찰공고</span><span class="val-pink">대기</span></div>
+          </div>
+        </div>
+        <div class="tab-panel">
+          <span class="panel-badge badge-gold">📋 필수서류</span>
+          <h3 class="panel-title">서류 준비, 완벽하게</h3>
+          <p class="panel-desc">계약 단계별, 계약유형별로 준비해야 할 서류 목록을 체계적으로 정리. 누락 없는 서류 준비.</p>
+          <div class="panel-features-list">
+            <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>계약체결·이행·완료 단계별 필요 서류 구분 안내</span></div>
+            <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>공사·물품·용역 유형별 특수 서류 별도 표시</span></div>
+            <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>부산시 채권 관련 서류 (채권 면제 기준, 제출 서식) 포함</span></div>
+            <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>감사 대비 필수 보관 서류 강조 표시</span></div>
+          </div>
+        </div>
+        <div class="tab-panel">
+          <span class="panel-badge badge-purple">📊 핵심 기준표</span>
+          <h3 class="panel-title">숫자·기준, 한눈에</h3>
+          <p class="panel-desc">금액 기준, 이윤율, 일반관리비율, 보증금률 등 자주 찾는 숫자와 기준을 테이블로 정리.</p>
+          <div class="panel-features-list">
+            <div class="pf-item"><div class="pf-dot dot-purple">✓</div><span>계약방법 선택 기준 금액표 (공사·물품·용역별)</span></div>
+            <div class="pf-item"><div class="pf-dot dot-purple">✓</div><span>용역 유형별 일반관리비율 한도 (10%/9%/8%/6%/5%)</span></div>
+            <div class="pf-item"><div class="pf-dot dot-purple">✓</div><span>이윤율 한도: 공사 15%, 제조·구매 25%, 용역 10%</span></div>
+            <div class="pf-item"><div class="pf-dot dot-purple">✓</div><span>계약보증금·하자보수보증금·선금률 기준 일람</span></div>
+          </div>
+          <div class="panel-mock">
+            <div class="mock-row"><span class="mock-row-label">공사 이윤율 한도</span><span class="val-purple">15%</span></div>
+            <div class="mock-row"><span class="mock-row-label">용역 이윤율 한도</span><span class="val-pink">10%</span></div>
+            <div class="mock-row"><span class="mock-row-label">제조·구매 이윤율</span><span class="val-gold">25%</span></div>
+            <div class="mock-divider"></div>
+            <div class="mock-row"><span class="mock-row-label">계약보증금률</span><span class="val-cyan">10% 이상</span></div>
+          </div>
+        </div>
+        <div class="tab-panel">
+          <span class="panel-badge badge-gold">⚖️ 법령 바로가기</span>
+          <h3 class="panel-title">법령, 바로 확인</h3>
+          <p class="panel-desc">지방계약법·시행령·시행규칙 등 공공계약 관련 법령을 법제처와 직접 연결. Q&A에서 법조항 클릭 시 즉시 이동.</p>
+          <div class="panel-features-list">
+            <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>지방자치단체를 당사자로 하는 계약에 관한 법률 (지방계약법)</span></div>
+            <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>지방계약법 시행령 (2026.1.2 시행 버전)</span></div>
+            <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>지방계약법 시행규칙 및 관련 예규·고시 링크</span></div>
+            <div class="pf-item"><div class="pf-dot dot-gold">✓</div><span>법제처·행안부·조달청·나라장터 바로가기 모음</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4. BUSAN SPECIAL ══ -->
+<section class="busan-section">
+  <div class="busan-inner">
+    <div class="section-label reveal">부산시 특화 콘텐츠</div>
+    <h2 class="section-title reveal reveal-delay-1">부산시 담당자를 위한<br>맞춤 정보</h2>
+    <p class="section-desc reveal reveal-delay-2">일반적인 지방계약법 가이드를 넘어, 부산시 특유의 절차와 기준을 반영했습니다.</p>
+    <div class="busan-grid">
+      <div class="busan-card bc-purple reveal reveal-delay-1"><span class="bc-icon">🔍</span><div class="bc-title">계약심사 기준</div><div class="bc-desc">부산시 계약심사 의뢰 대상 금액 기준, 제출 서류, 심사 기간 안내</div></div>
+      <div class="busan-card bc-pink reveal reveal-delay-2"><span class="bc-icon">📝</span><div class="bc-title">일상감사 기준</div><div class="bc-desc">부산시 일상감사 해당 여부 판단 기준 및 감사 결과 처리 방법</div></div>
+      <div class="busan-card bc-cyan reveal reveal-delay-3"><span class="bc-icon">🏦</span><div class="bc-title">채권 관련 업무</div><div class="bc-desc">부산시 채권 면제 기준, 채권 매입 절차, 관련 서식 안내</div></div>
+      <div class="busan-card bc-gold reveal reveal-delay-1"><span class="bc-icon">⚡</span><div class="bc-title">2026 개정 반영</div><div class="bc-desc">지방계약법 시행령·시행규칙 2026.1.2 시행 기준 완전 반영</div></div>
+      <div class="busan-card bc-green reveal reveal-delay-2"><span class="bc-icon">📱</span><div class="bc-title">PWA · 오프라인</div><div class="bc-desc">홈화면에 추가하면 앱처럼 사용. 인터넷 없어도 주요 기능 이용 가능</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 5. LAW TICKER ══ -->
+<section class="law-strip">
+  <div class="law-strip-inner">
+    <div class="section-label reveal" style="margin-bottom:20px;">수록 법령</div>
+  </div>
+  <div class="law-ticker">
+    <div class="law-ticker-track">
+      <span class="law-pill">⚖️ 지방자치단체를 당사자로 하는 계약에 관한 법률</span>
+      <span class="law-pill">📜 지방계약법 시행령 (2026.1.2 시행)</span>
+      <span class="law-pill">📋 지방계약법 시행규칙 (2026.1.2 시행)</span>
+      <span class="law-pill">🔖 지방계약법 시행령 제25조 (수의계약)</span>
+      <span class="law-pill">🔖 지방계약법 시행령 제55조 (계약의 이행)</span>
+      <span class="law-pill">🔖 지방계약법 시행규칙 제8조 (원가계산)</span>
+      <span class="law-pill">📑 행안부 예규·고시</span>
+      <span class="law-pill">🏛️ 조달청 관련 고시</span>
+      <span class="law-pill">⚖️ 지방자치단체를 당사자로 하는 계약에 관한 법률</span>
+      <span class="law-pill">📜 지방계약법 시행령 (2026.1.2 시행)</span>
+      <span class="law-pill">📋 지방계약법 시행규칙 (2026.1.2 시행)</span>
+      <span class="law-pill">🔖 지방계약법 시행령 제25조 (수의계약)</span>
+      <span class="law-pill">🔖 지방계약법 시행령 제55조 (계약의 이행)</span>
+      <span class="law-pill">🔖 지방계약법 시행규칙 제8조 (원가계산)</span>
+      <span class="law-pill">📑 행안부 예규·고시</span>
+      <span class="law-pill">🏛️ 조달청 관련 고시</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 6. PROCESS TIMELINE ══ -->
+<section class="process-section">
+  <div class="process-inner" id="process">
+    <div class="section-label reveal">계약 프로세스</div>
+    <h2 class="section-title reveal reveal-delay-1">처음부터 끝까지,<br>길을 잃지 않도록</h2>
+    <p class="section-desc reveal reveal-delay-2">공공계약의 6단계 프로세스를 단계별로 안내합니다.</p>
+    <div class="timeline reveal reveal-delay-3">
+      <div class="tl-item"><div class="tl-num">01</div><div class="tl-body"><div class="tl-title">사업계획 · 예산 확인</div><div class="tl-desc">사업 목적 및 추정금액 산정, 예산 확보 여부 확인, 계약방법 사전 검토</div><div class="tl-chips"><span class="tl-chip">추정금액 산정</span><span class="tl-chip">예산 편성 확인</span><span class="tl-chip">계약심사 대상 여부</span></div></div></div>
+      <div class="tl-item"><div class="tl-num">02</div><div class="tl-body"><div class="tl-title">입찰 공고 · 서류 준비</div><div class="tl-desc">계약방법 결정, 공고기간 준수, 입찰 참가자격 요건 설정</div><div class="tl-chips"><span class="tl-chip">G2B 공고</span><span class="tl-chip">입찰참가자격</span><span class="tl-chip">공고기간 10일+</span></div></div></div>
+      <div class="tl-item"><div class="tl-num">03</div><div class="tl-body"><div class="tl-title">입찰 · 낙찰자 결정</div><div class="tl-desc">개찰, 적격심사 또는 최저가 낙찰, 유찰 시 재공고·수의계약 전환 절차</div><div class="tl-chips"><span class="tl-chip">적격심사</span><span class="tl-chip">유찰 처리</span><span class="tl-chip">낙찰자 결정</span></div></div></div>
+      <div class="tl-item"><div class="tl-num">04</div><div class="tl-body"><div class="tl-title">계약 체결</div><div class="tl-desc">계약서 작성, 계약보증금 납부, 일상감사 대상 시 감사 의뢰</div><div class="tl-chips"><span class="tl-chip">계약보증금 10%</span><span class="tl-chip">일상감사</span><span class="tl-chip">계약서 날인</span></div></div></div>
+      <div class="tl-item"><div class="tl-num">05</div><div class="tl-body"><div class="tl-title">이행 감독</div><div class="tl-desc">감독일지 작성, 현장 방문, 선금·중도금 지급, 계약변경(설계변경 등)</div><div class="tl-chips"><span class="tl-chip">감독일지</span><span class="tl-chip">설계변경</span><span class="tl-chip">선금 지급</span></div></div></div>
+      <div class="tl-item"><div class="tl-num">06</div><div class="tl-body"><div class="tl-title">준공 · 최종 정산</div><div class="tl-desc">검사(검수), 하자보수보증금 납부, 잔금 지급, 서류 보관</div><div class="tl-chips"><span class="tl-chip">준공검사</span><span class="tl-chip">하자보수</span><span class="tl-chip">서류 5년 보관</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 7. CTA — 버튼은 여기만 ══ -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-glow"></div>
+    <span class="cta-badge reveal">
+      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+      무료 · 설치 불필요 · 로그인 없음
+    </span>
+    <h2 class="cta-title reveal reveal-delay-1">
+      이제 시작할 준비가<br><span class="grad">됐나요?</span>
+    </h2>
+    <p class="cta-desc reveal reveal-delay-2">
+      부산시 공공계약 A-Z 가이드.<br>
+      처음 계약 업무를 맡은 당신 곁에 있겠습니다.
+    </p>
+    <div class="reveal reveal-delay-3">
+      <a href="https://realkopro-svg.github.io/contract-compass/" target="_blank" class="btn-cta-main">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        계약나침반 시작하기
+      </a>
+    </div>
+    <div class="cta-sub-info reveal reveal-delay-4">
+      <span class="cta-sub-chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        지방계약법 2026.1.2 기준
+      </span>
+      <span class="cta-sub-chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+        PWA · 홈화면 추가 지원
+      </span>
+      <span class="cta-sub-chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        부산시 특화 콘텐츠
+      </span>
+    </div>
+    <span class="cta-url reveal reveal-delay-4">realkopro-svg.github.io/contract-compass</span>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo"><strong>계약나침반</strong></div>
+      <span class="footer-version">v3.0</span>
+      <span class="footer-info">부산시 공공계약 A-Z 가이드</span>
+    </div>
+    <div class="footer-right">
+      <a href="#story" class="footer-link">만든 이유</a>
+      <a href="#features" class="footer-link">기능 소개</a>
+      <a href="https://realkopro-svg.github.io/contract-compass/" target="_blank" class="footer-link">앱 바로가기</a>
+      <span class="footer-info">© 2026 Contract Compass · Built by KJH</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function switchTab(idx, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-panel')[idx].classList.add('active');
+}
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const storyObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.2 });
+document.querySelectorAll('.story-paragraph').forEach(el => storyObserver.observe(el));
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
