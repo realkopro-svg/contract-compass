@@ -1611,7 +1611,15 @@
     /* 입력 카드 */
     .home-input-card { padding: 16px 14px; }
     .home-fields { flex-direction: column; gap: 12px; }
-    .home-select, .home-input-num { font-size: 16px; } /* iOS 줌 방지 */
+    /* 입력 필드 - iOS 줌 방지(16px) */
+    .home-select, .home-input-num {
+      font-size: 16px !important;
+      height: 44px;
+      box-sizing: border-box;
+    }
+    .home-amount-row { display: flex; gap: 8px; }
+    .home-amount-row .home-input-num { flex: 1; min-width: 0; }
+    .home-amount-row .home-select { width: 90px; flex-shrink: 0; }
 
     /* 홈 미니 흐름도 */
     .home-mini-flow-steps { gap: 4px; }
