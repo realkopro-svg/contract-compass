@@ -1556,13 +1556,13 @@
   .mob-tab {
     display: flex; flex-direction: column; align-items: center; gap: 3px;
     background: none; border: none; cursor: pointer;
-    color: rgba(248,250,252,0.5); padding: 4px 12px;
+    color: rgba(248,250,252,0.5); padding: 4px 6px;
     font-family: 'Noto Sans KR', sans-serif; flex: 1;
     transition: all .15s;
   }
   .mob-tab.active { color: #a78bfa; }
-  .mob-tab-icon { font-size: 20px; line-height: 1; }
-  .mob-tab-label { font-size: 10px; font-weight: 600; white-space: nowrap; }
+  .mob-tab-icon { font-size: 18px; line-height: 1; }
+  .mob-tab-label { font-size: 9px; font-weight: 600; white-space: nowrap; }
 
   /* 더보기 시트 */
   .mobile-more-overlay {
@@ -2730,6 +2730,34 @@
   </div>
 
 </main>
+
+<!-- 모바일 하단 탭바 -->
+<nav class="mobile-tab-bar" id="mobileTabBar">
+  <button class="mob-tab active" id="mtab-home" onclick="showPage('home')">
+    <span class="mob-tab-icon">🏠</span>
+    <span class="mob-tab-label">홈</span>
+  </button>
+  <button class="mob-tab" id="mtab-checklist" onclick="showPage('checklist')">
+    <span class="mob-tab-icon">✅</span>
+    <span class="mob-tab-label">체크리스트</span>
+  </button>
+  <button class="mob-tab" id="mtab-docs" onclick="showPage('docs')">
+    <span class="mob-tab-icon">📋</span>
+    <span class="mob-tab-label">서류</span>
+  </button>
+  <button class="mob-tab" id="mtab-reference" onclick="showPage('reference')">
+    <span class="mob-tab-icon">📊</span>
+    <span class="mob-tab-label">기준표</span>
+  </button>
+  <button class="mob-tab" id="mtab-flowchart" onclick="showPage('flowchart')">
+    <span class="mob-tab-icon">🧭</span>
+    <span class="mob-tab-label">흐름도</span>
+  </button>
+  <button class="mob-tab" id="mtab-law" onclick="openLawDrawer()">
+    <span class="mob-tab-icon">⚖️</span>
+    <span class="mob-tab-label">법령</span>
+  </button>
+</nav>
 
 <!-- 조문 팝업 모달 -->
 <div class="law-modal-overlay" id="lawModalOverlay" onclick="closeLawModal(event)">
@@ -4849,8 +4877,11 @@ showPage = function(name) {
 // ── 모바일 하단 탭바 연동 ──
 function updateMobileTab(name) {
   document.querySelectorAll('.mob-tab').forEach(function(b){ b.classList.remove('active'); });
-  var tabMap = { home:'mtab-home', checklist:'mtab-checklist', docs:'mtab-docs', faq:'mtab-faq',
-                 recommend:'mtab-more', reference:'mtab-more', flowchart:'mtab-more' };
+  var tabMap = {
+    home:'mtab-home', checklist:'mtab-checklist', docs:'mtab-docs',
+    reference:'mtab-reference', flowchart:'mtab-flowchart',
+    faq:'mtab-home', recommend:'mtab-home'
+  };
   var tabId = tabMap[name];
   if (tabId) {
     var el = document.getElementById(tabId);
@@ -4858,15 +4889,8 @@ function updateMobileTab(name) {
   }
 }
 
-function toggleMobileMore() {
-  document.getElementById('mobileMoreSheet').classList.toggle('open');
-  document.getElementById('mobileMoreOverlay').classList.toggle('open');
-}
-
-function closeMobileMore() {
-  document.getElementById('mobileMoreSheet').classList.remove('open');
-  document.getElementById('mobileMoreOverlay').classList.remove('open');
-}
+function toggleMobileMore() {}
+function closeMobileMore() {}
 
 function resetAll() {
   renderChecklist(currentType);
@@ -7495,6 +7519,8 @@ function showPage(name) {
   const nb = document.getElementById('nav-' + name);
   if (nb) nb.classList.add('active');
   updateMobileTab(name);
+  // 법령 드로어가 열려있으면 닫기
+  closeLawDrawer();
   window.scrollTo(0, 0);
 }
 
