@@ -1538,6 +1538,125 @@
 
   /* ══════════════ 인쇄 / PDF 출력 ══════════════ */
 
+
+  /* ══════════════════════════════════════
+     모바일 최적화 (v4.0)
+  ══════════════════════════════════════ */
+
+  /* 하단 탭바 */
+  .mobile-tab-bar {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(13,6,32,0.97);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(139,92,246,0.25);
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+    flex-direction: row; justify-content: space-around; align-items: center;
+  }
+  .mob-tab {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    background: none; border: none; cursor: pointer;
+    color: rgba(248,250,252,0.5); padding: 4px 12px;
+    font-family: 'Noto Sans KR', sans-serif; flex: 1;
+    transition: all .15s;
+  }
+  .mob-tab.active { color: #a78bfa; }
+  .mob-tab-icon { font-size: 20px; line-height: 1; }
+  .mob-tab-label { font-size: 10px; font-weight: 600; white-space: nowrap; }
+
+  /* 더보기 시트 */
+  .mobile-more-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1100;
+    background: rgba(0,0,0,0.5);
+  }
+  .mobile-more-overlay.open { display: block; }
+  .mobile-more-sheet {
+    position: fixed; bottom: -100%; left: 0; right: 0; z-index: 1200;
+    background: #130830; border-top: 1px solid rgba(139,92,246,0.3);
+    border-radius: 20px 20px 0 0; padding: 20px 16px max(20px,env(safe-area-inset-bottom));
+    transition: bottom .3s ease;
+  }
+  .mobile-more-sheet.open { bottom: 0; }
+  .mobile-more-title {
+    font-size: 13px; font-weight: 800; color: var(--text-muted);
+    text-align: center; margin-bottom: 16px; letter-spacing: 2px;
+  }
+  .mobile-more-item {
+    display: block; width: 100%; padding: 14px 16px; margin-bottom: 8px;
+    background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 10px; color: var(--text-primary); font-size: 14px; font-weight: 600;
+    font-family: 'Noto Sans KR', sans-serif; text-align: left; cursor: pointer;
+    transition: all .15s;
+  }
+  .mobile-more-item:hover { background: rgba(139,92,246,0.18); }
+
+  @media (max-width: 768px) {
+    /* 하단 탭바 표시, 상단 메뉴 숨김 */
+    .mobile-tab-bar { display: flex; }
+    .header-nav { display: none; }
+
+    /* 전체 여백 줄이기 */
+    main { padding: 16px 14px 80px; }
+    .header-top { padding: 10px 16px 0; }
+
+    /* 로고 텍스트 크기 */
+    .logo-text strong { font-size: 16px; }
+    .logo-text span { display: none; }
+
+    /* 홈 인트로 */
+    .home-intro h1 { font-size: 22px; }
+    .home-intro p { font-size: 13px; }
+    .home-wrap { padding: 0; }
+
+    /* 입력 카드 */
+    .home-input-card { padding: 16px 14px; }
+    .home-fields { flex-direction: column; gap: 12px; }
+    .home-select, .home-input-num { font-size: 16px; } /* iOS 줌 방지 */
+
+    /* 홈 미니 흐름도 */
+    .home-mini-flow-steps { gap: 4px; }
+    .hmf-step { min-width: 50px; padding: 6px 8px; }
+    .hmf-label { font-size: 9px; }
+    .hmf-arrow { font-size: 10px; }
+
+    /* 결과 카드 */
+    .home-result-card { padding: 16px 14px; }
+
+    /* 체크리스트 */
+    .cl-layout { flex-direction: column; }
+    .cl-sidebar { width: 100%; max-width: 100%; margin-bottom: 12px; }
+    .cl-toolbar { flex-wrap: wrap; gap: 8px; }
+    .contract-type-btn { font-size: 12px; padding: 6px 10px; }
+
+    /* FAQ */
+    .faq-cat-tab { font-size: 11px; padding: 5px 10px; }
+    .faq-q-text { font-size: 13px; }
+
+    /* 핵심 기준표 */
+    .ref-grid { grid-template-columns: 1fr !important; }
+    .nums-grid { grid-template-columns: repeat(2,1fr) !important; }
+
+    /* 흐름도 - 가로 스크롤 */
+    .flow-chart-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .flow-tabs { gap: 6px; }
+    .flow-tab { font-size: 11px; padding: 6px 10px; }
+
+    /* 서류함 */
+    .docs-cols { grid-template-columns: 1fr !important; }
+
+    /* 계약방법 추천 */
+    .recommend-form { padding: 16px 14px; }
+
+    /* 표 가로 스크롤 */
+    .ref-table-wrap, table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* footer */
+    footer { font-size: 11px; padding: 16px 14px 90px; line-height: 1.8; }
+
+    /* 검색 오버레이 */
+    .search-box { margin: 0; }
+  }
+
   @media print {
     /* CSS 변수 강제 재정의 — 다크테마 흰글자가 인쇄 시 안보이는 현상 방지 */
     :root {
@@ -1787,7 +1906,7 @@
 </svg></div>
       <div class="logo-text">
         <strong>계약나침반 <span style="font-size:13px;background:rgba(236,72,153,0.2);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:4px;padding:1px 7px;vertical-align:middle;font-weight:700;">부산시</span></strong>
-        <span>Contract Compass · 부산시 v3.2</span>
+        <span>Contract Compass · 부산시 v4.0</span>
       </div>
     </a>
     <button class="header-search-btn" onclick="openSearch()" title="전체 검색">🔍 검색</button>
@@ -1819,7 +1938,7 @@
 
       <!-- 인트로 -->
       <div class="home-intro">
-        <div class="home-intro-badge">🧭 계약나침반 &nbsp;<span style="font-size:10px;background:rgba(236,72,153,0.25);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:3px;padding:1px 6px;">부산시 v3.2</span></div>
+        <div class="home-intro-badge">🧭 계약나침반 &nbsp;<span style="font-size:10px;background:rgba(236,72,153,0.25);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:3px;padding:1px 6px;">부산시 v4.0</span></div>
         <h1>계약 요청을 받으셨나요?<br><em>계약나침반이 방향을 잡아드립니다</em></h1>
         <p>처음 계약을 맡은 담당자도 당황하지 마세요. 목적물 유형과 금액을 입력하면<br>올바른 방향과 전체 프로세스, 단계별 서류까지 한번에 안내합니다.</p>
       </div>
@@ -1969,7 +2088,7 @@
     <!-- 인쇄 전용 헤더 (화면에서는 숨김) -->
     <div class="print-header">
       <h1>🧭 계약나침반 — 절차 체크리스트</h1>
-      <p>출력일: <span id="printDate"></span> · Contract Compass 부산시 v3.2</p>
+      <p>출력일: <span id="printDate"></span> · Contract Compass 부산시 v4.0</p>
     </div>
 
     <div class="cl-layout">
@@ -4488,7 +4607,7 @@ function printChecklist() {
     '</style></head><body>' +
     '<div style="text-align:center;">' +
       '<h1>🧭 계약나침반 — 절차 체크리스트</h1>' +
-      '<div class="subtitle">출력일: '+dateStr+' · Contract Compass 부산시 v3.2 · <strong>'+typeName+'</strong></div>' +
+      '<div class="subtitle">출력일: '+dateStr+' · Contract Compass 부산시 v4.0 · <strong>'+typeName+'</strong></div>' +
     '</div>' +
     '<hr class="divider">' +
     '<div style="text-align:right;margin-bottom:12px;">' +
@@ -4725,6 +4844,29 @@ showPage = function(name) {
     }
   }
 };
+
+
+// ── 모바일 하단 탭바 연동 ──
+function updateMobileTab(name) {
+  document.querySelectorAll('.mob-tab').forEach(function(b){ b.classList.remove('active'); });
+  var tabMap = { home:'mtab-home', checklist:'mtab-checklist', docs:'mtab-docs', faq:'mtab-faq',
+                 recommend:'mtab-more', reference:'mtab-more', flowchart:'mtab-more' };
+  var tabId = tabMap[name];
+  if (tabId) {
+    var el = document.getElementById(tabId);
+    if (el) el.classList.add('active');
+  }
+}
+
+function toggleMobileMore() {
+  document.getElementById('mobileMoreSheet').classList.toggle('open');
+  document.getElementById('mobileMoreOverlay').classList.toggle('open');
+}
+
+function closeMobileMore() {
+  document.getElementById('mobileMoreSheet').classList.remove('open');
+  document.getElementById('mobileMoreOverlay').classList.remove('open');
+}
 
 function resetAll() {
   renderChecklist(currentType);
@@ -7352,6 +7494,7 @@ function showPage(name) {
   document.getElementById('page-' + name).classList.add('active');
   const nb = document.getElementById('nav-' + name);
   if (nb) nb.classList.add('active');
+  updateMobileTab(name);
   window.scrollTo(0, 0);
 }
 
