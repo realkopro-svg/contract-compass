@@ -285,6 +285,7 @@
   /* 프로세스 결과 */
   .home-result { display: none; }
   .home-result.show { display: block; }
+  .home-result { scroll-margin-top: 112px; } /* 고정 헤더에 추천 카드가 가리지 않도록 */
   .home-result-header {
     display: flex; align-items: center; gap: 12px;
     margin-bottom: 16px; flex-wrap: wrap;
@@ -303,6 +304,44 @@
     color: #a78bfa; font-size: 11px; font-weight: 700;
     padding: 3px 10px; border-radius: 12px;
   }
+
+  /* 추천 계약방법 카드 (홈 결과 상단) */
+  .home-rec-card {
+    background: linear-gradient(135deg, rgba(16,185,129,0.09), rgba(139,92,246,0.06));
+    border: 1px solid rgba(16,185,129,0.35); border-radius: var(--radius-lg);
+    padding: 24px 26px; margin-bottom: 14px; box-shadow: 0 6px 28px rgba(16,185,129,0.08);
+  }
+  .home-rec-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .home-rec-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(16,185,129,0.14); color: #34d399; border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 8px; padding: 8px 14px; font-size: 14px; font-weight: 800;
+  }
+  .home-rec-input { font-size: 12px; color: var(--text-muted); }
+  .home-rec-note {
+    font-size: 12px; color: #93c5fd; background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.25); border-radius: 8px; padding: 8px 12px; margin-bottom: 12px;
+  }
+  .home-rec-name {
+    font-family: 'Noto Sans KR', sans-serif; font-size: 26px; font-weight: 900;
+    color: var(--text-primary); letter-spacing: -0.03em; line-height: 1.3; margin-bottom: 8px;
+  }
+  .home-rec-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px; }
+  .home-rec-laws { display: flex; flex-wrap: wrap; gap: 6px; }
+  .home-rec-law {
+    font-size: 12px; color: var(--text-secondary); background: rgba(139,92,246,0.1);
+    border: 1px solid rgba(139,92,246,0.22); border-radius: 7px; padding: 5px 10px;
+  }
+  .home-rec-caution {
+    margin-top: 14px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 8px; padding: 10px 14px; font-size: 12.5px; color: #fcd34d; line-height: 1.6;
+  }
+  .home-rec-next {
+    display: flex; align-items: center; gap: 12px; margin: 6px 0 18px;
+    font-size: 13px; color: var(--text-secondary); font-weight: 600;
+  }
+  .home-rec-next::before, .home-rec-next::after { content: ''; flex: 1; height: 1px; background: rgba(139,92,246,0.25); }
+  .home-rec-next b { color: #a78bfa; }
 
   /* 프로세스 스텝 */
   .home-steps { display: flex; flex-direction: column; gap: 10px; }
@@ -1599,6 +1638,12 @@
 
     /* 법령 드로어 - 모바일 전체 너비 */
     .law-drawer { width: 100vw; border-left: none; }
+    /* 추천 계약방법 카드 - 모바일 */
+    .home-rec-card { padding: 18px 16px; }
+    .home-rec-name { font-size: 21px; }
+    .home-rec-desc { font-size: 13px; }
+    .home-rec-next { font-size: 12px; }
+    .home-rec-next span { text-align: center; }
     /* 전체 여백 줄이기 */
     main { padding: 16px 14px 80px; }
     .header-top { padding: 10px 16px 0; }
@@ -1918,7 +1963,7 @@
 </svg></div>
       <div class="logo-text">
         <strong>계약나침반 <span style="font-size:13px;background:rgba(236,72,153,0.2);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:4px;padding:1px 7px;vertical-align:middle;font-weight:700;">부산시</span></strong>
-        <span>Contract Compass · 부산시 v4.5</span>
+        <span>Contract Compass · 부산시 v4.6</span>
       </div>
     </a>
     <button class="header-search-btn" onclick="openSearch()" title="전체 검색">🔍 검색</button>
@@ -1950,7 +1995,7 @@
 
       <!-- 인트로 -->
       <div class="home-intro">
-        <div class="home-intro-badge">🧭 계약나침반 &nbsp;<span style="font-size:10px;background:rgba(236,72,153,0.25);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:3px;padding:1px 6px;">부산시 v4.5</span></div>
+        <div class="home-intro-badge">🧭 계약나침반 &nbsp;<span style="font-size:10px;background:rgba(236,72,153,0.25);border:1px solid rgba(236,72,153,0.4);color:#f472b6;border-radius:3px;padding:1px 6px;">부산시 v4.6</span></div>
         <h1>계약 요청을 받으셨나요?<br><em>계약나침반이 방향을 잡아드립니다</em></h1>
         <p>처음 계약을 맡은 담당자도 당황하지 마세요. 목적물 유형과 금액을 입력하면<br>올바른 방향과 전체 프로세스, 단계별 서류까지 한번에 안내합니다.</p>
       </div>
@@ -2076,6 +2121,21 @@
 
       <!-- 프로세스 결과 -->
       <div class="home-result" id="homeResult">
+        <!-- ① 추천 계약방법 -->
+        <div class="home-rec-card">
+          <div class="home-rec-top">
+            <div class="home-rec-badge">✅ 추천 계약 방법</div>
+            <div class="home-rec-input" id="homeRecInput"></div>
+          </div>
+          <div class="home-rec-note" id="homeRecNote" style="display:none"></div>
+          <div class="home-rec-name" id="homeRecName"></div>
+          <div class="home-rec-desc" id="homeRecDesc"></div>
+          <div class="home-rec-laws" id="homeRecLaws"></div>
+          <div class="home-rec-caution" id="homeRecCaution" style="display:none"></div>
+        </div>
+        <div class="home-rec-next"><span>▼ 이 계약방법으로 아래 <b id="homeRecNextCount">5</b>단계 순서대로 진행합니다</span></div>
+
+        <!-- ② 계약 진행 프로세스 -->
         <div class="home-result-header">
           <div class="home-result-title">📌 계약 진행 프로세스</div>
           <div class="home-result-badge" id="homeResultBadge">전체 5단계</div>
@@ -2100,7 +2160,7 @@
     <!-- 인쇄 전용 헤더 (화면에서는 숨김) -->
     <div class="print-header">
       <h1>🧭 계약나침반 — 절차 체크리스트</h1>
-      <p>출력일: <span id="printDate"></span> · Contract Compass 부산시 v4.5</p>
+      <p>출력일: <span id="printDate"></span> · Contract Compass 부산시 v4.6</p>
     </div>
 
     <div class="cl-layout">
@@ -3196,25 +3256,23 @@ function buildSearchIndex() {
 
   // ④ 필수 서류 안내 — docs 데이터
   if (typeof DOCS_DATA !== 'undefined') {
-    Object.keys(DOCS_DATA).forEach(function(cat) {
-      var methods = DOCS_DATA[cat];
-      if (!methods) return;
-      Object.keys(methods).forEach(function(method) {
-        var stages = methods[method];
-        if (!stages) return;
-        stages.forEach(function(stage) {
-          var docs = (stage.docs || []).map(function(d){ return d.name; }).join(', ');
-          if (stage.title) {
-            SEARCH_INDEX.push({
-              type: 'docs',
-              cat: 'src-docs',
-              catLabel: '필수 서류 · ' + cat + ' ' + method,
-              title: stage.title,
-              body: docs,
-              action: function() { showPage('docs'); },
-              actionLabel: '→ 필수 서류 안내'
-            });
-          }
+    // DOCS_DATA 구조: { '공사_경쟁입찰': { label, stages: [{ title, sub, officer:[], company:[] }] } }
+    Object.keys(DOCS_DATA).forEach(function(key) {
+      var entry = DOCS_DATA[key];
+      if (!entry || !Array.isArray(entry.stages)) return;
+      var typeLabel = entry.label || key.replace('_', ' ');
+      entry.stages.forEach(function(stage) {
+        if (!stage.title) return;
+        var docs = [].concat(stage.officer || [], stage.company || [])
+          .map(function(d){ return d.name; }).join(', ');
+        SEARCH_INDEX.push({
+          type: 'docs',
+          cat: 'src-docs',
+          catLabel: '필수 서류 · ' + typeLabel,
+          title: stage.title,
+          body: docs,
+          action: function() { showPage('docs'); },
+          actionLabel: '→ 필수 서류 안내'
         });
       });
     });
@@ -3391,14 +3449,9 @@ function getHomeMethod(cat, amtWan, specials) {
   // 기업 유형 특례
   var spType = getSpecialType(specials);
   if (spType === 'unlimited') return '수의계약(중증장애인생산시설)';
-  if (spType === '5k') {
-    if (amtWan <= 5000) return '수의계약(판로지원특례-5천만원이하)';
-    return '일반경쟁입찰'; // 5천만원 초과 시 특례 적용 불가
-  }
-  if (spType === '2k') {
-    if (amtWan <= 2000) return '수의계약(판로지원특례-2천만원이하)';
-    return '일반경쟁입찰'; // 2천만원 초과 시 특례 적용 불가
-  }
+  // 특례 한도를 넘으면 특례는 적용되지 않고 아래 일반 기준으로 판단
+  if (spType === '5k' && amtWan <= 5000) return '수의계약(판로지원특례-5천만원이하)';
+  if (spType === '2k' && amtWan <= 2000) return '수의계약(판로지원특례-2천만원이하)';
 
   // 일반 기준
   const isConst = ['종합공사','전문공사','기타공사'].includes(cat);
@@ -3412,6 +3465,103 @@ function getHomeMethod(cat, amtWan, specials) {
   if (amtWan <= 2000)  return '수의계약(소액-1인견적)';
   if (amtWan <= 10000) return '수의계약(전자공개-2인견적)';
   return amtWan >= 2000000 ? '일반경쟁입찰(심의필요)' : '일반경쟁입찰';
+}
+
+// ── 추천 계약방법 요약 (홈 결과 상단 카드) ──
+// getHomeMethod 결과를 그대로 설명하므로, 아래 계약 진행 프로세스와 항상 같은 계약방법을 안내합니다.
+function fmtAmtWan(amtWan) {
+  if (amtWan >= 10000) return (amtWan / 10000).toFixed(4).replace(/\.?0+$/, '') + '억원';
+  if (amtWan >= 1000)  return (amtWan / 1000).toFixed(2).replace(/\.?0+$/, '') + '천만원';
+  return amtWan.toLocaleString() + '만원';
+}
+function getMethodSummary(cat, amtWan, specials, method) {
+  var amtStr  = fmtAmtWan(amtWan);
+  var isConst = ['종합공사','전문공사','기타공사'].includes(cat);
+  var firm    = (specials.find(function(s){ return /여성기업|장애인기업|청년창업|취약계층|사회적기업|자활기업|마을기업|협동조합|중증장애인/.test(s); }) || '')
+                  .replace(/^[^가-힣A-Za-z]+/, '').trim();
+  var r = { title: '', desc: '', laws: [], caution: '', note: '' };
+  var spType = getSpecialType(specials);
+  if ((spType === '5k' && amtWan > 5000) || (spType === '2k' && amtWan > 2000)) {
+    r.note = '선택한 ' + firm + ' 특례는 ' + (spType === '5k' ? '5천만원' : '2천만원') + ' 이하에만 적용되어, 일반 기준으로 판단했습니다.';
+  }
+
+  if (method === '긴급수의계약') {
+    r.title = '긴급 수의계약';
+    r.desc = '재해·재난 발생 또는 긴급 조달이 필요한 경우로, 금액에 관계없이 수의계약이 가능합니다. 긴급계약 사유를 반드시 문서로 남겨야 합니다.';
+    r.laws = ['지방계약법 시행령 제25조 제1항 제6호', '재난안전법'];
+    r.caution = '⚠️ 긴급계약은 감사에서 자주 지적됩니다. 사유의 정당성, 업체 선정 경위, 가격 적정성을 설명하는 계약 경위서를 반드시 작성하세요.';
+  } else if (method === '수의계약(특허·독점)') {
+    r.title = '수의계약 (특허·독점 기술)';
+    r.desc = '특허·독점 기술 등으로 경쟁입찰이 불가능한 경우입니다. 수의계약 사유서와 가격 적정성 검토가 필수입니다.';
+    r.laws = ['지방계약법 시행령 제25조 제1항 제2호', '특허법'];
+    r.caution = '⚠️ 특허 등록 여부와 시장 내 대체재가 있는지 먼저 확인하세요. 불필요한 독점 지정은 부당 제한으로 지적됩니다.';
+  } else if (method === '수의계약(유찰전환)') {
+    r.title = '수의계약 (재공고 유찰)';
+    r.desc = '재공고 입찰에도 낙찰자가 없거나 입찰이 성립하지 않은 경우로, 당초 입찰 조건 범위 안에서 수의계약이 가능합니다.';
+    r.laws = ['지방계약법 시행령 제26조'];
+    r.caution = '⚠️ 최초 입찰에 부칠 때 정한 가격과 조건은 바꿀 수 없습니다 (시행령 제26조).';
+  } else if (method === '수의계약(중증장애인생산시설)') {
+    r.title = '수의계약 (중증장애인 생산시설)';
+    r.desc = '추정가격 ' + amtStr + '으로, 중증장애인 생산품 생산시설은 금액에 관계없이 1인 견적 수의계약이 가능합니다 (물품·용역).';
+    r.laws = ['판로지원법 제7조의2', '지방계약법 시행령 제25조 제1항 제5호'];
+    r.caution = '⚠️ 한국장애인개발원이 지정한 시설인지, 지정이 취소되지 않았는지 계약 전에 확인하세요.';
+  } else if (method === '수의계약(판로지원특례-5천만원이하)' || method === '수의계약(판로지원특례-2천만원이하)') {
+    var lim = method.indexOf('5천') > -1 ? '5천만원' : '2천만원';
+    r.title = '1인 견적 수의계약 (판로지원 특례' + (firm ? ' — ' + firm : '') + ')';
+    r.desc = '추정가격 ' + amtStr + '으로, ' + (firm || '해당 기업') + '은(는) ' + lim + ' 이하 1인 견적 수의계약이 가능합니다.';
+    r.laws = ['판로지원법 제7조', '지방계약법 시행령 제25조 제1항 제5호'];
+    r.caution = '💡 기업 확인서(인증서)와 직접생산증명서(해당 시)를 계약 전에 꼭 확인하세요.';
+  } else if (method === '수의계약(소액-1인견적)') {
+    r.title = '1인 견적 수의계약' + (isConst ? ' (공사)' : '');
+    r.desc = '추정가격 ' + amtStr + '으로, 2천만원 이하 소액 수의계약 대상입니다.' + (amtWan > 100 ? ' 부산시 기준에 따라 100만원 초과 시 2인 이상 견적서를 받아 비교한 뒤 계약하세요.' : '');
+    r.laws = ['지방계약법 시행령 제25조 제1항 제5호', '계약집행기준 제5장'];
+    r.caution = amtWan > 100 ? '💡 특정 업체를 미리 정해 두고 견적을 받는 것은 부당 계약 지적 사유입니다.' : '';
+  } else if (method === '수의계약(전자공개-2인견적)') {
+    if (isConst) {
+      var limStr = cat === '종합공사' ? '4억원' : cat === '전문공사' ? '2억원' : '1억6천만원';
+      r.title = '2인 이상 견적 전자공개 수의계약 (공사)';
+      r.desc = '추정가격 ' + amtStr + '으로, ' + cat + ' ' + limStr + ' 이하 전자공개 수의계약 대상입니다. 나라장터(G2B)에 공개한 뒤 예정가격의 89.745% 이상 최저가로 낙찰합니다.';
+      r.caution = '💡 ' + cat + '의 전자공개 수의계약 한도는 ' + limStr + '입니다. 초과하면 경쟁입찰로 진행해야 합니다.';
+    } else {
+      r.title = '2인 이상 견적 전자공개 수의계약';
+      r.desc = '추정가격 ' + amtStr + '으로, 나라장터(G2B) 전자공개 수의계약이 적합합니다. 낙찰하한율은 예정가격의 88%(2천만원 이하는 90%) 이상 최저가로 낙찰합니다.';
+      r.caution = '💡 같은 업체와의 수의계약은 연 4회(기관별)·연 9회(시 전체)를 넘을 수 없습니다 (부산시 기준).';
+    }
+    r.laws = ['지방계약법 시행령 제25조 제1항 제5호', '계약집행기준 제5장'];
+  } else if (method === '협상에의한계약') {
+    r.title = '협상에 의한 계약 (기술용역)';
+    r.desc = '추정가격 ' + amtStr + '으로 경쟁입찰 대상입니다. 설계·감리·조사 등 기술용역은 가격보다 기술능력이 중요해, 제안서를 평가한 뒤 우선협상대상자와 협상하는 방식으로 진행합니다.';
+    r.laws = ['지방계약법 시행령 제43조 (협상에 의한 계약)', '지방계약법 제9조'];
+    r.caution = '💡 사업 특성에 따라 적격심사 방식의 일반경쟁입찰로 발주할 수도 있으니 계약부서와 협의하세요.'
+      + (amtWan >= 200000 ? ' 추정가격 20억원 이상은 계약심의위원회 심의 대상입니다.' : '');
+  } else { // 일반경쟁입찰 / 일반경쟁입찰(심의필요)
+    var review = method.indexOf('심의필요') > -1;
+    r.title = '일반경쟁입찰' + (isConst ? ' (공사)' : '');
+    r.desc = '추정가격 ' + amtStr + '으로, 나라장터(G2B) 일반경쟁입찰 대상입니다.'
+      + (review ? ' 추정가격 ' + (isConst ? '70억원' : '20억원') + ' 이상이므로 계약심의위원회 심의가 필요합니다.' : '');
+    r.laws = isConst ? ['지방계약법 제9조', '지방계약법 시행령 제42조 (적격심사)', '건설산업기본법']
+                     : ['지방계약법 제9조', '지방계약법 시행령 제13조~제42조'];
+    r.caution = review ? '⚠️ 계약심의위원회 개최 10일 전까지 안건을 제출해야 합니다.' : '';
+  }
+  return r;
+}
+
+function renderMethodCard(cat, amtWan, specials, method, stepCount) {
+  var r = getMethodSummary(cat, amtWan, specials, method);
+  var catLabel = (document.querySelector('#hCat option[value="' + cat + '"]') || {}).textContent || cat;
+  var spLabel  = specials.length ? ' · ' + specials.map(function(s){ return s.replace(/^[^가-힣A-Za-z]+/, '').trim(); }).join(', ') : '';
+  document.getElementById('homeRecInput').textContent = catLabel + ' · 추정가격 ' + fmtAmtWan(amtWan) + spLabel;
+  var noteEl = document.getElementById('homeRecNote');
+  noteEl.style.display = r.note ? 'block' : 'none';
+  noteEl.textContent = r.note ? 'ℹ️ ' + r.note : '';
+  document.getElementById('homeRecName').textContent = r.title;
+  document.getElementById('homeRecDesc').textContent = r.desc;
+  document.getElementById('homeRecLaws').innerHTML = r.laws.map(function(l){ return '<span class="home-rec-law">📜 ' + l + '</span>'; }).join('');
+  var cEl = document.getElementById('homeRecCaution');
+  cEl.style.display = r.caution ? 'block' : 'none';
+  cEl.textContent = r.caution;
+  document.getElementById('homeRecNextCount').textContent = stepCount;
+  return r;
 }
 
 function buildSteps(cat, amtWan, method) {
@@ -3434,7 +3584,7 @@ function buildSteps(cat, amtWan, method) {
     todos: [
       { text: '<strong>예산 배정 확인</strong> — 세출예산 과목·배정액 확인. 예산 초과 계약은 무효 처리' },
       { text: '<strong>추정가격 산정</strong> — 부가세 제외 기준. 2인 이상 시장조사 또는 원가계산 적용' },
-      { text: '<strong>계약방법 결정 결재</strong> — 상단 메뉴 <em>계약방법 추천</em>을 활용하세요' },
+      { text: '<strong>계약방법 결정 결재</strong> — 위 <em>추천 계약방법</em>과 근거 법령을 기안문에 명시' },
     ],
     officer: [
       { text: '사업시행방침서 (기안문)', req:'must' },
@@ -3752,8 +3902,9 @@ function runProcessGuide() {
   var method   = getHomeMethod(cat, amtWan, specials);
   var steps    = buildSteps(cat, amtWan, method);
 
+  var rec = renderMethodCard(cat, amtWan, specials, method, steps.length);
   document.getElementById('homeResultBadge').textContent  = '전체 ' + steps.length + '단계';
-  document.getElementById('homeResultMethod').textContent = method.replace(/\(.*\)/, '').trim();
+  document.getElementById('homeResultMethod').textContent = rec.title.replace(/\s*\(.*\)/, '').trim();
 
   var stepsEl = document.getElementById('homeSteps');
   stepsEl.innerHTML = steps.map(function(s, i) { return renderStep(s, i + 1); }).join('');
@@ -3766,7 +3917,7 @@ function runProcessGuide() {
   var resultEl = document.getElementById('homeResult');
   resultEl.classList.add('show');
   setTimeout(function() { resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
-  showToast('✅ ' + steps.length + '단계 프로세스 가이드 완성!');
+  showToast('✅ 추천: ' + rec.title.replace(/\s*\(.*\)/, '').trim() + ' · ' + steps.length + '단계');
 }
 
 // 법령 기본 URL (단축명 → 기본 URL)
@@ -4667,7 +4818,7 @@ function printChecklist() {
     '</style></head><body>' +
     '<div style="text-align:center;">' +
       '<h1>🧭 계약나침반 — 절차 체크리스트</h1>' +
-      '<div class="subtitle">출력일: '+dateStr+' · Contract Compass 부산시 v4.5 · <strong>'+typeName+'</strong></div>' +
+      '<div class="subtitle">출력일: '+dateStr+' · Contract Compass 부산시 v4.6 · <strong>'+typeName+'</strong></div>' +
     '</div>' +
     '<hr class="divider">' +
     '<div style="text-align:right;margin-bottom:12px;">' +
@@ -7641,35 +7792,21 @@ function runRecommend() {
     caution = '⚠️ 반드시 한국장애인개발원이 지정한 시설인지 확인하세요. 지정 취소 여부도 계약 전 재확인 필요.';
   }
   // 판로지원 특례 — 5천만원 이하 (여성기업·장애인기업·청년창업·취약계층)
-  else if (is5k) {
+  else if (is5k && amtWan <= 5000) {
     const firmType = special.find(s => s.includes('여성기업') || s.includes('장애인기업') || s.includes('청년창업') || s.includes('취약계층')) || '해당 기업';
-    if (amtWan <= 5000) {
-      type = `수의계약 (판로지원 특례 — ${firmType.replace(/\s*\(.*\)/, '').trim()})`;
-      desc = `추정가격 ${amtStr}으로, ${firmType.replace(/\s*\(.*\)/, '').trim()}은 5천만원 이하 1인 견적 수의계약이 가능합니다.`;
-      laws = ['판로지원법 제7조', '지방계약법 시행령 제25조 제1항 제5호'];
-      steps = ['해당 기업 인증서 확인 (여성기업확인서·장애인기업확인서·청년창업확인서 등)', '직접생산증명서 확인 (1천만원 이상 중소기업 경쟁제품)', '1인 견적 수의계약 체결'];
-    } else {
-      type = '경쟁입찰 (5천만원 초과 — 특례 불가)';
-      desc = `추정가격 ${amtStr}은 판로지원 특례(5천만원 이하) 범위를 초과합니다. 일반 경쟁입찰로 진행하세요.`;
-      laws = ['지방계약법 시행령 제25조'];
-      steps = ['일반 경쟁입찰 절차 진행'];
-    }
+    type = `수의계약 (판로지원 특례 — ${firmType.replace(/\s*\(.*\)/, '').trim()})`;
+    desc = `추정가격 ${amtStr}으로, ${firmType.replace(/\s*\(.*\)/, '').trim()}은 5천만원 이하 1인 견적 수의계약이 가능합니다.`;
+    laws = ['판로지원법 제7조', '지방계약법 시행령 제25조 제1항 제5호'];
+    steps = ['해당 기업 인증서 확인 (여성기업확인서·장애인기업확인서·청년창업확인서 등)', '직접생산증명서 확인 (1천만원 이상 중소기업 경쟁제품)', '1인 견적 수의계약 체결'];
     caution = '';
   }
   // 판로지원 특례 — 2천만원 이하 (사회적기업·자활기업·마을기업·협동조합)
-  else if (is2k) {
+  else if (is2k && amtWan <= 2000) {
     const firmType2 = special.find(s => s.includes('사회적기업') || s.includes('자활기업') || s.includes('마을기업') || s.includes('협동조합')) || '해당 기업';
-    if (amtWan <= 2000) {
-      type = `수의계약 (판로지원 특례 — ${firmType2.replace(/\s*\(.*\)/, '').trim()})`;
-      desc = `추정가격 ${amtStr}으로, ${firmType2.replace(/\s*\(.*\)/, '').trim()}은 2천만원 이하 1인 견적 수의계약이 가능합니다.`;
-      laws = ['판로지원법 제7조', '지방계약법 시행령 제25조 제1항 제5호'];
-      steps = ['해당 기업 인증서 확인 (사회적기업인증서·자활기업확인서 등)', '직접생산증명서 확인 (1천만원 이상 중소기업 경쟁제품)', '1인 견적 수의계약 체결'];
-    } else {
-      type = '경쟁입찰 (2천만원 초과 — 특례 불가)';
-      desc = `추정가격 ${amtStr}은 판로지원 특례(2천만원 이하) 범위를 초과합니다. 일반 경쟁입찰로 진행하세요.`;
-      laws = ['지방계약법 시행령 제25조'];
-      steps = ['일반 경쟁입찰 절차 진행'];
-    }
+    type = `수의계약 (판로지원 특례 — ${firmType2.replace(/\s*\(.*\)/, '').trim()})`;
+    desc = `추정가격 ${amtStr}으로, ${firmType2.replace(/\s*\(.*\)/, '').trim()}은 2천만원 이하 1인 견적 수의계약이 가능합니다.`;
+    laws = ['판로지원법 제7조', '지방계약법 시행령 제25조 제1항 제5호'];
+    steps = ['해당 기업 인증서 확인 (사회적기업인증서·자활기업확인서 등)', '직접생산증명서 확인 (1천만원 이상 중소기업 경쟁제품)', '1인 견적 수의계약 체결'];
     caution = '';
   }
   // 용역·물품·임차
@@ -7741,6 +7878,14 @@ function runRecommend() {
     desc = '입력하신 조건에 따라 일반경쟁입찰이 권장됩니다. 정확한 판단을 위해 AI 챗봇에 상세 내용을 문의해 주세요.';
     laws = ['지방계약법 제9조'];
     steps = ['규격서 작성', 'G2B 입찰 공고', '개찰 및 계약 체결'];
+  }
+
+  if (cat === '기술용역' && amtWan > 10000 && type.startsWith('일반경쟁입찰')) {
+    caution = (caution ? caution + ' ' : '') + '💡 설계·감리 등 기술용역은 제안서 평가 후 협상하는 협상에 의한 계약(시행령 제43조)으로 발주하는 경우가 많습니다.';
+  }
+  const overSpecial = (is5k && amtWan > 5000) ? '5천만원' : (is2k && amtWan > 2000) ? '2천만원' : '';
+  if (overSpecial && !isEmergency && !isExclusive && !isRePublish && !isUnlimited) {
+    caution = `ℹ️ 선택한 기업 특례 한도(${overSpecial} 이하)를 넘어 일반 기준으로 판단했습니다.` + (caution ? ' ' + caution : '');
   }
 
   document.getElementById('resultPlaceholder').style.display = 'none';
